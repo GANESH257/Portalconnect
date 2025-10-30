@@ -52,10 +52,19 @@ export function createServer() {
   const app = express();
 
   // Middleware
+  const allowedOrigins = (() => {
+    if (process.env.FRONTEND_URL) {
+      return process.env.FRONTEND_URL.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    if (process.env.NODE_ENV === 'production') {
+      // fallback if FRONTEND_URL not set
+      return ['https://yourdomain.com'];
+    }
+    return ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:3000'];
+  })();
+
   app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://yourdomain.com'] 
-      : ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:3000'],
+    origin: allowedOrigins,
     credentials: true
   }));
   app.use(express.json({ limit: '50mb' }));
