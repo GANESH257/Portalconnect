@@ -40,6 +40,28 @@ import SERPIntelligenceAgent from "./agents/serp-intelligence";
 import ProspectFinderAgent from "./agents/prospect-finder";
 import WebsiteIntelligenceAgent from "./agents/website-intelligence";
 
+// Runtime API base override: prefixes all relative '/api' calls with a configured base URL
+// Set via: window.__API_BASE__ or VITE_API_BASE at build-time
+// Example for GoDaddy frontend + Railway backend:
+//   window.__API_BASE__ = 'https://portalconnect-production.up.railway.app/api'
+try {
+  const anyWindow = window as any;
+  const API_BASE: string = (anyWindow.__API_BASE__ as string) || (import.meta as any).env?.VITE_API_BASE || '';
+  if (API_BASE && typeof anyWindow.fetch === 'function') {
+    const originalFetch = anyWindow.fetch.bind(anyWindow);
+    anyWindow.fetch = (input: RequestInfo, init?: RequestInit) => {
+      const inputUrl = typeof input === 'string' ? input : (input as Request).url;
+      if (typeof inputUrl === 'string' && inputUrl.startsWith('/api')) {
+        const prefixedUrl = API_BASE + inputUrl;
+        return originalFetch(prefixedUrl, init as any);
+      }
+      return originalFetch(input as any, init as any);
+    };
+  }
+} catch {
+  // ignore in SSR/build
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
