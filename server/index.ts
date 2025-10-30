@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { prisma } from "./lib/prisma.js";
 // import { handleDemo } from "./routes/demo";
 // import { handleNanobananaGenerate } from "./routes/nanobanana";
 import { 
@@ -65,6 +66,17 @@ export function createServer() {
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
     res.json({ message: ping });
+  });
+
+  // Simple DB health check
+  app.get("/api/health/db", async (_req, res) => {
+    try {
+      // lightweight probe
+      await prisma.$queryRaw`SELECT 1`;
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ ok: false, error: e?.message || String(e) });
+    }
   });
 
   // app.get("/api/demo", handleDemo);
