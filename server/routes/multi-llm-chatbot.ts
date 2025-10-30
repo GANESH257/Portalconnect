@@ -1,6 +1,29 @@
 import { RequestHandler } from "express";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+function resolveKnowledgeFile(): string | null {
+  try {
+    const cwd = process.cwd();
+    const candidates = [
+      path.resolve(cwd, "dist/server/knowledge/onlinespinecare_data.json"),
+      path.resolve(cwd, "server/knowledge/onlinespinecare_data.json"),
+    ];
+    // Attempt import.meta.url directory as a fallback (ESM-safe)
+    try {
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      candidates.push(path.resolve(__dirname, "../knowledge/onlinespinecare_data.json"));
+    } catch {}
+
+    for (const p of candidates) {
+      if (fs.existsSync(p)) return p;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 interface ChatMessage {
   content: string;
@@ -36,7 +59,8 @@ export const handleSonnetChat: RequestHandler = async (req, res) => {
     let knowledgeBase = '';
     
     try {
-      const knowledgePath = path.join(__dirname, '../knowledge/onlinespinecare_data.json');
+      const knowledgePath = resolveKnowledgeFile();
+      if (!knowledgePath) throw new Error('knowledge file not found');
       console.log('Loading knowledge base from:', knowledgePath);
       const knowledgeData = JSON.parse(fs.readFileSync(knowledgePath, 'utf8'));
       console.log('Knowledge base loaded, pages:', knowledgeData.length);
@@ -51,7 +75,7 @@ export const handleSonnetChat: RequestHandler = async (req, res) => {
       knowledgeBase = `Chesterfield S.P.I.N.E Center Knowledge Base:\n\n${extractedInfo}`;
       console.log('Knowledge base processed, length:', knowledgeBase.length);
     } catch (error) {
-      console.log('Knowledge base file not found, using default:', error.message);
+      console.log('Knowledge base file not found, using default:', (error as any)?.message || error);
       knowledgeBase = 'Healthcare marketing knowledge base not available.';
     }
 
@@ -139,7 +163,8 @@ export const handleOpenAIChat: RequestHandler = async (req, res) => {
     let knowledgeBase = '';
     
     try {
-      const knowledgePath = path.join(__dirname, '../knowledge/onlinespinecare_data.json');
+      const knowledgePath = resolveKnowledgeFile();
+      if (!knowledgePath) throw new Error('knowledge file not found');
       const knowledgeData = JSON.parse(fs.readFileSync(knowledgePath, 'utf8'));
       
       // Extract relevant information from JSON structure
@@ -259,7 +284,8 @@ export const handleGeminiChat: RequestHandler = async (req, res) => {
     let knowledgeBase = '';
     
     try {
-      const knowledgePath = path.join(__dirname, '../knowledge/onlinespinecare_data.json');
+      const knowledgePath = resolveKnowledgeFile();
+      if (!knowledgePath) throw new Error('knowledge file not found');
       const knowledgeData = JSON.parse(fs.readFileSync(knowledgePath, 'utf8'));
       
       // Extract relevant information from JSON structure

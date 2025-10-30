@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -136,7 +136,7 @@ model SerpResult {
   cacheUrl          String?  @map("cache_url")
   relatedSearchUrl  String?  @map("related_search_url")
   extendedSnippet   String?  @map("extended_snippet")
-  highlighted       String[] // Array of highlighted keywords
+  highlighted       Json?    // Array of highlighted keywords (stored as JSON)
   links             Json?    // Related links as JSON
   faq               Json?    // FAQ data as JSON
   images            Json?    // Image data as JSON
@@ -190,12 +190,12 @@ model BusinessProfile {
   isPaid            Boolean  @default(false) @map("is_paid")
   businessHours     Json?    @map("business_hours") // Store as JSON
   socialMedia       Json?    @map("social_media") // Store as JSON
-  services          String[] // Array of services offered
-  specialties       String[] // Array of specialties
-  insuranceAccepted String[] @map("insurance_accepted") // Array of insurance types
-  languages         String[] // Array of languages spoken
-  certifications    String[] // Array of certifications
-  awards            String[] // Array of awards
+  services          Json?    // Array of services offered (stored as JSON)
+  specialties       Json?    // Array of specialties (stored as JSON)
+  insuranceAccepted Json?    @map("insurance_accepted") // Array of insurance types (JSON)
+  languages         Json?    // Array of languages spoken (stored as JSON)
+  certifications    Json?    // Array of certifications (stored as JSON)
+  awards            Json?    // Array of awards (stored as JSON)
   seoScore          Int?     @map("seo_score")
   domainAuthority   Int?     @map("domain_authority")
   backlinks         Int?
@@ -299,9 +299,9 @@ model WatchlistItem {
   rating            Float?
   status            String   @default("active") // active, monitoring, contacted, converted, lost
   priority          String   @default("medium") // high, medium, low
-  tags              String[] // Array of tags
+  tags              Json?    // Array of tags (stored as JSON)
   notes             String?
-  highlights        String[] // Array of key highlights
+  highlights        Json?    // Array of key highlights (stored as JSON)
   contactInfo       Json?    @map("contact_info") // Store as JSON
   metrics           Json?    // Store performance metrics as JSON
   lastChecked       DateTime? @map("last_checked")
@@ -337,10 +337,10 @@ model ProspectItem {
   rating            Float?
   status            String   @default("new") // new, contacted, qualified, proposal, closed-won, closed-lost
   priority          String   @default("medium") // high, medium, low
-  tags              String[] // Array of tags
+  tags              Json?    // Array of tags (stored as JSON)
   notes             String?
   progress          String?  // Progress notes
-  pitchingPoints    String[] // Array of pitching points
+  pitchingPoints    Json?    // Array of pitching points (stored as JSON)
   aiRecommendations String?  @map("ai_recommendations") // AI-generated recommendations
   emailTemplate      String?  @map("email_template") // AI-generated email template
   contactInfo       Json?    @map("contact_info") // Store as JSON
