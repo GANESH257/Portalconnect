@@ -289,7 +289,15 @@ class DataForSEOService {
    */
   private getLocationCodeForZip(zipCode: string): number | null {
     try {
-      const csvPath = path.join(__dirname, '../..', 'missouri_locations_transformed.csv');
+      const candidates = [
+        path.resolve(process.cwd(), 'missouri_locations_transformed.csv'),
+        path.resolve(process.cwd(), 'csv_backup/missouri_locations_transformed.csv'),
+      ];
+      const csvPath = candidates.find(p => fs.existsSync(p));
+      if (!csvPath) {
+        console.warn('Missouri CSV not found for ZIP lookup');
+        return null;
+      }
       const csvContent = fs.readFileSync(csvPath, 'utf8');
       const lines = csvContent.split('\n').filter(line => line.trim());
       
