@@ -1,0 +1,1848 @@
+location_code,city,state,country,location_code_parent,country_iso_code,location_type
+21157,"Missouri","United States","United States",2840,US,State
+200604,"Columbia-Jefferson City","MO","Missouri",21157,US,DMA Region
+1015922,"Missouri Valley","Iowa","United States",21145,US,City
+1020160,"Adrian","Missouri","United States",21157,US,City
+1020161,"Advance","Missouri","United States",21157,US,City
+1020162,"Agency","Missouri","United States",21157,US,City
+1020163,"Albany","Missouri","United States",21157,US,City
+1020164,"Alma","Missouri","United States",21157,US,City
+1020165,"Altenburg","Missouri","United States",21157,US,City
+1020166,"Alton","Missouri","United States",21157,US,City
+1020167,"Amoret","Missouri","United States",21157,US,City
+1020168,"Anderson","Missouri","United States",21157,US,City
+1020169,"Annapolis","Missouri","United States",21157,US,City
+1020170,"Appleton City","Missouri","United States",21157,US,City
+1020171,"Arbyrd","Missouri","United States",21157,US,City
+1020172,"Arcadia","Missouri","United States",21157,US,City
+1020173,"Archie","Missouri","United States",21157,US,City
+1020174,"Arnold","Missouri","United States",21157,US,City
+1020175,"Ash Grove","Missouri","United States",21157,US,City
+1020176,"Ashland","Missouri","United States",21157,US,City
+1020177,"Atlanta","Missouri","United States",21157,US,City
+1020178,"Aurora","Missouri","United States",21157,US,City
+1020179,"Auxvasse","Missouri","United States",21157,US,City
+1020180,"Ava","Missouri","United States",21157,US,City
+1020181,"Avilla","Missouri","United States",21157,US,City
+1020182,"Bakersfield","Missouri","United States",21157,US,City
+1020183,"Ballwin","Missouri","United States",21157,US,City
+1020184,"Barnard","Missouri","United States",21157,US,City
+1020185,"Barnhart","Missouri","United States",21157,US,City
+1020186,"Bates City","Missouri","United States",21157,US,City
+1020187,"Beaufort","Missouri","United States",21157,US,City
+1020188,"Bell City","Missouri","United States",21157,US,City
+1020189,"Belle","Missouri","United States",21157,US,City
+1020190,"Belleview","Missouri","United States",21157,US,City
+1020191,"Belton","Missouri","United States",21157,US,City
+1020192,"Benton","Missouri","United States",21157,US,City
+1020193,"Berger","Missouri","United States",21157,US,City
+1020194,"Bernie","Missouri","United States",21157,US,City
+1020195,"Bethany","Missouri","United States",21157,US,City
+1020196,"Bevier","Missouri","United States",21157,US,City
+1020197,"Billings","Missouri","United States",21157,US,City
+1020198,"Bismarck","Missouri","United States",21157,US,City
+1020199,"Blackwater","Missouri","United States",21157,US,City
+1020200,"Bland","Missouri","United States",21157,US,City
+1020201,"Bloomfield","Missouri","United States",21157,US,City
+1020203,"Blue Springs","Missouri","United States",21157,US,City
+1020204,"Bolivar","Missouri","United States",21157,US,City
+1020205,"Bonne Terre","Missouri","United States",21157,US,City
+1020206,"Boonville","Missouri","United States",21157,US,City
+1020207,"Bosworth","Missouri","United States",21157,US,City
+1020208,"Bourbon","Missouri","United States",21157,US,City
+1020209,"Bowling Green","Missouri","United States",21157,US,City
+1020210,"Bradleyville","Missouri","United States",21157,US,City
+1020211,"Branson","Missouri","United States",21157,US,City
+1020212,"Brashear","Missouri","United States",21157,US,City
+1020213,"Braymer","Missouri","United States",21157,US,City
+1020214,"Breckenridge","Missouri","United States",21157,US,City
+1020215,"Bridgeton","Missouri","United States",21157,US,City
+1020216,"Bronaugh","Missouri","United States",21157,US,City
+1020217,"Brookfield","Missouri","United States",21157,US,City
+1020218,"Brookline Township","Missouri","United States",21157,US,Municipality
+1020219,"Broseley","Missouri","United States",21157,US,City
+1020220,"Brunswick","Missouri","United States",21157,US,City
+1020221,"Bucklin","Missouri","United States",21157,US,City
+1020222,"Buffalo","Missouri","United States",21157,US,City
+1020223,"Bunceton","Missouri","United States",21157,US,City
+1020224,"Bunker","Missouri","United States",21157,US,City
+1020225,"Burlington Junction","Missouri","United States",21157,US,City
+1020226,"Butler","Missouri","United States",21157,US,City
+1020227,"Cabool","Missouri","United States",21157,US,City
+1020228,"Cadet","Missouri","United States",21157,US,City
+1020229,"Cainsville","Missouri","United States",21157,US,City
+1020230,"Cairo","Missouri","United States",21157,US,City
+1020231,"Caledonia","Missouri","United States",21157,US,City
+1020232,"Calhoun","Missouri","United States",21157,US,City
+1020233,"California","Missouri","United States",21157,US,City
+1020234,"Callao","Missouri","United States",21157,US,City
+1020235,"Camdenton","Missouri","United States",21157,US,City
+1020236,"Cameron","Missouri","United States",21157,US,City
+1020237,"Campbell","Missouri","United States",21157,US,City
+1020238,"Canton","Missouri","United States",21157,US,City
+1020239,"Cape Girardeau","Missouri","United States",21157,US,City
+1020240,"Cardwell","Missouri","United States",21157,US,City
+1020241,"Carl Junction","Missouri","United States",21157,US,City
+1020242,"Carrollton","Missouri","United States",21157,US,City
+1020243,"Carterville","Missouri","United States",21157,US,City
+1020244,"Carthage","Missouri","United States",21157,US,City
+1020245,"Caruthersville","Missouri","United States",21157,US,City
+1020246,"Cassville","Missouri","United States",21157,US,City
+1020247,"Cedar Hill","Missouri","United States",21157,US,City
+1020248,"Center Township","Missouri","United States",21157,US,Municipality
+1020249,"Centerview","Missouri","United States",21157,US,City
+1020250,"Centerville","Missouri","United States",21157,US,City
+1020251,"Centralia","Missouri","United States",21157,US,City
+1020252,"Chadwick","Missouri","United States",21157,US,City
+1020253,"Chaffee","Missouri","United States",21157,US,City
+1020254,"Chamois","Missouri","United States",21157,US,City
+1020255,"Charleston","Missouri","United States",21157,US,City
+1020256,"Chesterfield","Missouri","United States",21157,US,City
+1020257,"Chilhowee","Missouri","United States",21157,US,City
+1020258,"Chillicothe","Missouri","United States",21157,US,City
+1020259,"Chula","Missouri","United States",21157,US,City
+1020260,"Clarksburg","Missouri","United States",21157,US,City
+1020261,"Clarksville","Missouri","United States",21157,US,City
+1020262,"Clarkton","Missouri","United States",21157,US,City
+1020263,"Cleveland","Missouri","United States",21157,US,City
+1020264,"Clever","Missouri","United States",21157,US,City
+1020265,"Climax Springs","Missouri","United States",21157,US,City
+1020266,"Clinton","Missouri","United States",21157,US,City
+1020267,"Cole Camp","Missouri","United States",21157,US,City
+1020268,"Columbia","Missouri","United States",21157,US,City
+1020269,"Conception","Missouri","United States",21157,US,City
+1020270,"Conception Junction","Missouri","United States",21157,US,City
+1020271,"Concordia","Missouri","United States",21157,US,City
+1020272,"Conway","Missouri","United States",21157,US,City
+1020273,"Cooter","Missouri","United States",21157,US,City
+1020274,"Corder","Missouri","United States",21157,US,City
+1020275,"Cosby","Missouri","United States",21157,US,City
+1020276,"Craig","Missouri","United States",21157,US,City
+1020277,"Crane","Missouri","United States",21157,US,City
+1020278,"Creighton","Missouri","United States",21157,US,City
+1020279,"Crocker","Missouri","United States",21157,US,City
+1020280,"Crystal City","Missouri","United States",21157,US,City
+1020281,"Cuba","Missouri","United States",21157,US,City
+1020282,"Dadeville","Missouri","United States",21157,US,City
+1020283,"De Kalb","Missouri","United States",21157,US,City
+1020284,"De Soto","Missouri","United States",21157,US,City
+1020285,"Dearborn","Missouri","United States",21157,US,City
+1020286,"Deepwater","Missouri","United States",21157,US,City
+1020287,"Deering","Missouri","United States",21157,US,City
+1020288,"Defiance","Missouri","United States",21157,US,Neighborhood
+1020289,"Delta","Missouri","United States",21157,US,City
+1020290,"Dexter","Missouri","United States",21157,US,City
+1020291,"Diamond","Missouri","United States",21157,US,City
+1020292,"Dittmer","Missouri","United States",21157,US,City
+1020293,"Dixon","Missouri","United States",21157,US,City
+1020294,"Doniphan","Missouri","United States",21157,US,City
+1020295,"Dora","Missouri","United States",21157,US,City
+1020296,"Drexel","Missouri","United States",21157,US,City
+1020297,"Dudley","Missouri","United States",21157,US,City
+1020298,"Eagle Rock","Missouri","United States",21157,US,City
+1020299,"Eagleville","Missouri","United States",21157,US,City
+1020300,"Earth City","Missouri","United States",21157,US,City
+1020301,"East Lynne","Missouri","United States",21157,US,City
+1020302,"East Prairie","Missouri","United States",21157,US,City
+1020303,"Edgar Springs","Missouri","United States",21157,US,City
+1020304,"Edina","Missouri","United States",21157,US,City
+1020305,"Edwards","Missouri","United States",21157,US,City
+1020306,"El Dorado Springs","Missouri","United States",21157,US,City
+1020307,"Eldon","Missouri","United States",21157,US,City
+1020308,"Ellington","Missouri","United States",21157,US,City
+1020309,"Ellsinore","Missouri","United States",21157,US,City
+1020310,"Elsberry","Missouri","United States",21157,US,City
+1020311,"Eminence","Missouri","United States",21157,US,City
+1020312,"Eolia","Missouri","United States",21157,US,City
+1020313,"Essex","Missouri","United States",21157,US,City
+1020314,"Eugene","Missouri","United States",21157,US,City
+1020315,"Eureka","Missouri","United States",21157,US,City
+1020316,"Everton","Missouri","United States",21157,US,City
+1020317,"Ewing","Missouri","United States",21157,US,City
+1020318,"Excelsior Springs","Missouri","United States",21157,US,City
+1020319,"Exeter","Missouri","United States",21157,US,City
+1020320,"Fair Grove","Missouri","United States",21157,US,City
+1020321,"Fair Play","Missouri","United States",21157,US,City
+1020322,"Fairfax","Missouri","United States",21157,US,City
+1020323,"Falcon","Missouri","United States",21157,US,City
+1020324,"Farber","Missouri","United States",21157,US,City
+1020325,"Farmington","Missouri","United States",21157,US,City
+1020326,"Faucett","Missouri","United States",21157,US,City
+1020327,"Fayette","Missouri","United States",21157,US,City
+1020328,"Fenton","Missouri","United States",21157,US,City
+1020329,"Festus","Missouri","United States",21157,US,City
+1020330,"Flemington","Missouri","United States",21157,US,City
+1020331,"Florissant","Missouri","United States",21157,US,City
+1020332,"Fordland","Missouri","United States",21157,US,City
+1020333,"Foristell","Missouri","United States",21157,US,City
+1020334,"Forsyth","Missouri","United States",21157,US,City
+1020335,"Fredericktown","Missouri","United States",21157,US,City
+1020336,"Freeman","Missouri","United States",21157,US,City
+1020337,"Fort Leonard Wood","Missouri","United States",21157,US,City
+1020338,"Fulton","Missouri","United States",21157,US,City
+1020339,"Gainesville","Missouri","United States",21157,US,City
+1020340,"Galena","Missouri","United States",21157,US,City
+1020341,"Gallatin","Missouri","United States",21157,US,City
+1020342,"Galt","Missouri","United States",21157,US,City
+1020343,"Garden City","Missouri","United States",21157,US,City
+1020344,"Gasconade","Missouri","United States",21157,US,City
+1020345,"Gatewood","Missouri","United States",21157,US,City
+1020346,"Gentry","Missouri","United States",21157,US,City
+1020347,"Gerald","Missouri","United States",21157,US,City
+1020348,"Gideon","Missouri","United States",21157,US,City
+1020349,"Gilman City","Missouri","United States",21157,US,City
+1020350,"Glasgow","Missouri","United States",21157,US,City
+1020351,"Glencoe","Missouri","United States",21157,US,Neighborhood
+1020352,"Golden City","Missouri","United States",21157,US,City
+1020353,"South Gorin","Missouri","United States",21157,US,City
+1020354,"Gower","Missouri","United States",21157,US,City
+1020355,"Graham","Missouri","United States",21157,US,City
+1020356,"Grain Valley","Missouri","United States",21157,US,City
+1020357,"Granby","Missouri","United States",21157,US,City
+1020358,"Grandview","Missouri","United States",21157,US,City
+1020359,"Grant City","Missouri","United States",21157,US,City
+1020360,"Green City","Missouri","United States",21157,US,City
+1020361,"Green Ridge","Missouri","United States",21157,US,City
+1020362,"Greenfield","Missouri","United States",21157,US,City
+1020363,"Greenville","Missouri","United States",21157,US,City
+1020364,"Greenwood","Missouri","United States",21157,US,City
+1020365,"Grover","Missouri","United States",21157,US,Neighborhood
+1020366,"Hale","Missouri","United States",21157,US,City
+1020367,"Halfway","Missouri","United States",21157,US,City
+1020368,"Hallsville","Missouri","United States",21157,US,City
+1020369,"Hamilton","Missouri","United States",21157,US,City
+1020370,"Hannibal","Missouri","United States",21157,US,City
+1020371,"Hardin","Missouri","United States",21157,US,City
+1020372,"Harrisburg","Missouri","United States",21157,US,City
+1020373,"Harrisonville","Missouri","United States",21157,US,City
+1020374,"Hartville","Missouri","United States",21157,US,City
+1020375,"Hawk Point","Missouri","United States",21157,US,City
+1020376,"Hayti","Missouri","United States",21157,US,City
+1020377,"Hazelwood","Missouri","United States",21157,US,City
+1020378,"Herculaneum","Missouri","United States",21157,US,City
+1020379,"Hermann","Missouri","United States",21157,US,City
+1020380,"Hermitage","Missouri","United States",21157,US,City
+1020381,"Higbee","Missouri","United States",21157,US,City
+1020382,"Higginsville","Missouri","United States",21157,US,City
+1020383,"High Ridge","Missouri","United States",21157,US,City
+1020384,"Hillsboro","Missouri","United States",21157,US,City
+1020385,"Holcomb","Missouri","United States",21157,US,City
+1020386,"Holden","Missouri","United States",21157,US,City
+1020387,"Holliday","Missouri","United States",21157,US,City
+1020388,"Hollister","Missouri","United States",21157,US,City
+1020389,"Holt","Missouri","United States",21157,US,City
+1020390,"Holts Summit","Missouri","United States",21157,US,City
+1020391,"Hopkins","Missouri","United States",21157,US,City
+1020392,"Hornersville","Missouri","United States",21157,US,City
+1020393,"House Springs","Missouri","United States",21157,US,City
+1020394,"Houston","Missouri","United States",21157,US,City
+1020395,"Hughesville","Missouri","United States",21157,US,City
+1020396,"Humansville","Missouri","United States",21157,US,City
+1020397,"Hume","Missouri","United States",21157,US,City
+1020398,"Huntsville","Missouri","United States",21157,US,City
+1020399,"Hurdland","Missouri","United States",21157,US,City
+1020400,"Hurley","Missouri","United States",21157,US,City
+1020401,"Iberia","Missouri","United States",21157,US,City
+1020402,"Imperial","Missouri","United States",21157,US,City
+1020403,"Independence","Missouri","United States",21157,US,City
+1020404,"Irondale","Missouri","United States",21157,US,City
+1020405,"Ironton","Missouri","United States",21157,US,City
+1020406,"Jackson","Missouri","United States",21157,US,City
+1020407,"Jameson","Missouri","United States",21157,US,City
+1020408,"Jamesport","Missouri","United States",21157,US,City
+1020409,"Jamestown","Missouri","United States",21157,US,City
+1020410,"Jasper","Missouri","United States",21157,US,City
+1020411,"Jefferson City","Missouri","United States",21157,US,City
+1020412,"Joplin","Missouri","United States",21157,US,City
+1020413,"Kahoka","Missouri","United States",21157,US,City
+1020414,"Kansas City","Missouri","United States",21157,US,City
+1020415,"Kearney","Missouri","United States",21157,US,City
+1020416,"Kennett","Missouri","United States",21157,US,City
+1020417,"Keytesville","Missouri","United States",21157,US,City
+1020418,"Kimberling City","Missouri","United States",21157,US,City
+1020419,"King City","Missouri","United States",21157,US,City
+1020420,"Kingdom City","Missouri","United States",21157,US,City
+1020421,"Kingston","Missouri","United States",21157,US,City
+1020422,"Kingsville","Missouri","United States",21157,US,City
+1020423,"Kirbyville","Missouri","United States",21157,US,City
+1020424,"Kirksville","Missouri","United States",21157,US,City
+1020425,"Knob Noster","Missouri","United States",21157,US,City
+1020426,"Koshkonong","Missouri","United States",21157,US,City
+1020427,"La Belle","Missouri","United States",21157,US,City
+1020428,"La Grange","Missouri","United States",21157,US,City
+1020429,"La Monte","Missouri","United States",21157,US,City
+1020430,"La Plata","Missouri","United States",21157,US,City
+1020431,"Laddonia","Missouri","United States",21157,US,City
+1020432,"Lake Ozark","Missouri","United States",21157,US,City
+1020433,"Lake Saint Louis","Missouri","United States",21157,US,City
+1020434,"Lamar","Missouri","United States",21157,US,City
+1020435,"Lancaster","Missouri","United States",21157,US,City
+1020436,"Laquey","Missouri","United States",21157,US,City
+1020437,"Laredo","Missouri","United States",21157,US,City
+1020438,"Lathrop","Missouri","United States",21157,US,City
+1020439,"Laurie","Missouri","United States",21157,US,City
+1020440,"Lawson","Missouri","United States",21157,US,City
+1020441,"Leadwood","Missouri","United States",21157,US,City
+1020442,"Leasburg","Missouri","United States",21157,US,City
+1020443,"Lebanon","Missouri","United States",21157,US,City
+1020444,"Lee's Summit","Missouri","United States",21157,US,City
+1020445,"Leeton","Missouri","United States",21157,US,City
+1020446,"Leopold","Missouri","United States",21157,US,City
+1020447,"Lesterville","Missouri","United States",21157,US,City
+1020448,"Lexington","Missouri","United States",21157,US,City
+1020449,"Liberal","Missouri","United States",21157,US,City
+1020450,"Liberty","Missouri","United States",21157,US,City
+1020451,"Licking","Missouri","United States",21157,US,City
+1020452,"Lincoln","Missouri","United States",21157,US,City
+1020453,"Linn","Missouri","United States",21157,US,City
+1020454,"Linn Creek","Missouri","United States",21157,US,City
+1020455,"Linneus","Missouri","United States",21157,US,City
+1020456,"Lockwood","Missouri","United States",21157,US,City
+1020457,"Lone Jack","Missouri","United States",21157,US,City
+1020458,"Lonedell","Missouri","United States",21157,US,City
+1020459,"Louisiana","Missouri","United States",21157,US,City
+1020460,"Ludlow","Missouri","United States",21157,US,City
+1020461,"Macks Creek","Missouri","United States",21157,US,City
+1020462,"Macon","Missouri","United States",21157,US,City
+1020463,"Madison","Missouri","United States",21157,US,City
+1020464,"Maitland","Missouri","United States",21157,US,City
+1020465,"Malden","Missouri","United States",21157,US,City
+1020466,"Malta Bend","Missouri","United States",21157,US,City
+1020467,"Mansfield","Missouri","United States",21157,US,City
+1020468,"Marble Hill","Missouri","United States",21157,US,City
+1020469,"Marceline","Missouri","United States",21157,US,City
+1020470,"Marionville","Missouri","United States",21157,US,City
+1020471,"Marquand","Missouri","United States",21157,US,City
+1020472,"Marshall","Missouri","United States",21157,US,City
+1020473,"Marshfield","Missouri","United States",21157,US,City
+1020474,"Marthasville","Missouri","United States",21157,US,City
+1020475,"Martinsburg","Missouri","United States",21157,US,City
+1020476,"Maryland Heights","Missouri","United States",21157,US,City
+1020477,"Maryville","Missouri","United States",21157,US,City
+1020478,"Maysville","Missouri","United States",21157,US,City
+1020479,"Meadville","Missouri","United States",21157,US,City
+1020480,"Memphis","Missouri","United States",21157,US,City
+1020481,"Mendon","Missouri","United States",21157,US,City
+1020482,"Mercer","Missouri","United States",21157,US,City
+1020483,"Mexico","Missouri","United States",21157,US,City
+1020484,"Miami","Missouri","United States",21157,US,City
+1020485,"Milan","Missouri","United States",21157,US,City
+1020486,"Miller","Missouri","United States",21157,US,City
+1020487,"Missouri City","Missouri","United States",21157,US,City
+1020488,"Moberly","Missouri","United States",21157,US,City
+1020489,"Mokane","Missouri","United States",21157,US,City
+1020490,"Monett","Missouri","United States",21157,US,City
+1020491,"Monroe City","Missouri","United States",21157,US,City
+1020492,"Montgomery City","Missouri","United States",21157,US,City
+1020493,"Monticello","Missouri","United States",21157,US,City
+1020494,"Montrose","Missouri","United States",21157,US,City
+1020495,"Morrisville","Missouri","United States",21157,US,City
+1020496,"Mound City","Missouri","United States",21157,US,City
+1020497,"Mount Vernon","Missouri","United States",21157,US,City
+1020498,"Mountain Grove","Missouri","United States",21157,US,City
+1020499,"Mountain View","Missouri","United States",21157,US,City
+1020500,"Myrtle Township","Missouri","United States",21157,US,Municipality
+1020501,"Naylor","Missouri","United States",21157,US,City
+1020502,"Neelyville","Missouri","United States",21157,US,City
+1020503,"Neosho","Missouri","United States",21157,US,City
+1020504,"Nevada","Missouri","United States",21157,US,City
+1020505,"New Bloomfield","Missouri","United States",21157,US,City
+1020506,"New Cambria","Missouri","United States",21157,US,City
+1020507,"New Franklin","Missouri","United States",21157,US,City
+1020508,"New Haven","Missouri","United States",21157,US,City
+1020509,"New London","Missouri","United States",21157,US,City
+1020510,"New Madrid","Missouri","United States",21157,US,City
+1020511,"Newburg","Missouri","United States",21157,US,City
+1020512,"Newtown","Missouri","United States",21157,US,City
+1020513,"Niangua","Missouri","United States",21157,US,City
+1020514,"Nixa","Missouri","United States",21157,US,City
+1020515,"Noel","Missouri","United States",21157,US,City
+1020516,"Norborne","Missouri","United States",21157,US,City
+1020517,"Norwood","Missouri","United States",21157,US,City
+1020518,"Novinger","Missouri","United States",21157,US,City
+1020519,"O'Fallon","Missouri","United States",21157,US,City
+1020520,"Oak Grove","Jackson County","Missouri",21157,US,City
+1020521,"Oak Ridge","Missouri","United States",21157,US,City
+1020522,"Odessa","Missouri","United States",21157,US,City
+1020523,"Oran","Missouri","United States",21157,US,City
+1020524,"Oregon","Missouri","United States",21157,US,City
+1020525,"Orrick","Missouri","United States",21157,US,City
+1020526,"Osage Beach","Missouri","United States",21157,US,City
+1020527,"Osborn","Missouri","United States",21157,US,City
+1020528,"Osceola","Missouri","United States",21157,US,City
+1020529,"Otterville","Missouri","United States",21157,US,City
+1020530,"Owensville","Missouri","United States",21157,US,City
+1020531,"Ozark","Missouri","United States",21157,US,City
+1020532,"Pacific","Missouri","United States",21157,US,City
+1020533,"Palmyra","Missouri","United States",21157,US,City
+1020534,"Paris","Missouri","United States",21157,US,City
+1020535,"Park Hills","Missouri","United States",21157,US,City
+1020536,"Patton","Missouri","United States",21157,US,City
+1020537,"Pattonsburg","Missouri","United States",21157,US,City
+1020538,"Peace Valley","Missouri","United States",21157,US,City
+1020539,"Peculiar","Missouri","United States",21157,US,City
+1020540,"Perry","Missouri","United States",21157,US,City
+1020541,"Perryville","Missouri","United States",21157,US,City
+1020542,"Philadelphia","Missouri","United States",21157,US,City
+1020543,"Piedmont","Missouri","United States",21157,US,City
+1020544,"Pierce City","Missouri","United States",21157,US,City
+1020545,"Pilot Grove","Missouri","United States",21157,US,City
+1020546,"Pineville","Missouri","United States",21157,US,City
+1020547,"Pittsburg","Missouri","United States",21157,US,City
+1020548,"Plato","Missouri","United States",21157,US,City
+1020549,"Platte City","Missouri","United States",21157,US,City
+1020550,"Plattsburg","Missouri","United States",21157,US,City
+1020551,"Pleasant Hill","Missouri","United States",21157,US,City
+1020552,"Pleasant Hope","Missouri","United States",21157,US,City
+1020553,"Point Lookout","Missouri","United States",21157,US,City
+1020554,"Polo","Missouri","United States",21157,US,City
+1020555,"Poplar Bluff","Missouri","United States",21157,US,City
+1020556,"Portageville","Missouri","United States",21157,US,City
+1020557,"Potosi","Missouri","United States",21157,US,City
+1020558,"Prairie Home","Missouri","United States",21157,US,City
+1020559,"Princeton","Missouri","United States",21157,US,City
+1020560,"Purdin","Missouri","United States",21157,US,City
+1020561,"Purdy","Missouri","United States",21157,US,City
+1020562,"Puxico","Missouri","United States",21157,US,City
+1020563,"Queen City","Missouri","United States",21157,US,City
+1020564,"Ravenwood","Missouri","United States",21157,US,City
+1020565,"Raymondville","Missouri","United States",21157,US,City
+1020566,"Raymore","Missouri","United States",21157,US,City
+1020567,"Reeds Spring","Missouri","United States",21157,US,City
+1020568,"Renick","Missouri","United States",21157,US,City
+1020569,"Republic","Missouri","United States",21157,US,City
+1020570,"Revere","Missouri","United States",21157,US,City
+1020571,"Rhineland","Missouri","United States",21157,US,City
+1020572,"Rich Hill","Missouri","United States",21157,US,City
+1020573,"Richland","Missouri","United States",21157,US,City
+1020574,"Richmond","Missouri","United States",21157,US,City
+1020575,"Richwoods","Missouri","United States",21157,US,City
+1020576,"Ridgeway","Missouri","United States",21157,US,City
+1020577,"Risco","Missouri","United States",21157,US,City
+1020578,"Riverside","Missouri","United States",21157,US,City
+1020579,"Rocheport","Missouri","United States",21157,US,City
+1020580,"Rock Port","Missouri","United States",21157,US,City
+1020581,"Rogersville","Missouri","United States",21157,US,City
+1020582,"Rolla","Missouri","United States",21157,US,City
+1020583,"Roscoe","Missouri","United States",21157,US,City
+1020584,"Rosendale","Missouri","United States",21157,US,City
+1020585,"Russellville","Missouri","United States",21157,US,City
+1020586,"Ste. Genevieve","Missouri","United States",21157,US,City
+1020587,"Salem","Missouri","United States",21157,US,City
+1020588,"Salisbury","Missouri","United States",21157,US,City
+1020589,"Sarcoxie","Missouri","United States",21157,US,City
+1020590,"Savannah","Missouri","United States",21157,US,City
+1020591,"Schell City","Missouri","United States",21157,US,City
+1020592,"Scott City","Missouri","United States",21157,US,City
+1020593,"Sedalia","Missouri","United States",21157,US,City
+1020594,"Senath","Missouri","United States",21157,US,City
+1020595,"Seneca","Missouri","United States",21157,US,City
+1020596,"Seymour","Missouri","United States",21157,US,City
+1020597,"Shelbina","Missouri","United States",21157,US,City
+1020598,"Shelbyville","Missouri","United States",21157,US,City
+1020599,"Sheldon","Missouri","United States",21157,US,City
+1020600,"Shell Knob","Missouri","United States",21157,US,City
+1020601,"Sikeston","Missouri","United States",21157,US,City
+1020602,"Silex","Missouri","United States",21157,US,City
+1020603,"Slater","Missouri","United States",21157,US,City
+1020604,"Smithton","Missouri","United States",21157,US,City
+1020605,"Smithville","Missouri","United States",21157,US,City
+1020606,"Southwest City","Missouri","United States",21157,US,City
+1020607,"Sparta","Missouri","United States",21157,US,City
+1020608,"Spickard","Missouri","United States",21157,US,City
+1020609,"Spokane","Missouri","United States",21157,US,City
+1020610,"Springfield","Missouri","United States",21157,US,City
+1020611,"Saint Albans","Missouri","United States",21157,US,City
+1020612,"Saint Ann","Missouri","United States",21157,US,City
+1020613,"Saint Charles","Missouri","United States",21157,US,City
+1020614,"Saint Clair","Missouri","United States",21157,US,City
+1020615,"Saint Elizabeth","Missouri","United States",21157,US,City
+1020616,"Saint James","Missouri","United States",21157,US,City
+1020617,"Saint Joseph","Missouri","United States",21157,US,City
+1020618,"St. Louis","Missouri","United States",21157,US,City
+1020619,"St. Peters","Missouri","United States",21157,US,City
+1020620,"Saint Robert","Missouri","United States",21157,US,City
+1020621,"Stanberry","Missouri","United States",21157,US,City
+1020622,"Stanton","Missouri","United States",21157,US,City
+1020623,"Steele","Missouri","United States",21157,US,City
+1020624,"Steelville","Missouri","United States",21157,US,City
+1020625,"Stet","Missouri","United States",21157,US,City
+1020626,"Stewartsville","Missouri","United States",21157,US,City
+1020627,"Stockton","Missouri","United States",21157,US,City
+1020628,"Stoutland","Missouri","United States",21157,US,City
+1020629,"Stover","Missouri","United States",21157,US,City
+1020630,"Strafford","Missouri","United States",21157,US,City
+1020631,"Strasburg","Missouri","United States",21157,US,City
+1020632,"Sturgeon","Missouri","United States",21157,US,City
+1020633,"Success","Missouri","United States",21157,US,City
+1020634,"Sullivan","Missouri","United States",21157,US,City
+1020635,"Summersville","Missouri","United States",21157,US,City
+1020636,"Sunrise Beach","Missouri","United States",21157,US,City
+1020637,"Swedeborg","Missouri","United States",21157,US,City
+1020638,"Sweet Springs","Missouri","United States",21157,US,City
+1020639,"Taneyville","Missouri","United States",21157,US,City
+1020640,"Tarkio","Missouri","United States",21157,US,City
+1020641,"Thayer","Missouri","United States",21157,US,City
+1020642,"Theodosia","Missouri","United States",21157,US,City
+1020643,"Thornfield","Missouri","United States",21157,US,City
+1020644,"Tiff City","Missouri","United States",21157,US,City
+1020645,"Tina","Missouri","United States",21157,US,City
+1020646,"Tipton","Missouri","United States",21157,US,City
+1020647,"Trenton","Missouri","United States",21157,US,City
+1020648,"Trimble","Missouri","United States",21157,US,City
+1020649,"Troy","Missouri","United States",21157,US,City
+1020650,"Tuscumbia","Missouri","United States",21157,US,City
+1020651,"Union","Missouri","United States",21157,US,City
+1020652,"Union Star","Missouri","United States",21157,US,City
+1020653,"Unionville","Missouri","United States",21157,US,City
+1020654,"Urbana","Missouri","United States",21157,US,City
+1020655,"Valley Park","Missouri","United States",21157,US,City
+1020656,"Van Buren","Missouri","United States",21157,US,City
+1020657,"Vandalia","Missouri","United States",21157,US,City
+1020658,"Vanzant","Missouri","United States",21157,US,City
+1020659,"Verona","Missouri","United States",21157,US,City
+1020660,"Versailles","Missouri","United States",21157,US,City
+1020661,"Viburnum","Missouri","United States",21157,US,City
+1020662,"Vienna","Missouri","United States",21157,US,City
+1020663,"Walker","Missouri","United States",21157,US,City
+1020664,"Walnut Grove","Missouri","United States",21157,US,City
+1020665,"Wardell","Missouri","United States",21157,US,City
+1020666,"Warrensburg","Missouri","United States",21157,US,City
+1020667,"Warrenton","Missouri","United States",21157,US,City
+1020668,"Warsaw","Missouri","United States",21157,US,City
+1020669,"Washburn","Missouri","United States",21157,US,City
+1020670,"Washington","Missouri","United States",21157,US,City
+1020671,"Waynesville","Missouri","United States",21157,US,City
+1020672,"Weaubleau","Missouri","United States",21157,US,City
+1020673,"Webb City","Missouri","United States",21157,US,City
+1020674,"Wellington","Missouri","United States",21157,US,City
+1020675,"Wellsville","Missouri","United States",21157,US,City
+1020676,"Wentzville","Missouri","United States",21157,US,City
+1020677,"West Plains","Missouri","United States",21157,US,City
+1020678,"Weston","Missouri","United States",21157,US,City
+1020679,"Westphalia","Missouri","United States",21157,US,City
+1020680,"Wheatland","Missouri","United States",21157,US,City
+1020681,"Wheaton","Missouri","United States",21157,US,City
+1020682,"Whiteman Air Force Base","Missouri","United States",21157,US,City
+1020683,"Willard","Missouri","United States",21157,US,City
+1020684,"Willow Springs","Missouri","United States",21157,US,City
+1020685,"Windsor","Missouri","United States",21157,US,City
+1020686,"Winfield","Missouri","United States",21157,US,City
+1020687,"Winona","Missouri","United States",21157,US,City
+1020688,"Winston","Missouri","United States",21157,US,City
+1020689,"Wright City","Missouri","United States",21157,US,City
+1020690,"Wyaconda","Missouri","United States",21157,US,City
+1020691,"Zalma","Missouri","United States",21157,US,City
+1026630,"Missouri City","Texas","United States",21176,US,City
+9022803,"63005","Missouri","United States",21157,US,Postal Code
+9022804,"63010","Missouri","United States",21157,US,Postal Code
+9022805,"63011","Missouri","United States",21157,US,Postal Code
+9022806,"63012","Missouri","United States",21157,US,Postal Code
+9022807,"63013","Missouri","United States",21157,US,Postal Code
+9022808,"63014","Missouri","United States",21157,US,Postal Code
+9022809,"63015","Missouri","United States",21157,US,Postal Code
+9022810,"63016","Missouri","United States",21157,US,Postal Code
+9022811,"63017","Missouri","United States",21157,US,Postal Code
+9022812,"63019","Missouri","United States",21157,US,Postal Code
+9022813,"63020","Missouri","United States",21157,US,Postal Code
+9022814,"63021","Missouri","United States",21157,US,Postal Code
+9022815,"63023","Missouri","United States",21157,US,Postal Code
+9022816,"63025","Missouri","United States",21157,US,Postal Code
+9022817,"63026","Missouri","United States",21157,US,Postal Code
+9022818,"63028","Missouri","United States",21157,US,Postal Code
+9022819,"63030","Missouri","United States",21157,US,Postal Code
+9022820,"63031","Missouri","United States",21157,US,Postal Code
+9022821,"63033","Missouri","United States",21157,US,Postal Code
+9022822,"63034","Missouri","United States",21157,US,Postal Code
+9022823,"63036","Missouri","United States",21157,US,Postal Code
+9022824,"63037","Missouri","United States",21157,US,Postal Code
+9022825,"63038","Missouri","United States",21157,US,Postal Code
+9022826,"63039","Missouri","United States",21157,US,Postal Code
+9022827,"63040","Missouri","United States",21157,US,Postal Code
+9022828,"63041","Missouri","United States",21157,US,Postal Code
+9022829,"63042","Missouri","United States",21157,US,Postal Code
+9022830,"63043","Missouri","United States",21157,US,Postal Code
+9022831,"63044","Missouri","United States",21157,US,Postal Code
+9022832,"63045","Missouri","United States",21157,US,Postal Code
+9022833,"63048","Missouri","United States",21157,US,Postal Code
+9022834,"63049","Missouri","United States",21157,US,Postal Code
+9022835,"63050","Missouri","United States",21157,US,Postal Code
+9022836,"63051","Missouri","United States",21157,US,Postal Code
+9022837,"63052","Missouri","United States",21157,US,Postal Code
+9022839,"63055","Missouri","United States",21157,US,Postal Code
+9022840,"63056","Missouri","United States",21157,US,Postal Code
+9022841,"63060","Missouri","United States",21157,US,Postal Code
+9022842,"63068","Missouri","United States",21157,US,Postal Code
+9022843,"63069","Missouri","United States",21157,US,Postal Code
+9022844,"63070","Missouri","United States",21157,US,Postal Code
+9022845,"63071","Missouri","United States",21157,US,Postal Code
+9022846,"63072","Missouri","United States",21157,US,Postal Code
+9022847,"63074","Missouri","United States",21157,US,Postal Code
+9022848,"63077","Missouri","United States",21157,US,Postal Code
+9022849,"63080","Missouri","United States",21157,US,Postal Code
+9022850,"63084","Missouri","United States",21157,US,Postal Code
+9022851,"63087","Missouri","United States",21157,US,Postal Code
+9022852,"63088","Missouri","United States",21157,US,Postal Code
+9022853,"63089","Missouri","United States",21157,US,Postal Code
+9022854,"63090","Missouri","United States",21157,US,Postal Code
+9022855,"63091","Missouri","United States",21157,US,Postal Code
+9022856,"63101","Missouri","United States",21157,US,Postal Code
+9022857,"63102","Missouri","United States",21157,US,Postal Code
+9022858,"63103","Missouri","United States",21157,US,Postal Code
+9022859,"63104","Missouri","United States",21157,US,Postal Code
+9022860,"63105","Missouri","United States",21157,US,Postal Code
+9022861,"63106","Missouri","United States",21157,US,Postal Code
+9022862,"63107","Missouri","United States",21157,US,Postal Code
+9022863,"63108","Missouri","United States",21157,US,Postal Code
+9022864,"63109","Missouri","United States",21157,US,Postal Code
+9022865,"63110","Missouri","United States",21157,US,Postal Code
+9022866,"63111","Missouri","United States",21157,US,Postal Code
+9022867,"63112","Missouri","United States",21157,US,Postal Code
+9022868,"63113","Missouri","United States",21157,US,Postal Code
+9022869,"63114","Missouri","United States",21157,US,Postal Code
+9022870,"63115","Missouri","United States",21157,US,Postal Code
+9022871,"63116","Missouri","United States",21157,US,Postal Code
+9022872,"63117","Missouri","United States",21157,US,Postal Code
+9022873,"63118","Missouri","United States",21157,US,Postal Code
+9022874,"63119","Missouri","United States",21157,US,Postal Code
+9022875,"63120","Missouri","United States",21157,US,Postal Code
+9022876,"63121","Missouri","United States",21157,US,Postal Code
+9022877,"63122","Missouri","United States",21157,US,Postal Code
+9022878,"63123","Missouri","United States",21157,US,Postal Code
+9022879,"63124","Missouri","United States",21157,US,Postal Code
+9022880,"63125","Missouri","United States",21157,US,Postal Code
+9022881,"63126","Missouri","United States",21157,US,Postal Code
+9022882,"63127","Missouri","United States",21157,US,Postal Code
+9022883,"63128","Missouri","United States",21157,US,Postal Code
+9022884,"63129","Missouri","United States",21157,US,Postal Code
+9022885,"63130","Missouri","United States",21157,US,Postal Code
+9022886,"63131","Missouri","United States",21157,US,Postal Code
+9022887,"63132","Missouri","United States",21157,US,Postal Code
+9022888,"63133","Missouri","United States",21157,US,Postal Code
+9022889,"63134","Missouri","United States",21157,US,Postal Code
+9022890,"63135","Missouri","United States",21157,US,Postal Code
+9022891,"63136","Missouri","United States",21157,US,Postal Code
+9022892,"63137","Missouri","United States",21157,US,Postal Code
+9022893,"63138","Missouri","United States",21157,US,Postal Code
+9022894,"63139","Missouri","United States",21157,US,Postal Code
+9022895,"63140","Missouri","United States",21157,US,Postal Code
+9022896,"63141","Missouri","United States",21157,US,Postal Code
+9022897,"63143","Missouri","United States",21157,US,Postal Code
+9022898,"63144","Missouri","United States",21157,US,Postal Code
+9022899,"63145","Missouri","United States",21157,US,Postal Code
+9022900,"63146","Missouri","United States",21157,US,Postal Code
+9022901,"63147","Missouri","United States",21157,US,Postal Code
+9022902,"63167","Missouri","United States",21157,US,Postal Code
+9022903,"63182","Missouri","United States",21157,US,Postal Code
+9022904,"63301","Missouri","United States",21157,US,Postal Code
+9022905,"63303","Missouri","United States",21157,US,Postal Code
+9022906,"63304","Missouri","United States",21157,US,Postal Code
+9022907,"63330","Missouri","United States",21157,US,Postal Code
+9022908,"63332","Missouri","United States",21157,US,Postal Code
+9022909,"63333","Missouri","United States",21157,US,Postal Code
+9022910,"63334","Missouri","United States",21157,US,Postal Code
+9022911,"63336","Missouri","United States",21157,US,Postal Code
+9022912,"63339","Missouri","United States",21157,US,Postal Code
+9022913,"63341","Missouri","United States",21157,US,Postal Code
+9022915,"63343","Missouri","United States",21157,US,Postal Code
+9022916,"63344","Missouri","United States",21157,US,Postal Code
+9022917,"63345","Missouri","United States",21157,US,Postal Code
+9022918,"63347","Missouri","United States",21157,US,Postal Code
+9022919,"63348","Missouri","United States",21157,US,Postal Code
+9022920,"63349","Missouri","United States",21157,US,Postal Code
+9022921,"63350","Missouri","United States",21157,US,Postal Code
+9022922,"63351","Missouri","United States",21157,US,Postal Code
+9022923,"63352","Missouri","United States",21157,US,Postal Code
+9022924,"63353","Missouri","United States",21157,US,Postal Code
+9022925,"63357","Missouri","United States",21157,US,Postal Code
+9022926,"63359","Missouri","United States",21157,US,Postal Code
+9022927,"63361","Missouri","United States",21157,US,Postal Code
+9022928,"63362","Missouri","United States",21157,US,Postal Code
+9022929,"63363","Missouri","United States",21157,US,Postal Code
+9022931,"63366","Missouri","United States",21157,US,Postal Code
+9022932,"63367","Missouri","United States",21157,US,Postal Code
+9022933,"63368","Missouri","United States",21157,US,Postal Code
+9022934,"63369","Missouri","United States",21157,US,Postal Code
+9022935,"63373","Missouri","United States",21157,US,Postal Code
+9022936,"63376","Missouri","United States",21157,US,Postal Code
+9022937,"63377","Missouri","United States",21157,US,Postal Code
+9022938,"63379","Missouri","United States",21157,US,Postal Code
+9022939,"63381","Missouri","United States",21157,US,Postal Code
+9022940,"63382","Missouri","United States",21157,US,Postal Code
+9022941,"63383","Missouri","United States",21157,US,Postal Code
+9022942,"63384","Missouri","United States",21157,US,Postal Code
+9022943,"63385","Missouri","United States",21157,US,Postal Code
+9022944,"63386","Missouri","United States",21157,US,Postal Code
+9022946,"63388","Missouri","United States",21157,US,Postal Code
+9022947,"63389","Missouri","United States",21157,US,Postal Code
+9022948,"63390","Missouri","United States",21157,US,Postal Code
+9022949,"63401","Missouri","United States",21157,US,Postal Code
+9022950,"63430","Missouri","United States",21157,US,Postal Code
+9022951,"63431","Missouri","United States",21157,US,Postal Code
+9022952,"63432","Missouri","United States",21157,US,Postal Code
+9022953,"63433","Missouri","United States",21157,US,Postal Code
+9022954,"63434","Missouri","United States",21157,US,Postal Code
+9022955,"63435","Missouri","United States",21157,US,Postal Code
+9022956,"63436","Missouri","United States",21157,US,Postal Code
+9022957,"63437","Missouri","United States",21157,US,Postal Code
+9022958,"63438","Missouri","United States",21157,US,Postal Code
+9022959,"63439","Missouri","United States",21157,US,Postal Code
+9022960,"63440","Missouri","United States",21157,US,Postal Code
+9022961,"63441","Missouri","United States",21157,US,Postal Code
+9022962,"63443","Missouri","United States",21157,US,Postal Code
+9022963,"63445","Missouri","United States",21157,US,Postal Code
+9022964,"63446","Missouri","United States",21157,US,Postal Code
+9022965,"63447","Missouri","United States",21157,US,Postal Code
+9022966,"63448","Missouri","United States",21157,US,Postal Code
+9022967,"63450","Missouri","United States",21157,US,Postal Code
+9022968,"63451","Missouri","United States",21157,US,Postal Code
+9022969,"63452","Missouri","United States",21157,US,Postal Code
+9022970,"63453","Missouri","United States",21157,US,Postal Code
+9022971,"63454","Missouri","United States",21157,US,Postal Code
+9022972,"63456","Missouri","United States",21157,US,Postal Code
+9022973,"63457","Missouri","United States",21157,US,Postal Code
+9022974,"63458","Missouri","United States",21157,US,Postal Code
+9022975,"63459","Missouri","United States",21157,US,Postal Code
+9022976,"63460","Missouri","United States",21157,US,Postal Code
+9022977,"63461","Missouri","United States",21157,US,Postal Code
+9022978,"63462","Missouri","United States",21157,US,Postal Code
+9022979,"63463","Missouri","United States",21157,US,Postal Code
+9022980,"63465","Missouri","United States",21157,US,Postal Code
+9022981,"63468","Missouri","United States",21157,US,Postal Code
+9022982,"63469","Missouri","United States",21157,US,Postal Code
+9022983,"63471","Missouri","United States",21157,US,Postal Code
+9022984,"63472","Missouri","United States",21157,US,Postal Code
+9022985,"63473","Missouri","United States",21157,US,Postal Code
+9022986,"63474","Missouri","United States",21157,US,Postal Code
+9022987,"63501","Missouri","United States",21157,US,Postal Code
+9022988,"63530","Missouri","United States",21157,US,Postal Code
+9022989,"63531","Missouri","United States",21157,US,Postal Code
+9022990,"63532","Missouri","United States",21157,US,Postal Code
+9022991,"63533","Missouri","United States",21157,US,Postal Code
+9022992,"63534","Missouri","United States",21157,US,Postal Code
+9022993,"63535","Missouri","United States",21157,US,Postal Code
+9022994,"63536","Missouri","United States",21157,US,Postal Code
+9022995,"63537","Missouri","United States",21157,US,Postal Code
+9022996,"63538","Missouri","United States",21157,US,Postal Code
+9022997,"63539","Missouri","United States",21157,US,Postal Code
+9022998,"63540","Missouri","United States",21157,US,Postal Code
+9022999,"63541","Missouri","United States",21157,US,Postal Code
+9023000,"63543","Missouri","United States",21157,US,Postal Code
+9023001,"63544","Missouri","United States",21157,US,Postal Code
+9023002,"63545","Missouri","United States",21157,US,Postal Code
+9023003,"63546","Missouri","United States",21157,US,Postal Code
+9023004,"63547","Missouri","United States",21157,US,Postal Code
+9023005,"63548","Missouri","United States",21157,US,Postal Code
+9023006,"63549","Missouri","United States",21157,US,Postal Code
+9023007,"63551","Missouri","United States",21157,US,Postal Code
+9023008,"63552","Missouri","United States",21157,US,Postal Code
+9023009,"63555","Missouri","United States",21157,US,Postal Code
+9023010,"63556","Missouri","United States",21157,US,Postal Code
+9023011,"63557","Missouri","United States",21157,US,Postal Code
+9023012,"63558","Missouri","United States",21157,US,Postal Code
+9023013,"63559","Missouri","United States",21157,US,Postal Code
+9023014,"63560","Missouri","United States",21157,US,Postal Code
+9023015,"63561","Missouri","United States",21157,US,Postal Code
+9023016,"63563","Missouri","United States",21157,US,Postal Code
+9023017,"63565","Missouri","United States",21157,US,Postal Code
+9023018,"63566","Missouri","United States",21157,US,Postal Code
+9023019,"63567","Missouri","United States",21157,US,Postal Code
+9023020,"63601","Missouri","United States",21157,US,Postal Code
+9023021,"63620","Missouri","United States",21157,US,Postal Code
+9023022,"63621","Missouri","United States",21157,US,Postal Code
+9023023,"63622","Missouri","United States",21157,US,Postal Code
+9023024,"63623","Missouri","United States",21157,US,Postal Code
+9023025,"63624","Missouri","United States",21157,US,Postal Code
+9023026,"63625","Missouri","United States",21157,US,Postal Code
+9023027,"63626","Missouri","United States",21157,US,Postal Code
+9023028,"63627","Missouri","United States",21157,US,Postal Code
+9023029,"63628","Missouri","United States",21157,US,Postal Code
+9023030,"63629","Missouri","United States",21157,US,Postal Code
+9023031,"63630","Missouri","United States",21157,US,Postal Code
+9023032,"63631","Missouri","United States",21157,US,Postal Code
+9023033,"63633","Missouri","United States",21157,US,Postal Code
+9023034,"63636","Missouri","United States",21157,US,Postal Code
+9023035,"63637","Missouri","United States",21157,US,Postal Code
+9023036,"63638","Missouri","United States",21157,US,Postal Code
+9023037,"63640","Missouri","United States",21157,US,Postal Code
+9023038,"63645","Missouri","United States",21157,US,Postal Code
+9023039,"63648","Missouri","United States",21157,US,Postal Code
+9023040,"63650","Missouri","United States",21157,US,Postal Code
+9023041,"63653","Missouri","United States",21157,US,Postal Code
+9023042,"63654","Missouri","United States",21157,US,Postal Code
+9023043,"63655","Missouri","United States",21157,US,Postal Code
+9023044,"63656","Missouri","United States",21157,US,Postal Code
+9023045,"63660","Missouri","United States",21157,US,Postal Code
+9023046,"63662","Missouri","United States",21157,US,Postal Code
+9023048,"63664","Missouri","United States",21157,US,Postal Code
+9023049,"63665","Missouri","United States",21157,US,Postal Code
+9023050,"63670","Missouri","United States",21157,US,Postal Code
+9023051,"63673","Missouri","United States",21157,US,Postal Code
+9023052,"63675","Missouri","United States",21157,US,Postal Code
+9023053,"63701","Missouri","United States",21157,US,Postal Code
+9023054,"63703","Missouri","United States",21157,US,Postal Code
+9023055,"63730","Missouri","United States",21157,US,Postal Code
+9023056,"63732","Missouri","United States",21157,US,Postal Code
+9023057,"63735","Missouri","United States",21157,US,Postal Code
+9023058,"63736","Missouri","United States",21157,US,Postal Code
+9023059,"63738","Missouri","United States",21157,US,Postal Code
+9023060,"63739","Missouri","United States",21157,US,Postal Code
+9023061,"63740","Missouri","United States",21157,US,Postal Code
+9023063,"63743","Missouri","United States",21157,US,Postal Code
+9023064,"63745","Missouri","United States",21157,US,Postal Code
+9023065,"63747","Missouri","United States",21157,US,Postal Code
+9023066,"63748","Missouri","United States",21157,US,Postal Code
+9023067,"63750","Missouri","United States",21157,US,Postal Code
+9023068,"63751","Missouri","United States",21157,US,Postal Code
+9023070,"63755","Missouri","United States",21157,US,Postal Code
+9023072,"63763","Missouri","United States",21157,US,Postal Code
+9023073,"63764","Missouri","United States",21157,US,Postal Code
+9023074,"63766","Missouri","United States",21157,US,Postal Code
+9023076,"63769","Missouri","United States",21157,US,Postal Code
+9023077,"63770","Missouri","United States",21157,US,Postal Code
+9023078,"63771","Missouri","United States",21157,US,Postal Code
+9023079,"63775","Missouri","United States",21157,US,Postal Code
+9023080,"63780","Missouri","United States",21157,US,Postal Code
+9023081,"63781","Missouri","United States",21157,US,Postal Code
+9023082,"63782","Missouri","United States",21157,US,Postal Code
+9023083,"63783","Missouri","United States",21157,US,Postal Code
+9023084,"63784","Missouri","United States",21157,US,Postal Code
+9023085,"63785","Missouri","United States",21157,US,Postal Code
+9023086,"63787","Missouri","United States",21157,US,Postal Code
+9023087,"63801","Missouri","United States",21157,US,Postal Code
+9023089,"63821","Missouri","United States",21157,US,Postal Code
+9023090,"63822","Missouri","United States",21157,US,Postal Code
+9023091,"63823","Missouri","United States",21157,US,Postal Code
+9023092,"63825","Missouri","United States",21157,US,Postal Code
+9023094,"63827","Missouri","United States",21157,US,Postal Code
+9023095,"63828","Missouri","United States",21157,US,Postal Code
+9023096,"63829","Missouri","United States",21157,US,Postal Code
+9023097,"63830","Missouri","United States",21157,US,Postal Code
+9023098,"63833","Missouri","United States",21157,US,Postal Code
+9023099,"63834","Missouri","United States",21157,US,Postal Code
+9023100,"63837","Missouri","United States",21157,US,Postal Code
+9023101,"63839","Missouri","United States",21157,US,Postal Code
+9023102,"63841","Missouri","United States",21157,US,Postal Code
+9023103,"63845","Missouri","United States",21157,US,Postal Code
+9023104,"63846","Missouri","United States",21157,US,Postal Code
+9023105,"63847","Missouri","United States",21157,US,Postal Code
+9023106,"63848","Missouri","United States",21157,US,Postal Code
+9023107,"63849","Missouri","United States",21157,US,Postal Code
+9023108,"63851","Missouri","United States",21157,US,Postal Code
+9023109,"63852","Missouri","United States",21157,US,Postal Code
+9023110,"63853","Missouri","United States",21157,US,Postal Code
+9023111,"63855","Missouri","United States",21157,US,Postal Code
+9023112,"63857","Missouri","United States",21157,US,Postal Code
+9023113,"63862","Missouri","United States",21157,US,Postal Code
+9023114,"63863","Missouri","United States",21157,US,Postal Code
+9023115,"63866","Missouri","United States",21157,US,Postal Code
+9023116,"63867","Missouri","United States",21157,US,Postal Code
+9023117,"63869","Missouri","United States",21157,US,Postal Code
+9023118,"63870","Missouri","United States",21157,US,Postal Code
+9023119,"63873","Missouri","United States",21157,US,Postal Code
+9023120,"63874","Missouri","United States",21157,US,Postal Code
+9023121,"63876","Missouri","United States",21157,US,Postal Code
+9023122,"63877","Missouri","United States",21157,US,Postal Code
+9023123,"63879","Missouri","United States",21157,US,Postal Code
+9023124,"63882","Missouri","United States",21157,US,Postal Code
+9023125,"63901","Missouri","United States",21157,US,Postal Code
+9023126,"63932","Missouri","United States",21157,US,Postal Code
+9023127,"63933","Missouri","United States",21157,US,Postal Code
+9023128,"63934","Missouri","United States",21157,US,Postal Code
+9023129,"63935","Missouri","United States",21157,US,Postal Code
+9023130,"63936","Missouri","United States",21157,US,Postal Code
+9023131,"63937","Missouri","United States",21157,US,Postal Code
+9023132,"63939","Missouri","United States",21157,US,Postal Code
+9023133,"63940","Missouri","United States",21157,US,Postal Code
+9023134,"63941","Missouri","United States",21157,US,Postal Code
+9023135,"63942","Missouri","United States",21157,US,Postal Code
+9023136,"63943","Missouri","United States",21157,US,Postal Code
+9023137,"63944","Missouri","United States",21157,US,Postal Code
+9023138,"63945","Missouri","United States",21157,US,Postal Code
+9023141,"63951","Missouri","United States",21157,US,Postal Code
+9023142,"63952","Missouri","United States",21157,US,Postal Code
+9023143,"63953","Missouri","United States",21157,US,Postal Code
+9023144,"63954","Missouri","United States",21157,US,Postal Code
+9023145,"63955","Missouri","United States",21157,US,Postal Code
+9023146,"63956","Missouri","United States",21157,US,Postal Code
+9023147,"63957","Missouri","United States",21157,US,Postal Code
+9023148,"63960","Missouri","United States",21157,US,Postal Code
+9023149,"63961","Missouri","United States",21157,US,Postal Code
+9023152,"63964","Missouri","United States",21157,US,Postal Code
+9023153,"63965","Missouri","United States",21157,US,Postal Code
+9023154,"63966","Missouri","United States",21157,US,Postal Code
+9023155,"63967","Missouri","United States",21157,US,Postal Code
+9023156,"64001","Missouri","United States",21157,US,Postal Code
+9023157,"64011","Missouri","United States",21157,US,Postal Code
+9023158,"64012","Missouri","United States",21157,US,Postal Code
+9023159,"64014","Missouri","United States",21157,US,Postal Code
+9023160,"64015","Missouri","United States",21157,US,Postal Code
+9023161,"64016","Missouri","United States",21157,US,Postal Code
+9023162,"64017","Missouri","United States",21157,US,Postal Code
+9023163,"64018","Missouri","United States",21157,US,Postal Code
+9023164,"64019","Missouri","United States",21157,US,Postal Code
+9023165,"64020","Missouri","United States",21157,US,Postal Code
+9023166,"64021","Missouri","United States",21157,US,Postal Code
+9023167,"64022","Missouri","United States",21157,US,Postal Code
+9023168,"64024","Missouri","United States",21157,US,Postal Code
+9023169,"64028","Missouri","United States",21157,US,Postal Code
+9023170,"64029","Missouri","United States",21157,US,Postal Code
+9023171,"64030","Missouri","United States",21157,US,Postal Code
+9023172,"64034","Missouri","United States",21157,US,Postal Code
+9023173,"64035","Missouri","United States",21157,US,Postal Code
+9023174,"64036","Missouri","United States",21157,US,Postal Code
+9023175,"64037","Missouri","United States",21157,US,Postal Code
+9023176,"64040","Missouri","United States",21157,US,Postal Code
+9023177,"64048","Missouri","United States",21157,US,Postal Code
+9023178,"64050","Missouri","United States",21157,US,Postal Code
+9023179,"64052","Missouri","United States",21157,US,Postal Code
+9023180,"64053","Missouri","United States",21157,US,Postal Code
+9023181,"64054","Missouri","United States",21157,US,Postal Code
+9023182,"64055","Missouri","United States",21157,US,Postal Code
+9023183,"64056","Missouri","United States",21157,US,Postal Code
+9023184,"64057","Missouri","United States",21157,US,Postal Code
+9023185,"64058","Missouri","United States",21157,US,Postal Code
+9023186,"64060","Missouri","United States",21157,US,Postal Code
+9023187,"64061","Missouri","United States",21157,US,Postal Code
+9023188,"64062","Missouri","United States",21157,US,Postal Code
+9023189,"64063","Missouri","United States",21157,US,Postal Code
+9023190,"64064","Missouri","United States",21157,US,Postal Code
+9023192,"64067","Missouri","United States",21157,US,Postal Code
+9023193,"64068","Missouri","United States",21157,US,Postal Code
+9023194,"64070","Missouri","United States",21157,US,Postal Code
+9023195,"64071","Missouri","United States",21157,US,Postal Code
+9023196,"64072","Missouri","United States",21157,US,Postal Code
+9023197,"64074","Missouri","United States",21157,US,Postal Code
+9023198,"64075","Missouri","United States",21157,US,Postal Code
+9023199,"64076","Missouri","United States",21157,US,Postal Code
+9023200,"64077","Missouri","United States",21157,US,Postal Code
+9023201,"64078","Missouri","United States",21157,US,Postal Code
+9023202,"64079","Missouri","United States",21157,US,Postal Code
+9023203,"64080","Missouri","United States",21157,US,Postal Code
+9023204,"64081","Missouri","United States",21157,US,Postal Code
+9023205,"64082","Missouri","United States",21157,US,Postal Code
+9023206,"64083","Missouri","United States",21157,US,Postal Code
+9023207,"64084","Missouri","United States",21157,US,Postal Code
+9023208,"64085","Missouri","United States",21157,US,Postal Code
+9023209,"64086","Missouri","United States",21157,US,Postal Code
+9023210,"64088","Missouri","United States",21157,US,Postal Code
+9023211,"64089","Missouri","United States",21157,US,Postal Code
+9023213,"64093","Missouri","United States",21157,US,Postal Code
+9023214,"64096","Missouri","United States",21157,US,Postal Code
+9023215,"64097","Missouri","United States",21157,US,Postal Code
+9023216,"64098","Missouri","United States",21157,US,Postal Code
+9023217,"64101","Missouri","United States",21157,US,Postal Code
+9023218,"64102","Missouri","United States",21157,US,Postal Code
+9023219,"64105","Missouri","United States",21157,US,Postal Code
+9023220,"64106","Missouri","United States",21157,US,Postal Code
+9023221,"64108","Missouri","United States",21157,US,Postal Code
+9023222,"64109","Missouri","United States",21157,US,Postal Code
+9023223,"64110","Missouri","United States",21157,US,Postal Code
+9023224,"64111","Missouri","United States",21157,US,Postal Code
+9023225,"64112","Missouri","United States",21157,US,Postal Code
+9023226,"64113","Missouri","United States",21157,US,Postal Code
+9023227,"64114","Missouri","United States",21157,US,Postal Code
+9023228,"64116","Missouri","United States",21157,US,Postal Code
+9023229,"64117","Missouri","United States",21157,US,Postal Code
+9023230,"64118","Missouri","United States",21157,US,Postal Code
+9023231,"64119","Missouri","United States",21157,US,Postal Code
+9023232,"64120","Missouri","United States",21157,US,Postal Code
+9023234,"64123","Missouri","United States",21157,US,Postal Code
+9023235,"64124","Missouri","United States",21157,US,Postal Code
+9023236,"64125","Missouri","United States",21157,US,Postal Code
+9023237,"64126","Missouri","United States",21157,US,Postal Code
+9023238,"64127","Missouri","United States",21157,US,Postal Code
+9023239,"64128","Missouri","United States",21157,US,Postal Code
+9023240,"64129","Missouri","United States",21157,US,Postal Code
+9023241,"64130","Missouri","United States",21157,US,Postal Code
+9023242,"64131","Missouri","United States",21157,US,Postal Code
+9023243,"64132","Missouri","United States",21157,US,Postal Code
+9023244,"64133","Missouri","United States",21157,US,Postal Code
+9023245,"64134","Missouri","United States",21157,US,Postal Code
+9023246,"64136","Missouri","United States",21157,US,Postal Code
+9023247,"64137","Missouri","United States",21157,US,Postal Code
+9023248,"64138","Missouri","United States",21157,US,Postal Code
+9023249,"64139","Missouri","United States",21157,US,Postal Code
+9023250,"64145","Missouri","United States",21157,US,Postal Code
+9023251,"64146","Missouri","United States",21157,US,Postal Code
+9023252,"64147","Missouri","United States",21157,US,Postal Code
+9023253,"64149","Missouri","United States",21157,US,Postal Code
+9023254,"64150","Missouri","United States",21157,US,Postal Code
+9023255,"64151","Missouri","United States",21157,US,Postal Code
+9023256,"64152","Missouri","United States",21157,US,Postal Code
+9023257,"64153","Missouri","United States",21157,US,Postal Code
+9023258,"64154","Missouri","United States",21157,US,Postal Code
+9023259,"64155","Missouri","United States",21157,US,Postal Code
+9023260,"64156","Missouri","United States",21157,US,Postal Code
+9023261,"64157","Missouri","United States",21157,US,Postal Code
+9023262,"64158","Missouri","United States",21157,US,Postal Code
+9023263,"64161","Missouri","United States",21157,US,Postal Code
+9023264,"64163","Missouri","United States",21157,US,Postal Code
+9023265,"64164","Missouri","United States",21157,US,Postal Code
+9023266,"64165","Missouri","United States",21157,US,Postal Code
+9023267,"64166","Missouri","United States",21157,US,Postal Code
+9023268,"64167","Missouri","United States",21157,US,Postal Code
+9023269,"64170","Missouri","United States",21157,US,Postal Code
+9023272,"64198","Missouri","United States",21157,US,Postal Code
+9023273,"64401","Missouri","United States",21157,US,Postal Code
+9023274,"64402","Missouri","United States",21157,US,Postal Code
+9023275,"64421","Missouri","United States",21157,US,Postal Code
+9023276,"64422","Missouri","United States",21157,US,Postal Code
+9023277,"64423","Missouri","United States",21157,US,Postal Code
+9023278,"64424","Missouri","United States",21157,US,Postal Code
+9023279,"64426","Missouri","United States",21157,US,Postal Code
+9023280,"64427","Missouri","United States",21157,US,Postal Code
+9023281,"64428","Missouri","United States",21157,US,Postal Code
+9023282,"64429","Missouri","United States",21157,US,Postal Code
+9023283,"64430","Missouri","United States",21157,US,Postal Code
+9023284,"64431","Missouri","United States",21157,US,Postal Code
+9023285,"64432","Missouri","United States",21157,US,Postal Code
+9023286,"64433","Missouri","United States",21157,US,Postal Code
+9023287,"64434","Missouri","United States",21157,US,Postal Code
+9023288,"64436","Missouri","United States",21157,US,Postal Code
+9023289,"64437","Missouri","United States",21157,US,Postal Code
+9023290,"64438","Missouri","United States",21157,US,Postal Code
+9023291,"64439","Missouri","United States",21157,US,Postal Code
+9023292,"64440","Missouri","United States",21157,US,Postal Code
+9023293,"64441","Missouri","United States",21157,US,Postal Code
+9023294,"64442","Missouri","United States",21157,US,Postal Code
+9023295,"64443","Missouri","United States",21157,US,Postal Code
+9023296,"64444","Missouri","United States",21157,US,Postal Code
+9023297,"64445","Missouri","United States",21157,US,Postal Code
+9023298,"64446","Missouri","United States",21157,US,Postal Code
+9023299,"64448","Missouri","United States",21157,US,Postal Code
+9023300,"64449","Missouri","United States",21157,US,Postal Code
+9023301,"64451","Missouri","United States",21157,US,Postal Code
+9023302,"64453","Missouri","United States",21157,US,Postal Code
+9023303,"64454","Missouri","United States",21157,US,Postal Code
+9023304,"64455","Missouri","United States",21157,US,Postal Code
+9023305,"64456","Missouri","United States",21157,US,Postal Code
+9023306,"64457","Missouri","United States",21157,US,Postal Code
+9023307,"64458","Missouri","United States",21157,US,Postal Code
+9023308,"64459","Missouri","United States",21157,US,Postal Code
+9023309,"64461","Missouri","United States",21157,US,Postal Code
+9023310,"64463","Missouri","United States",21157,US,Postal Code
+9023311,"64465","Missouri","United States",21157,US,Postal Code
+9023312,"64466","Missouri","United States",21157,US,Postal Code
+9023313,"64467","Missouri","United States",21157,US,Postal Code
+9023314,"64468","Missouri","United States",21157,US,Postal Code
+9023315,"64469","Missouri","United States",21157,US,Postal Code
+9023316,"64470","Missouri","United States",21157,US,Postal Code
+9023317,"64471","Missouri","United States",21157,US,Postal Code
+9023318,"64473","Missouri","United States",21157,US,Postal Code
+9023319,"64474","Missouri","United States",21157,US,Postal Code
+9023320,"64475","Missouri","United States",21157,US,Postal Code
+9023321,"64476","Missouri","United States",21157,US,Postal Code
+9023322,"64477","Missouri","United States",21157,US,Postal Code
+9023323,"64479","Missouri","United States",21157,US,Postal Code
+9023324,"64480","Missouri","United States",21157,US,Postal Code
+9023325,"64481","Missouri","United States",21157,US,Postal Code
+9023326,"64482","Missouri","United States",21157,US,Postal Code
+9023327,"64483","Missouri","United States",21157,US,Postal Code
+9023328,"64484","Missouri","United States",21157,US,Postal Code
+9023329,"64485","Missouri","United States",21157,US,Postal Code
+9023330,"64486","Missouri","United States",21157,US,Postal Code
+9023331,"64487","Missouri","United States",21157,US,Postal Code
+9023332,"64489","Missouri","United States",21157,US,Postal Code
+9023333,"64490","Missouri","United States",21157,US,Postal Code
+9023334,"64491","Missouri","United States",21157,US,Postal Code
+9023335,"64492","Missouri","United States",21157,US,Postal Code
+9023336,"64493","Missouri","United States",21157,US,Postal Code
+9023337,"64494","Missouri","United States",21157,US,Postal Code
+9023338,"64496","Missouri","United States",21157,US,Postal Code
+9023339,"64497","Missouri","United States",21157,US,Postal Code
+9023340,"64498","Missouri","United States",21157,US,Postal Code
+9023341,"64499","Missouri","United States",21157,US,Postal Code
+9023342,"64501","Missouri","United States",21157,US,Postal Code
+9023343,"64503","Missouri","United States",21157,US,Postal Code
+9023344,"64504","Missouri","United States",21157,US,Postal Code
+9023345,"64505","Missouri","United States",21157,US,Postal Code
+9023346,"64506","Missouri","United States",21157,US,Postal Code
+9023347,"64507","Missouri","United States",21157,US,Postal Code
+9023348,"64601","Missouri","United States",21157,US,Postal Code
+9023349,"64620","Missouri","United States",21157,US,Postal Code
+9023350,"64622","Missouri","United States",21157,US,Postal Code
+9023351,"64623","Missouri","United States",21157,US,Postal Code
+9023352,"64624","Missouri","United States",21157,US,Postal Code
+9023353,"64625","Missouri","United States",21157,US,Postal Code
+9023354,"64628","Missouri","United States",21157,US,Postal Code
+9023355,"64630","Missouri","United States",21157,US,Postal Code
+9023356,"64631","Missouri","United States",21157,US,Postal Code
+9023357,"64632","Missouri","United States",21157,US,Postal Code
+9023358,"64633","Missouri","United States",21157,US,Postal Code
+9023359,"64635","Missouri","United States",21157,US,Postal Code
+9023360,"64636","Missouri","United States",21157,US,Postal Code
+9023361,"64637","Missouri","United States",21157,US,Postal Code
+9023362,"64638","Missouri","United States",21157,US,Postal Code
+9023363,"64639","Missouri","United States",21157,US,Postal Code
+9023364,"64640","Missouri","United States",21157,US,Postal Code
+9023365,"64641","Missouri","United States",21157,US,Postal Code
+9023366,"64642","Missouri","United States",21157,US,Postal Code
+9023367,"64643","Missouri","United States",21157,US,Postal Code
+9023368,"64644","Missouri","United States",21157,US,Postal Code
+9023369,"64645","Missouri","United States",21157,US,Postal Code
+9023370,"64646","Missouri","United States",21157,US,Postal Code
+9023371,"64647","Missouri","United States",21157,US,Postal Code
+9023372,"64648","Missouri","United States",21157,US,Postal Code
+9023373,"64649","Missouri","United States",21157,US,Postal Code
+9023374,"64650","Missouri","United States",21157,US,Postal Code
+9023375,"64651","Missouri","United States",21157,US,Postal Code
+9023376,"64652","Missouri","United States",21157,US,Postal Code
+9023377,"64653","Missouri","United States",21157,US,Postal Code
+9023378,"64655","Missouri","United States",21157,US,Postal Code
+9023379,"64656","Missouri","United States",21157,US,Postal Code
+9023380,"64657","Missouri","United States",21157,US,Postal Code
+9023381,"64658","Missouri","United States",21157,US,Postal Code
+9023382,"64659","Missouri","United States",21157,US,Postal Code
+9023383,"64660","Missouri","United States",21157,US,Postal Code
+9023384,"64661","Missouri","United States",21157,US,Postal Code
+9023385,"64664","Missouri","United States",21157,US,Postal Code
+9023386,"64667","Missouri","United States",21157,US,Postal Code
+9023387,"64668","Missouri","United States",21157,US,Postal Code
+9023388,"64670","Missouri","United States",21157,US,Postal Code
+9023389,"64671","Missouri","United States",21157,US,Postal Code
+9023390,"64672","Missouri","United States",21157,US,Postal Code
+9023391,"64673","Missouri","United States",21157,US,Postal Code
+9023392,"64674","Missouri","United States",21157,US,Postal Code
+9023393,"64676","Missouri","United States",21157,US,Postal Code
+9023394,"64679","Missouri","United States",21157,US,Postal Code
+9023395,"64681","Missouri","United States",21157,US,Postal Code
+9023396,"64682","Missouri","United States",21157,US,Postal Code
+9023397,"64683","Missouri","United States",21157,US,Postal Code
+9023398,"64688","Missouri","United States",21157,US,Postal Code
+9023399,"64689","Missouri","United States",21157,US,Postal Code
+9023400,"64701","Missouri","United States",21157,US,Postal Code
+9023401,"64720","Missouri","United States",21157,US,Postal Code
+9023402,"64722","Missouri","United States",21157,US,Postal Code
+9023403,"64723","Missouri","United States",21157,US,Postal Code
+9023404,"64724","Missouri","United States",21157,US,Postal Code
+9023405,"64725","Missouri","United States",21157,US,Postal Code
+9023406,"64726","Missouri","United States",21157,US,Postal Code
+9023407,"64728","Missouri","United States",21157,US,Postal Code
+9023408,"64730","Missouri","United States",21157,US,Postal Code
+9023409,"64733","Missouri","United States",21157,US,Postal Code
+9023410,"64734","Missouri","United States",21157,US,Postal Code
+9023411,"64735","Missouri","United States",21157,US,Postal Code
+9023412,"64738","Missouri","United States",21157,US,Postal Code
+9023413,"64739","Missouri","United States",21157,US,Postal Code
+9023414,"64740","Missouri","United States",21157,US,Postal Code
+9023415,"64741","Missouri","United States",21157,US,Postal Code
+9023416,"64742","Missouri","United States",21157,US,Postal Code
+9023418,"64744","Missouri","United States",21157,US,Postal Code
+9023419,"64745","Missouri","United States",21157,US,Postal Code
+9023420,"64746","Missouri","United States",21157,US,Postal Code
+9023421,"64747","Missouri","United States",21157,US,Postal Code
+9023422,"64748","Missouri","United States",21157,US,Postal Code
+9023423,"64750","Missouri","United States",21157,US,Postal Code
+9023425,"64752","Missouri","United States",21157,US,Postal Code
+9023426,"64755","Missouri","United States",21157,US,Postal Code
+9023427,"64756","Missouri","United States",21157,US,Postal Code
+9023428,"64759","Missouri","United States",21157,US,Postal Code
+9023429,"64761","Missouri","United States",21157,US,Postal Code
+9023430,"64762","Missouri","United States",21157,US,Postal Code
+9023431,"64763","Missouri","United States",21157,US,Postal Code
+9023433,"64767","Missouri","United States",21157,US,Postal Code
+9023434,"64769","Missouri","United States",21157,US,Postal Code
+9023435,"64770","Missouri","United States",21157,US,Postal Code
+9023436,"64771","Missouri","United States",21157,US,Postal Code
+9023437,"64772","Missouri","United States",21157,US,Postal Code
+9023438,"64776","Missouri","United States",21157,US,Postal Code
+9023439,"64778","Missouri","United States",21157,US,Postal Code
+9023440,"64779","Missouri","United States",21157,US,Postal Code
+9023441,"64780","Missouri","United States",21157,US,Postal Code
+9023442,"64783","Missouri","United States",21157,US,Postal Code
+9023443,"64784","Missouri","United States",21157,US,Postal Code
+9023444,"64788","Missouri","United States",21157,US,Postal Code
+9023445,"64790","Missouri","United States",21157,US,Postal Code
+9023446,"64801","Missouri","United States",21157,US,Postal Code
+9023447,"64804","Missouri","United States",21157,US,Postal Code
+9023449,"64831","Missouri","United States",21157,US,Postal Code
+9023450,"64832","Missouri","United States",21157,US,Postal Code
+9023452,"64834","Missouri","United States",21157,US,Postal Code
+9023453,"64835","Missouri","United States",21157,US,Postal Code
+9023454,"64836","Missouri","United States",21157,US,Postal Code
+9023455,"64840","Missouri","United States",21157,US,Postal Code
+9023457,"64842","Missouri","United States",21157,US,Postal Code
+9023458,"64843","Missouri","United States",21157,US,Postal Code
+9023459,"64844","Missouri","United States",21157,US,Postal Code
+9023460,"64848","Missouri","United States",21157,US,Postal Code
+9023461,"64850","Missouri","United States",21157,US,Postal Code
+9023462,"64854","Missouri","United States",21157,US,Postal Code
+9023463,"64855","Missouri","United States",21157,US,Postal Code
+9023464,"64856","Missouri","United States",21157,US,Postal Code
+9023465,"64859","Missouri","United States",21157,US,Postal Code
+9023466,"64861","Missouri","United States",21157,US,Postal Code
+9023467,"64862","Missouri","United States",21157,US,Postal Code
+9023468,"64863","Missouri","United States",21157,US,Postal Code
+9023469,"64865","Missouri","United States",21157,US,Postal Code
+9023470,"64866","Missouri","United States",21157,US,Postal Code
+9023471,"64867","Missouri","United States",21157,US,Postal Code
+9023473,"64870","Missouri","United States",21157,US,Postal Code
+9023474,"64873","Missouri","United States",21157,US,Postal Code
+9023475,"64874","Missouri","United States",21157,US,Postal Code
+9023476,"65001","Missouri","United States",21157,US,Postal Code
+9023477,"65010","Missouri","United States",21157,US,Postal Code
+9023478,"65011","Missouri","United States",21157,US,Postal Code
+9023479,"65013","Missouri","United States",21157,US,Postal Code
+9023480,"65014","Missouri","United States",21157,US,Postal Code
+9023481,"65016","Missouri","United States",21157,US,Postal Code
+9023482,"65017","Missouri","United States",21157,US,Postal Code
+9023483,"65018","Missouri","United States",21157,US,Postal Code
+9023484,"65020","Missouri","United States",21157,US,Postal Code
+9023485,"65023","Missouri","United States",21157,US,Postal Code
+9023486,"65024","Missouri","United States",21157,US,Postal Code
+9023487,"65025","Missouri","United States",21157,US,Postal Code
+9023488,"65026","Missouri","United States",21157,US,Postal Code
+9023489,"65032","Missouri","United States",21157,US,Postal Code
+9023490,"65034","Missouri","United States",21157,US,Postal Code
+9023491,"65035","Missouri","United States",21157,US,Postal Code
+9023493,"65037","Missouri","United States",21157,US,Postal Code
+9023495,"65039","Missouri","United States",21157,US,Postal Code
+9023496,"65040","Missouri","United States",21157,US,Postal Code
+9023497,"65041","Missouri","United States",21157,US,Postal Code
+9023498,"65043","Missouri","United States",21157,US,Postal Code
+9023499,"65046","Missouri","United States",21157,US,Postal Code
+9023500,"65047","Missouri","United States",21157,US,Postal Code
+9023501,"65049","Missouri","United States",21157,US,Postal Code
+9023502,"65050","Missouri","United States",21157,US,Postal Code
+9023503,"65051","Missouri","United States",21157,US,Postal Code
+9023504,"65052","Missouri","United States",21157,US,Postal Code
+9023505,"65053","Missouri","United States",21157,US,Postal Code
+9023506,"65058","Missouri","United States",21157,US,Postal Code
+9023507,"65059","Missouri","United States",21157,US,Postal Code
+9023508,"65061","Missouri","United States",21157,US,Postal Code
+9023509,"65062","Missouri","United States",21157,US,Postal Code
+9023510,"65063","Missouri","United States",21157,US,Postal Code
+9023511,"65064","Missouri","United States",21157,US,Postal Code
+9023512,"65065","Missouri","United States",21157,US,Postal Code
+9023513,"65066","Missouri","United States",21157,US,Postal Code
+9023514,"65067","Missouri","United States",21157,US,Postal Code
+9023515,"65068","Missouri","United States",21157,US,Postal Code
+9023516,"65069","Missouri","United States",21157,US,Postal Code
+9023517,"65072","Missouri","United States",21157,US,Postal Code
+9023518,"65074","Missouri","United States",21157,US,Postal Code
+9023519,"65075","Missouri","United States",21157,US,Postal Code
+9023520,"65076","Missouri","United States",21157,US,Postal Code
+9023521,"65077","Missouri","United States",21157,US,Postal Code
+9023522,"65078","Missouri","United States",21157,US,Postal Code
+9023523,"65079","Missouri","United States",21157,US,Postal Code
+9023524,"65080","Missouri","United States",21157,US,Postal Code
+9023525,"65081","Missouri","United States",21157,US,Postal Code
+9023526,"65082","Missouri","United States",21157,US,Postal Code
+9023527,"65083","Missouri","United States",21157,US,Postal Code
+9023528,"65084","Missouri","United States",21157,US,Postal Code
+9023529,"65085","Missouri","United States",21157,US,Postal Code
+9023530,"65101","Missouri","United States",21157,US,Postal Code
+9023531,"65109","Missouri","United States",21157,US,Postal Code
+9023532,"65111","Missouri","United States",21157,US,Postal Code
+9023533,"65201","Missouri","United States",21157,US,Postal Code
+9023534,"65202","Missouri","United States",21157,US,Postal Code
+9023535,"65203","Missouri","United States",21157,US,Postal Code
+9023536,"65211","Missouri","United States",21157,US,Postal Code
+9023537,"65212","Missouri","United States",21157,US,Postal Code
+9023538,"65215","Missouri","United States",21157,US,Postal Code
+9023539,"65216","Missouri","United States",21157,US,Postal Code
+9023540,"65217","Missouri","United States",21157,US,Postal Code
+9023541,"65218","Missouri","United States",21157,US,Postal Code
+9023542,"65230","Missouri","United States",21157,US,Postal Code
+9023543,"65231","Missouri","United States",21157,US,Postal Code
+9023544,"65232","Missouri","United States",21157,US,Postal Code
+9023545,"65233","Missouri","United States",21157,US,Postal Code
+9023546,"65236","Missouri","United States",21157,US,Postal Code
+9023547,"65237","Missouri","United States",21157,US,Postal Code
+9023548,"65239","Missouri","United States",21157,US,Postal Code
+9023549,"65240","Missouri","United States",21157,US,Postal Code
+9023550,"65243","Missouri","United States",21157,US,Postal Code
+9023551,"65244","Missouri","United States",21157,US,Postal Code
+9023552,"65246","Missouri","United States",21157,US,Postal Code
+9023553,"65247","Missouri","United States",21157,US,Postal Code
+9023554,"65248","Missouri","United States",21157,US,Postal Code
+9023555,"65250","Missouri","United States",21157,US,Postal Code
+9023556,"65251","Missouri","United States",21157,US,Postal Code
+9023557,"65254","Missouri","United States",21157,US,Postal Code
+9023558,"65255","Missouri","United States",21157,US,Postal Code
+9023559,"65256","Missouri","United States",21157,US,Postal Code
+9023560,"65257","Missouri","United States",21157,US,Postal Code
+9023561,"65258","Missouri","United States",21157,US,Postal Code
+9023562,"65259","Missouri","United States",21157,US,Postal Code
+9023563,"65260","Missouri","United States",21157,US,Postal Code
+9023564,"65261","Missouri","United States",21157,US,Postal Code
+9023565,"65262","Missouri","United States",21157,US,Postal Code
+9023566,"65263","Missouri","United States",21157,US,Postal Code
+9023567,"65264","Missouri","United States",21157,US,Postal Code
+9023568,"65265","Missouri","United States",21157,US,Postal Code
+9023569,"65270","Missouri","United States",21157,US,Postal Code
+9023570,"65274","Missouri","United States",21157,US,Postal Code
+9023571,"65275","Missouri","United States",21157,US,Postal Code
+9023572,"65276","Missouri","United States",21157,US,Postal Code
+9023573,"65279","Missouri","United States",21157,US,Postal Code
+9023574,"65280","Missouri","United States",21157,US,Postal Code
+9023575,"65281","Missouri","United States",21157,US,Postal Code
+9023576,"65282","Missouri","United States",21157,US,Postal Code
+9023577,"65283","Missouri","United States",21157,US,Postal Code
+9023578,"65284","Missouri","United States",21157,US,Postal Code
+9023579,"65285","Missouri","United States",21157,US,Postal Code
+9023580,"65286","Missouri","United States",21157,US,Postal Code
+9023581,"65287","Missouri","United States",21157,US,Postal Code
+9023582,"65301","Missouri","United States",21157,US,Postal Code
+9023583,"65305","Missouri","United States",21157,US,Postal Code
+9023584,"65320","Missouri","United States",21157,US,Postal Code
+9023585,"65321","Missouri","United States",21157,US,Postal Code
+9023586,"65322","Missouri","United States",21157,US,Postal Code
+9023587,"65323","Missouri","United States",21157,US,Postal Code
+9023588,"65324","Missouri","United States",21157,US,Postal Code
+9023589,"65325","Missouri","United States",21157,US,Postal Code
+9023590,"65326","Missouri","United States",21157,US,Postal Code
+9023592,"65329","Missouri","United States",21157,US,Postal Code
+9023593,"65330","Missouri","United States",21157,US,Postal Code
+9023594,"65332","Missouri","United States",21157,US,Postal Code
+9023595,"65333","Missouri","United States",21157,US,Postal Code
+9023596,"65334","Missouri","United States",21157,US,Postal Code
+9023597,"65335","Missouri","United States",21157,US,Postal Code
+9023598,"65336","Missouri","United States",21157,US,Postal Code
+9023599,"65337","Missouri","United States",21157,US,Postal Code
+9023600,"65338","Missouri","United States",21157,US,Postal Code
+9023601,"65339","Missouri","United States",21157,US,Postal Code
+9023602,"65340","Missouri","United States",21157,US,Postal Code
+9023603,"65344","Missouri","United States",21157,US,Postal Code
+9023604,"65345","Missouri","United States",21157,US,Postal Code
+9023605,"65347","Missouri","United States",21157,US,Postal Code
+9023606,"65348","Missouri","United States",21157,US,Postal Code
+9023607,"65349","Missouri","United States",21157,US,Postal Code
+9023608,"65350","Missouri","United States",21157,US,Postal Code
+9023609,"65351","Missouri","United States",21157,US,Postal Code
+9023610,"65354","Missouri","United States",21157,US,Postal Code
+9023611,"65355","Missouri","United States",21157,US,Postal Code
+9023612,"65360","Missouri","United States",21157,US,Postal Code
+9023613,"65401","Missouri","United States",21157,US,Postal Code
+9023614,"65409","Missouri","United States",21157,US,Postal Code
+9023615,"65436","Missouri","United States",21157,US,Postal Code
+9023616,"65438","Missouri","United States",21157,US,Postal Code
+9023617,"65439","Missouri","United States",21157,US,Postal Code
+9023618,"65440","Missouri","United States",21157,US,Postal Code
+9023619,"65441","Missouri","United States",21157,US,Postal Code
+9023620,"65443","Missouri","United States",21157,US,Postal Code
+9023621,"65444","Missouri","United States",21157,US,Postal Code
+9023622,"65446","Missouri","United States",21157,US,Postal Code
+9023623,"65449","Missouri","United States",21157,US,Postal Code
+9023624,"65452","Missouri","United States",21157,US,Postal Code
+9023625,"65453","Missouri","United States",21157,US,Postal Code
+9023626,"65456","Missouri","United States",21157,US,Postal Code
+9023627,"65457","Missouri","United States",21157,US,Postal Code
+9023628,"65459","Missouri","United States",21157,US,Postal Code
+9023629,"65461","Missouri","United States",21157,US,Postal Code
+9023630,"65462","Missouri","United States",21157,US,Postal Code
+9023631,"65463","Missouri","United States",21157,US,Postal Code
+9023632,"65464","Missouri","United States",21157,US,Postal Code
+9023633,"65466","Missouri","United States",21157,US,Postal Code
+9023634,"65468","Missouri","United States",21157,US,Postal Code
+9023635,"65470","Missouri","United States",21157,US,Postal Code
+9023636,"65473","Missouri","United States",21157,US,Postal Code
+9023637,"65479","Missouri","United States",21157,US,Postal Code
+9023638,"65483","Missouri","United States",21157,US,Postal Code
+9023639,"65484","Missouri","United States",21157,US,Postal Code
+9023640,"65486","Missouri","United States",21157,US,Postal Code
+9023641,"65501","Missouri","United States",21157,US,Postal Code
+9023642,"65529","Missouri","United States",21157,US,Postal Code
+9023643,"65534","Missouri","United States",21157,US,Postal Code
+9023644,"65535","Missouri","United States",21157,US,Postal Code
+9023645,"65536","Missouri","United States",21157,US,Postal Code
+9023647,"65542","Missouri","United States",21157,US,Postal Code
+9023648,"65543","Missouri","United States",21157,US,Postal Code
+9023649,"65548","Missouri","United States",21157,US,Postal Code
+9023650,"65550","Missouri","United States",21157,US,Postal Code
+9023651,"65552","Missouri","United States",21157,US,Postal Code
+9023652,"65555","Missouri","United States",21157,US,Postal Code
+9023653,"65556","Missouri","United States",21157,US,Postal Code
+9023654,"65557","Missouri","United States",21157,US,Postal Code
+9023655,"65559","Missouri","United States",21157,US,Postal Code
+9023656,"65560","Missouri","United States",21157,US,Postal Code
+9023657,"65564","Missouri","United States",21157,US,Postal Code
+9023658,"65565","Missouri","United States",21157,US,Postal Code
+9023659,"65566","Missouri","United States",21157,US,Postal Code
+9023660,"65567","Missouri","United States",21157,US,Postal Code
+9023661,"65570","Missouri","United States",21157,US,Postal Code
+9023662,"65571","Missouri","United States",21157,US,Postal Code
+9023663,"65580","Missouri","United States",21157,US,Postal Code
+9023664,"65582","Missouri","United States",21157,US,Postal Code
+9023665,"65583","Missouri","United States",21157,US,Postal Code
+9023666,"65584","Missouri","United States",21157,US,Postal Code
+9023667,"65588","Missouri","United States",21157,US,Postal Code
+9023668,"65589","Missouri","United States",21157,US,Postal Code
+9023669,"65590","Missouri","United States",21157,US,Postal Code
+9023670,"65591","Missouri","United States",21157,US,Postal Code
+9023671,"65601","Missouri","United States",21157,US,Postal Code
+9023672,"65603","Missouri","United States",21157,US,Postal Code
+9023673,"65604","Missouri","United States",21157,US,Postal Code
+9023674,"65605","Missouri","United States",21157,US,Postal Code
+9023675,"65606","Missouri","United States",21157,US,Postal Code
+9023676,"65608","Missouri","United States",21157,US,Postal Code
+9023677,"65609","Missouri","United States",21157,US,Postal Code
+9023678,"65610","Missouri","United States",21157,US,Postal Code
+9023679,"65611","Missouri","United States",21157,US,Postal Code
+9023680,"65612","Missouri","United States",21157,US,Postal Code
+9023681,"65613","Missouri","United States",21157,US,Postal Code
+9023682,"65614","Missouri","United States",21157,US,Postal Code
+9023683,"65616","Missouri","United States",21157,US,Postal Code
+9023684,"65617","Missouri","United States",21157,US,Postal Code
+9023685,"65618","Missouri","United States",21157,US,Postal Code
+9023686,"65619","Missouri","United States",21157,US,Postal Code
+9023687,"65620","Missouri","United States",21157,US,Postal Code
+9023688,"65622","Missouri","United States",21157,US,Postal Code
+9023689,"65624","Missouri","United States",21157,US,Postal Code
+9023690,"65625","Missouri","United States",21157,US,Postal Code
+9023691,"65626","Missouri","United States",21157,US,Postal Code
+9023692,"65627","Missouri","United States",21157,US,Postal Code
+9023693,"65629","Missouri","United States",21157,US,Postal Code
+9023694,"65630","Missouri","United States",21157,US,Postal Code
+9023695,"65631","Missouri","United States",21157,US,Postal Code
+9023696,"65632","Missouri","United States",21157,US,Postal Code
+9023697,"65633","Missouri","United States",21157,US,Postal Code
+9023698,"65634","Missouri","United States",21157,US,Postal Code
+9023699,"65635","Missouri","United States",21157,US,Postal Code
+9023700,"65637","Missouri","United States",21157,US,Postal Code
+9023701,"65638","Missouri","United States",21157,US,Postal Code
+9023702,"65640","Missouri","United States",21157,US,Postal Code
+9023703,"65641","Missouri","United States",21157,US,Postal Code
+9023704,"65644","Missouri","United States",21157,US,Postal Code
+9023705,"65646","Missouri","United States",21157,US,Postal Code
+9023706,"65647","Missouri","United States",21157,US,Postal Code
+9023707,"65648","Missouri","United States",21157,US,Postal Code
+9023708,"65649","Missouri","United States",21157,US,Postal Code
+9023709,"65650","Missouri","United States",21157,US,Postal Code
+9023710,"65652","Missouri","United States",21157,US,Postal Code
+9023711,"65653","Missouri","United States",21157,US,Postal Code
+9023712,"65655","Missouri","United States",21157,US,Postal Code
+9023713,"65656","Missouri","United States",21157,US,Postal Code
+9023714,"65657","Missouri","United States",21157,US,Postal Code
+9023715,"65658","Missouri","United States",21157,US,Postal Code
+9023716,"65660","Missouri","United States",21157,US,Postal Code
+9023717,"65661","Missouri","United States",21157,US,Postal Code
+9023718,"65662","Missouri","United States",21157,US,Postal Code
+9023719,"65663","Missouri","United States",21157,US,Postal Code
+9023721,"65667","Missouri","United States",21157,US,Postal Code
+9023722,"65668","Missouri","United States",21157,US,Postal Code
+9023723,"65669","Missouri","United States",21157,US,Postal Code
+9023724,"65672","Missouri","United States",21157,US,Postal Code
+9023725,"65674","Missouri","United States",21157,US,Postal Code
+9023726,"65676","Missouri","United States",21157,US,Postal Code
+9023727,"65679","Missouri","United States",21157,US,Postal Code
+9023728,"65680","Missouri","United States",21157,US,Postal Code
+9023729,"65681","Missouri","United States",21157,US,Postal Code
+9023730,"65682","Missouri","United States",21157,US,Postal Code
+9023731,"65685","Missouri","United States",21157,US,Postal Code
+9023732,"65686","Missouri","United States",21157,US,Postal Code
+9023733,"65689","Missouri","United States",21157,US,Postal Code
+9023734,"65690","Missouri","United States",21157,US,Postal Code
+9023735,"65692","Missouri","United States",21157,US,Postal Code
+9023736,"65702","Missouri","United States",21157,US,Postal Code
+9023737,"65704","Missouri","United States",21157,US,Postal Code
+9023738,"65705","Missouri","United States",21157,US,Postal Code
+9023739,"65706","Missouri","United States",21157,US,Postal Code
+9023740,"65707","Missouri","United States",21157,US,Postal Code
+9023741,"65708","Missouri","United States",21157,US,Postal Code
+9023742,"65710","Missouri","United States",21157,US,Postal Code
+9023743,"65711","Missouri","United States",21157,US,Postal Code
+9023744,"65712","Missouri","United States",21157,US,Postal Code
+9023745,"65713","Missouri","United States",21157,US,Postal Code
+9023746,"65714","Missouri","United States",21157,US,Postal Code
+9023747,"65715","Missouri","United States",21157,US,Postal Code
+9023748,"65717","Missouri","United States",21157,US,Postal Code
+9023749,"65720","Missouri","United States",21157,US,Postal Code
+9023750,"65721","Missouri","United States",21157,US,Postal Code
+9023751,"65722","Missouri","United States",21157,US,Postal Code
+9023752,"65723","Missouri","United States",21157,US,Postal Code
+9023753,"65724","Missouri","United States",21157,US,Postal Code
+9023754,"65725","Missouri","United States",21157,US,Postal Code
+9023755,"65727","Missouri","United States",21157,US,Postal Code
+9023756,"65728","Missouri","United States",21157,US,Postal Code
+9023757,"65729","Missouri","United States",21157,US,Postal Code
+9023758,"65730","Missouri","United States",21157,US,Postal Code
+9023759,"65731","Missouri","United States",21157,US,Postal Code
+9023760,"65732","Missouri","United States",21157,US,Postal Code
+9023761,"65733","Missouri","United States",21157,US,Postal Code
+9023762,"65734","Missouri","United States",21157,US,Postal Code
+9023763,"65737","Missouri","United States",21157,US,Postal Code
+9023764,"65738","Missouri","United States",21157,US,Postal Code
+9023765,"65739","Missouri","United States",21157,US,Postal Code
+9023766,"65740","Missouri","United States",21157,US,Postal Code
+9023767,"65742","Missouri","United States",21157,US,Postal Code
+9023768,"65744","Missouri","United States",21157,US,Postal Code
+9023769,"65745","Missouri","United States",21157,US,Postal Code
+9023770,"65746","Missouri","United States",21157,US,Postal Code
+9023771,"65747","Missouri","United States",21157,US,Postal Code
+9023772,"65752","Missouri","United States",21157,US,Postal Code
+9023773,"65753","Missouri","United States",21157,US,Postal Code
+9023774,"65754","Missouri","United States",21157,US,Postal Code
+9023775,"65755","Missouri","United States",21157,US,Postal Code
+9023776,"65756","Missouri","United States",21157,US,Postal Code
+9023777,"65757","Missouri","United States",21157,US,Postal Code
+9023778,"65759","Missouri","United States",21157,US,Postal Code
+9023779,"65760","Missouri","United States",21157,US,Postal Code
+9023780,"65761","Missouri","United States",21157,US,Postal Code
+9023781,"65762","Missouri","United States",21157,US,Postal Code
+9023782,"65764","Missouri","United States",21157,US,Postal Code
+9023783,"65766","Missouri","United States",21157,US,Postal Code
+9023784,"65767","Missouri","United States",21157,US,Postal Code
+9023785,"65768","Missouri","United States",21157,US,Postal Code
+9023786,"65769","Missouri","United States",21157,US,Postal Code
+9023787,"65770","Missouri","United States",21157,US,Postal Code
+9023788,"65771","Missouri","United States",21157,US,Postal Code
+9023789,"65772","Missouri","United States",21157,US,Postal Code
+9023790,"65773","Missouri","United States",21157,US,Postal Code
+9023791,"65774","Missouri","United States",21157,US,Postal Code
+9023792,"65775","Missouri","United States",21157,US,Postal Code
+9023793,"65777","Missouri","United States",21157,US,Postal Code
+9023794,"65778","Missouri","United States",21157,US,Postal Code
+9023795,"65779","Missouri","United States",21157,US,Postal Code
+9023796,"65781","Missouri","United States",21157,US,Postal Code
+9023797,"65783","Missouri","United States",21157,US,Postal Code
+9023798,"65784","Missouri","United States",21157,US,Postal Code
+9023799,"65785","Missouri","United States",21157,US,Postal Code
+9023800,"65786","Missouri","United States",21157,US,Postal Code
+9023801,"65787","Missouri","United States",21157,US,Postal Code
+9023802,"65788","Missouri","United States",21157,US,Postal Code
+9023803,"65789","Missouri","United States",21157,US,Postal Code
+9023804,"65790","Missouri","United States",21157,US,Postal Code
+9023805,"65791","Missouri","United States",21157,US,Postal Code
+9023806,"65793","Missouri","United States",21157,US,Postal Code
+9023808,"65802","Missouri","United States",21157,US,Postal Code
+9023809,"65803","Missouri","United States",21157,US,Postal Code
+9023810,"65804","Missouri","United States",21157,US,Postal Code
+9023811,"65806","Missouri","United States",21157,US,Postal Code
+9023812,"65807","Missouri","United States",21157,US,Postal Code
+9023813,"65809","Missouri","United States",21157,US,Postal Code
+9023814,"65810","Missouri","United States",21157,US,Postal Code
+9023815,"65897","Missouri","United States",21157,US,Postal Code
+9041424,"Joplin Regional Airport","Missouri","United States",21157,US,Airport
+9041436,"Kansas City International Airport","Missouri","United States",21157,US,Airport
+9041443,"Charles B. Wheeler Downtown Airport","Missouri","United States",21157,US,Airport
+9041496,"St. Louis Lambert International Airport","Missouri","United States",21157,US,Airport
+9051497,"Affton","Missouri","United States",21157,US,City
+9051576,"Bellefontaine Neighbors","Missouri","United States",21157,US,City
+9051589,"Berkeley","Missouri","United States",21157,US,City
+9051635,"Brentwood","Missouri","United States",21157,US,City
+9051738,"Clayton","St. Louis County","Missouri",21157,US,City
+9051761,"Concord","Missouri","United States",21157,US,City
+9051787,"Crestwood","Missouri","United States",21157,US,City
+9051789,"Creve Coeur","Missouri","United States",21157,US,City
+9051830,"Des Peres","Missouri","United States",21157,US,City
+9051942,"Ferguson","Missouri","United States",21157,US,City
+9052025,"Gladstone","Missouri","United States",21157,US,City
+9052203,"Jennings","Missouri","United States",21157,US,City
+9052245,"Kirkwood","Missouri","United States",21157,US,City
+9052256,"Ladue","Missouri","United States",21157,US,City
+9052375,"Manchester","Missouri","United States",21157,US,City
+9052390,"Maplewood","Missouri","United States",21157,US,City
+9052416,"Mehlville","Missouri","United States",21157,US,City
+9052496,"Murphy","Missouri","United States",21157,US,City
+9052527,"Normandy","Missouri","United States",21157,US,City
+9052542,"North Kansas City","Missouri","United States",21157,US,City
+9052587,"Oakville","Missouri","United States",21157,US,City
+9052598,"Olivette","Missouri","United States",21157,US,City
+9052616,"Overland","Missouri","United States",21157,US,City
+9052642,"Parkville","Missouri","United States",21157,US,City
+9052731,"Raytown","Missouri","United States",21157,US,City
+9052744,"Richmond Heights","Missouri","United States",21157,US,City
+9052894,"Spanish Lake","Missouri","United States",21157,US,City
+9052916,"Saint John","Missouri","United States",21157,US,City
+9052946,"Sunset Hills","Missouri","United States",21157,US,City
+9052999,"Town and Country","Missouri","United States",21157,US,City
+9053026,"University City","Missouri","United States",21157,US,City
+9053090,"Webster Groves","Missouri","United States",21157,US,City
+9053096,"Weldon Spring","Missouri","United States",21157,US,City
+9053163,"Wildwood","Missouri","United States",21157,US,City
+9053926,"64999","Missouri","United States",21157,US,Postal Code
+9053927,"64144","Missouri","United States",21157,US,Postal Code
+9053929,"64686","Missouri","United States",21157,US,Postal Code
+9053930,"65735","Missouri","United States",21157,US,Postal Code
+9053934,"64847","Missouri","United States",21157,US,Postal Code
+9053946,"65890","Missouri","United States",21157,US,Postal Code
+9053947,"65899","Missouri","United States",21157,US,Postal Code
+9053948,"65898","Missouri","United States",21157,US,Postal Code
+9053963,"63099","Missouri","United States",21157,US,Postal Code
+9053964,"63674","Missouri","United States",21157,US,Postal Code
+9053965,"63061","Missouri","United States",21157,US,Postal Code
+9053966,"63073","Missouri","United States",21157,US,Postal Code
+9053967,"65541","Missouri","United States",21157,US,Postal Code
+9053968,"65048","Missouri","United States",21157,US,Postal Code
+9053969,"65054","Missouri","United States",21157,US,Postal Code
+9053970,"63467","Missouri","United States",21157,US,Postal Code
+9053971,"63346","Missouri","United States",21157,US,Postal Code
+9054452,"63760","Missouri","United States",21157,US,Postal Code
+9054453,"63744","Missouri","United States",21157,US,Postal Code
+9054454,"63868","Missouri","United States",21157,US,Postal Code
+9054455,"63860","Missouri","United States",21157,US,Postal Code
+9054457,"63878","Missouri","United States",21157,US,Postal Code
+9058389,"Adair County","Missouri","United States",21157,US,County
+9058390,"Andrew County","Missouri","United States",21157,US,County
+9058391,"Atchison County","Missouri","United States",21157,US,County
+9058392,"Audrain County","Missouri","United States",21157,US,County
+9058393,"Barry County","Missouri","United States",21157,US,County
+9058394,"Barton County","Missouri","United States",21157,US,County
+9058395,"Bates County","Missouri","United States",21157,US,County
+9058396,"Benton County","Missouri","United States",21157,US,County
+9058397,"Bollinger County","Missouri","United States",21157,US,County
+9058398,"Boone County","Missouri","United States",21157,US,County
+9058399,"Buchanan County","Missouri","United States",21157,US,County
+9058400,"Butler County","Missouri","United States",21157,US,County
+9058401,"Caldwell County","Missouri","United States",21157,US,County
+9058402,"Callaway County","Missouri","United States",21157,US,County
+9058403,"Camden County","Missouri","United States",21157,US,County
+9058404,"Cape Girardeau County","Missouri","United States",21157,US,County
+9058405,"Carroll County","Missouri","United States",21157,US,County
+9058406,"Carter County","Missouri","United States",21157,US,County
+9058407,"Cass County","Missouri","United States",21157,US,County
+9058408,"Cedar County","Missouri","United States",21157,US,County
+9058409,"Chariton County","Missouri","United States",21157,US,County
+9058410,"Christian County","Missouri","United States",21157,US,County
+9058411,"Clark County","Missouri","United States",21157,US,County
+9058412,"Clay County","Missouri","United States",21157,US,County
+9058413,"Clinton County","Missouri","United States",21157,US,County
+9058414,"Cole County","Missouri","United States",21157,US,County
+9058415,"Cooper County","Missouri","United States",21157,US,County
+9058416,"Crawford County","Missouri","United States",21157,US,County
+9058417,"Dade County","Missouri","United States",21157,US,County
+9058418,"Dallas County","Missouri","United States",21157,US,County
+9058419,"Daviess County","Missouri","United States",21157,US,County
+9058420,"DeKalb County","Missouri","United States",21157,US,County
+9058421,"Dent County","Missouri","United States",21157,US,County
+9058422,"Douglas County","Missouri","United States",21157,US,County
+9058423,"Dunklin County","Missouri","United States",21157,US,County
+9058424,"Franklin County","Missouri","United States",21157,US,County
+9058425,"Gasconade County","Missouri","United States",21157,US,County
+9058426,"Gentry County","Missouri","United States",21157,US,County
+9058427,"Greene County","Missouri","United States",21157,US,County
+9058428,"Grundy County","Missouri","United States",21157,US,County
+9058429,"Harrison County","Missouri","United States",21157,US,County
+9058430,"Henry County","Missouri","United States",21157,US,County
+9058431,"Hickory County","Missouri","United States",21157,US,County
+9058432,"Holt County","Missouri","United States",21157,US,County
+9058433,"Howard County","Missouri","United States",21157,US,County
+9058434,"Howell County","Missouri","United States",21157,US,County
+9058435,"Iron County","Missouri","United States",21157,US,County
+9058436,"Jackson County","Missouri","United States",21157,US,County
+9058437,"Jasper County","Missouri","United States",21157,US,County
+9058438,"Jefferson County","Missouri","United States",21157,US,County
+9058439,"Johnson County","Missouri","United States",21157,US,County
+9058440,"Knox County","Missouri","United States",21157,US,County
+9058441,"Laclede County","Missouri","United States",21157,US,County
+9058442,"Lafayette County","Missouri","United States",21157,US,County
+9058443,"Lawrence County","Missouri","United States",21157,US,County
+9058444,"Lewis County","Missouri","United States",21157,US,County
+9058445,"Lincoln County","Missouri","United States",21157,US,County
+9058446,"Linn County","Missouri","United States",21157,US,County
+9058447,"Livingston County","Missouri","United States",21157,US,County
+9058448,"Macon County","Missouri","United States",21157,US,County
+9058449,"Madison County","Missouri","United States",21157,US,County
+9058450,"Maries County","Missouri","United States",21157,US,County
+9058451,"Marion County","Missouri","United States",21157,US,County
+9058452,"McDonald County","Missouri","United States",21157,US,County
+9058453,"Mercer County","Missouri","United States",21157,US,County
+9058454,"Miller County","Missouri","United States",21157,US,County
+9058455,"Mississippi County","Missouri","United States",21157,US,County
+9058456,"Moniteau County","Missouri","United States",21157,US,County
+9058457,"Monroe County","Missouri","United States",21157,US,County
+9058458,"Montgomery County","Missouri","United States",21157,US,County
+9058459,"Morgan County","Missouri","United States",21157,US,County
+9058460,"New Madrid County","Missouri","United States",21157,US,County
+9058461,"Newton County","Missouri","United States",21157,US,County
+9058462,"Nodaway County","Missouri","United States",21157,US,County
+9058463,"Oregon County","Missouri","United States",21157,US,County
+9058464,"Osage County","Missouri","United States",21157,US,County
+9058465,"Ozark County","Missouri","United States",21157,US,County
+9058466,"Pemiscot County","Missouri","United States",21157,US,County
+9058467,"Perry County","Missouri","United States",21157,US,County
+9058468,"Pettis County","Missouri","United States",21157,US,County
+9058469,"Phelps County","Missouri","United States",21157,US,County
+9058470,"Pike County","Missouri","United States",21157,US,County
+9058471,"Platte County","Missouri","United States",21157,US,County
+9058472,"Polk County","Missouri","United States",21157,US,County
+9058473,"Pulaski County","Missouri","United States",21157,US,County
+9058474,"Putnam County","Missouri","United States",21157,US,County
+9058475,"Ralls County","Missouri","United States",21157,US,County
+9058476,"Randolph County","Missouri","United States",21157,US,County
+9058477,"Ray County","Missouri","United States",21157,US,County
+9058478,"Reynolds County","Missouri","United States",21157,US,County
+9058479,"Ripley County","Missouri","United States",21157,US,County
+9058480,"Saline County","Missouri","United States",21157,US,County
+9058481,"Schuyler County","Missouri","United States",21157,US,County
+9058482,"Scotland County","Missouri","United States",21157,US,County
+9058483,"Scott County","Missouri","United States",21157,US,County
+9058484,"Shannon County","Missouri","United States",21157,US,County
+9058485,"Shelby County","Missouri","United States",21157,US,County
+9058486,"St. Charles County","Missouri","United States",21157,US,County
+9058487,"St. Clair County","Missouri","United States",21157,US,County
+9058488,"St. Francois County","Missouri","United States",21157,US,County
+9058489,"St. Louis County","Missouri","United States",21157,US,County
+9058490,"Ste. Genevieve County","Missouri","United States",21157,US,County
+9058491,"Stoddard County","Missouri","United States",21157,US,County
+9058492,"Stone County","Missouri","United States",21157,US,County
+9058493,"Sullivan County","Missouri","United States",21157,US,County
+9058494,"Taney County","Missouri","United States",21157,US,County
+9058495,"Texas County","Missouri","United States",21157,US,County
+9058496,"Vernon County","Missouri","United States",21157,US,County
+9058497,"Warren County","Missouri","United States",21157,US,County
+9058498,"Washington County","Missouri","United States",21157,US,County
+9058499,"Wayne County","Missouri","United States",21157,US,County
+9058500,"Webster County","Missouri","United States",21157,US,County
+9058501,"Worth County","Missouri","United States",21157,US,County
+9058502,"Wright County","Missouri","United States",21157,US,County
+9060034,"University of Missouri","Missouri","United States",21157,US,University
+9060134,"University of Missouri-St. Louis","Missouri","United States",21157,US,University
+9060158,"Washington University in St. Louis","Missouri","United States",21157,US,University
+9060313,"Crown Center","Missouri","United States",21157,US,Neighborhood
+9060314,"West Plaza","Missouri","United States",21157,US,Neighborhood
+9060315,"Hospital Hill","Missouri","United States",21157,US,Neighborhood
+9060419,"Downtown","Missouri","United States",21157,US,Neighborhood
+9060420,"Central West End","Missouri","United States",21157,US,Neighborhood
+9060613,"Bradford Park","Missouri","United States",21157,US,Neighborhood
+9129373,"Missouri's 1st Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129374,"Missouri's 2nd Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129375,"Missouri's 3rd Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129376,"Missouri's 4th Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129377,"Missouri's 5th Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129378,"Missouri's 6th Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129379,"Missouri's 7th Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9129380,"Missouri's 8th Congressional District 2022 redistricting","Missouri","United States",21157,US,Congressional District
+9189168,"Byrnes Mill","Missouri","United States",21157,US,City
+9189266,"Desloge","Missouri","United States",21157,US,City
+9189315,"Western Blue Township","Missouri","United States",21157,US,Neighborhood
+9189356,"Shoal Creek Township","Missouri","United States",21157,US,Municipality
+9189369,"Ellisville","Missouri","United States",21157,US,City
+9189421,"Swope Parkway - Elmwood","Missouri","United States",21157,US,Neighborhood
+9189533,"Branson Theatre District","Missouri","United States",21157,US,Neighborhood
+9189564,"Clarkson Valley","Missouri","United States",21157,US,City
+9189598,"Martin City","Missouri","United States",21157,US,Neighborhood
+9189622,"Eastwood Hills East","Missouri","United States",21157,US,Neighborhood
+9189697,"Village of Four Seasons","Missouri","United States",21157,US,City
+9189823,"Fox Township","Missouri","United States",21157,US,Municipality
+9190084,"Lemay","Missouri","United States",21157,US,City
+9190124,"Cottleville","Missouri","United States",21157,US,City
+9190285,"Prairie Point-Wildberry","Missouri","United States",21157,US,Neighborhood
+9190308,"Riss Lake","Missouri","United States",21157,US,Neighborhood
+9190357,"Moscow Mills","Missouri","United States",21157,US,City
+9191115,"Claycomo","Missouri","United States",21157,US,City
+9191344,"West Alton","Missouri","United States",21157,US,City
+9191345,"Briarcliff - Claymont","Missouri","United States",21157,US,Neighborhood
+9191387,"Green Park","Missouri","United States",21157,US,City
+9191528,"Northeast Industrial District","Missouri","United States",21157,US,Neighborhood
+9191544,"Fassnight","Missouri","United States",21157,US,Neighborhood
+9191641,"Riverview","Missouri","United States",21157,US,Neighborhood
+9191650,"Pevely","Missouri","United States",21157,US,City
+9191871,"Black Jack","Missouri","United States",21157,US,City
+9191979,"Southeast Springfield","Missouri","United States",21157,US,Neighborhood
+9192084,"Carondelet","Missouri","United States",21157,US,Neighborhood
+9192103,"Indian Point","Missouri","United States",21157,US,City
+9192169,"Villa Ridge","Missouri","United States",21157,US,City
+9192177,"North Riverfront","Missouri","United States",21157,US,Neighborhood
+9192213,"Dardenne Prairie","Missouri","United States",21157,US,City
+9192235,"New Mark","Missouri","United States",21157,US,Neighborhood
+9192353,"Hill Haven","Missouri","United States",21157,US,Neighborhood
+9192416,"Frontenac","Missouri","United States",21157,US,City
+9192493,"Bevo","Missouri","United States",21157,US,Neighborhood
+9192575,"The Coves","Missouri","United States",21157,US,Neighborhood
+9192719,"Unity Village","Missouri","United States",21157,US,City
+9192802,"Tower Grove South","Missouri","United States",21157,US,Neighborhood
+9192901,"Pagedale","Missouri","United States",21157,US,City
+9193147,"Ferguson Township","Missouri","United States",21157,US,Municipality
+9193353,"Campbell No. 2A Township","Missouri","United States",21157,US,Municipality
+9193439,"Duquesne","Missouri","United States",21157,US,City
+9193502,"Innsbrook","Missouri","United States",21157,US,City
+9193640,"Normandy Township","Missouri","United States",21157,US,Municipality
+9193662,"Missouri Township","Missouri","United States",21157,US,Municipality
+9193819,"Norwood Township","Missouri","United States",21157,US,Municipality
+9193850,"Webster Park/Shady Dell","Missouri","United States",21157,US,Neighborhood
+9193950,"Loma Vista","Missouri","United States",21157,US,Neighborhood
+9193984,"Glendale","Missouri","United States",21157,US,City
+9194085,"Old Jamestown","Missouri","United States",21157,US,City
+9194086,"Saint Paul","Missouri","United States",21157,US,City
+9194175,"Shrewsbury","Missouri","United States",21157,US,City
+9194231,"Tom Watkins","Missouri","United States",21157,US,Neighborhood
+9194265,"Doling","Missouri","United States",21157,US,Neighborhood
+9194483,"Spencer Creek Township","Missouri","United States",21157,US,Municipality
+9194522,"Coves North","Missouri","United States",21157,US,Neighborhood
+9194643,"Parkdale - Walden","Missouri","United States",21157,US,Neighborhood
+9194657,"Florissant Township","Missouri","United States",21157,US,Municipality
+9194812,"Arnold Township","Missouri","United States",21157,US,Municipality
+9195140,"Oak Grove","Greene County","Missouri",21157,US,Neighborhood
+9195159,"Battlefield","Missouri","United States",21157,US,City
+9195385,"Park Plaza","Missouri","United States",21157,US,Neighborhood
+9195515,"Sappington","Missouri","United States",21157,US,City
+9197872,"Downtown Kansas City","Missouri","United States",21157,US,Neighborhood
+9198121,"South Kansas City","Missouri","United States",21157,US,Neighborhood
+9198142,"East Side","Missouri","United States",21157,US,Neighborhood
+9198173,"Chouteau Township","Missouri","United States",21157,US,Municipality
+9198346,"Springfield Township","Missouri","United States",21157,US,Municipality
+9198757,"Gallatin Township","Missouri","United States",21157,US,Municipality
+9199179,"Kaw Township","Missouri","United States",21157,US,Municipality
+9207178,"Warrensburg Township","Missouri","United States",21157,US,Municipality
+9207599,"Line Creek - Northern Heights","Missouri","United States",21157,US,Neighborhood
+9207745,"St. Louis Hills","Missouri","United States",21157,US,Neighborhood
+9207995,"White Rock Township","Missouri","United States",21157,US,Municipality
+9208326,"Sugar Creek","Missouri","United States",21157,US,City
+9208450,"Spring River Township","Missouri","United States",21157,US,Municipality
+9208631,"Branson West","Missouri","United States",21157,US,City
+9209249,"Pawnee Township","Missouri","United States",21157,US,Municipality
+9209297,"Clayton","Clay County","Missouri",21157,US,Neighborhood
+9210009,"Sioux Township","Missouri","United States",21157,US,Municipality
+9210257,"Eastwood Hills West","Missouri","United States",21157,US,Neighborhood
+9210312,"Calico Farms","Missouri","United States",21157,US,Neighborhood
+9210611,"Leawood","Missouri","United States",21157,US,City
+9210786,"Branson Township","Missouri","United States",21157,US,Municipality
+9211390,"Miner","Missouri","United States",21157,US,City
+9211541,"Richards Gebaur","Missouri","United States",21157,US,Neighborhood
+9211904,"Lake Lotawana","Missouri","United States",21157,US,City
+9211930,"Rock Bridge Township","Missouri","United States",21157,US,Municipality
+9212685,"Rolla Township","Missouri","United States",21157,US,Municipality
+9212837,"Boulevard Heights","Missouri","United States",21157,US,Neighborhood
+9213073,"Highlandville","Missouri","United States",21157,US,City
+9213383,"Midtown","Missouri","United States",21157,US,Neighborhood
+9213518,"Partners of Nwest Spfld","Missouri","United States",21157,US,Neighborhood
+9213682,"Dutchtown","Missouri","United States",21157,US,Neighborhood
+9213718,"Nashua","Missouri","United States",21157,US,Neighborhood
+9213980,"Lindenwood Park","Missouri","United States",21157,US,Neighborhood
+9214092,"Platte Brook North","Missouri","United States",21157,US,Neighborhood
+9214100,"Meramec Township","Missouri","United States",21157,US,Municipality
+9214142,"Westside Community Betterment","Missouri","United States",21157,US,Neighborhood
+9215181,"Blue Vue Hills","Missouri","United States",21157,US,Neighborhood
+9215380,"Buckner","Missouri","United States",21157,US,City
+9215486,"Neosho Township","Missouri","United States",21157,US,Municipality
+9215493,"Oakville Township","Missouri","United States",21157,US,Municipality
+9215659,"Plaza Area","Missouri","United States",21157,US,Neighborhood
+9215842,"Airport Drive","Missouri","United States",21157,US,City
+9215868,"Perry Township","Missouri","United States",21157,US,Municipality
+9216153,"Missouri Ridge Township","North Dakota","United States",21161,US,Municipality
+9216737,"Shawnee Township","Missouri","United States",21157,US,Municipality
+9216767,"Oakwood","Missouri","United States",21157,US,Neighborhood
+9216796,"Flint Hill","Missouri","United States",21157,US,City
+9217602,"Breen Hills","Missouri","United States",21157,US,Neighborhood
+9217808,"Northwest Springfield","Missouri","United States",21157,US,Neighborhood
+9217839,"Gray Summit","Missouri","United States",21157,US,City
+9218028,"Ruth C Township","Missouri","United States",21157,US,Municipality
+9218225,"Ste. Genevieve Township","Missouri","United States",21157,US,Municipality
+9218242,"Gravois Township","Missouri","United States",21157,US,Municipality
+9218278,"Keyes Summit","Missouri","United States",21157,US,Neighborhood
+9219198,"Duenweg","Missouri","United States",21157,US,City
+9219578,"St. Johns Township","Missouri","United States",21157,US,Municipality
+9219615,"Wilson C Township","Missouri","United States",21157,US,Municipality
+9219739,"Bedford Township","Missouri","United States",21157,US,Municipality
+9219748,"Dallas Township","Missouri","United States",21157,US,Municipality
+9220033,"Creekmoor","Missouri","United States",21157,US,Neighborhood
+9220047,"Union Chapel Township","Missouri","United States",21157,US,Municipality
+9220136,"Jackson No. 2 Township","Missouri","United States",21157,US,Municipality
+9220139,"Meadowbrook Heights","Missouri","United States",21157,US,Neighborhood
+9220342,"Frontier Township","Missouri","United States",21157,US,Municipality
+9220356,"Mount Vernon Township","Missouri","United States",21157,US,Municipality
+9220386,"Clay C Township","Missouri","United States",21157,US,Municipality
+9220524,"Valle Township","Missouri","United States",21157,US,Municipality
+9220560,"University Township","Missouri","United States",21157,US,Municipality
+9220599,"Wilson CW Township","Missouri","United States",21157,US,Municipality
+9220994,"Marlborough East","Missouri","United States",21157,US,Neighborhood
+9221302,"Ridgedale","Missouri","United States",21157,US,City
+9221414,"Leeds","Missouri","United States",21157,US,Neighborhood
+9222000,"Franklin No. 2 Township","Missouri","United States",21157,US,Municipality
+9222035,"Byrd Township","Missouri","United States",21157,US,Municipality
+9222087,"Lake Winnebago","Missouri","United States",21157,US,City
+9222562,"Sparta Township","Missouri","United States",21157,US,Municipality
+9222626,"Midtown - Westport","Missouri","United States",21157,US,Neighborhood
