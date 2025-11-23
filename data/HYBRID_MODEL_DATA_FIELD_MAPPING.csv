@@ -1,0 +1,56 @@
+Data Field,Route Endpoint,Primary Source,Source Type,Source Location,Update Frequency,Caching Strategy,Description
+businessProfileId,/api/serp/search-prospects,Database,Database Table,business_profiles.id,Static,Persistent,Unique identifier for business profile
+name,/api/serp/search-prospects,Database,Database Table,business_profiles.name or serp_results.title,Static,Persistent,Business name
+domain,/api/serp/search-prospects,Database,Database Table,business_profiles.domain or serp_results.domain,Static,Persistent,Business domain
+website,/api/serp/search-prospects,Database,Database Table,business_profiles.websiteUrl or serp_results.url,Static,Persistent,Business website URL
+phone,/api/serp/search-prospects,Database,Database Table,business_profiles.phone or serp_results.phone,Static,Persistent,Business phone number
+address,/api/serp/search-prospects,Database,Database Table,business_profiles.address or serp_results.address,Static,Persistent,Business address
+city,/api/serp/search-prospects,Database,Database Table,business_profiles.city or serp_results.city,Static,Persistent,Business city
+state,/api/serp/search-prospects,Database,Database Table,business_profiles.state or serp_results.state,Static,Persistent,Business state
+zipCode,/api/serp/search-prospects,Database,Database Table,business_profiles.zipCode or serp_results.zipCode,Static,Persistent,Business ZIP code
+rating,/api/serp/search-prospects,Database,Database Table,business_profiles.rating or serp_results.rating,Weekly,Persistent with refresh,Business rating (0-5)
+reviewsCount,/api/serp/search-prospects,Database,Database Table,business_profiles.reviewsCount or serp_results.reviewsCount,Weekly,Persistent with refresh,Total number of reviews
+placeId,/api/serp/search-prospects,Database,Database Table,business_profiles.placeId or serp_results.placeId,Static,Persistent,Google Place ID
+cid,/api/serp/search-prospects,Database,Database Table,business_profiles.cid or serp_results.cid,Static,Persistent,Google CID
+isRunningAds,/api/serp/search-prospects,Database,Database Table,business_profiles.isPaid or serp_results.rawData.ads,Weekly,Persistent with refresh,Whether business is running ads
+seoScore,/api/serp/search-prospects,Database,Database Table,business_profiles.seoScore,Monthly,Persistent with refresh,Calculated SEO score
+domainAuthority,/api/serp/search-prospects,Database,Database Table,business_profiles.domainAuthority,Monthly,Persistent with refresh,Domain authority score
+backlinks,/api/serp/search-prospects,Database,Database Table,business_profiles.backlinks,Monthly,Persistent with refresh,Total backlinks count
+monthlyTraffic,/api/serp/search-prospects,Database,Database Table,business_profiles.monthlyTraffic,Monthly,Persistent with refresh,Estimated monthly traffic
+pageSpeed,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),Desktop page speed score
+mobileScore,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),Mobile page speed score
+accessibilityScore,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),Accessibility score
+schemas.localBusiness,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectSchemasInHTML(),On-demand,No cache (live),LocalBusiness schema detected
+schemas.faq,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectSchemasInHTML(),On-demand,No cache (live),FAQ schema detected
+schemas.organization,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectSchemasInHTML(),On-demand,No cache (live),Organization schema detected
+analytics.googleAnalytics.found,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectAnalyticsInHTML(),On-demand,No cache (live),Google Analytics detected
+analytics.googleAnalytics.type,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectAnalyticsInHTML(),On-demand,No cache (live),Google Analytics type (GA4/UA)
+analytics.facebookPixel.found,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,detectAnalyticsInHTML(),On-demand,No cache (live),Facebook Pixel detected
+ppcStatus.runningAds,/api/serp/business/:profileId/seo-ppc,Live API,Ads Advertisers API,POST /v3/serp/google/ads_advertisers/live/advanced,On-demand,No cache (live),Whether running ads
+ppcStatus.adCount,/api/serp/business/:profileId/seo-ppc,Live API,Ads Search API,POST /v3/serp/google/ads_search/live/advanced,On-demand,No cache (live),Number of ad creatives
+opportunityScore,/api/serp/business/:profileId/seo-ppc,Calculated,Score Calculation Service,calculateOpportunityScore(),On-demand,No cache (live),Calculated opportunity score (0-100)
+recommendations,/api/serp/business/:profileId/seo-ppc,Calculated,Score Calculation Service,generateRecommendations(),On-demand,No cache (live),AI-generated recommendations
+ads[],/api/serp/business/:profileId/ads,Live API,Ads Search API,POST /v3/serp/google/ads_search/live/advanced,On-demand,No cache (live),Array of ad creatives
+ads[].title,/api/serp/business/:profileId/ads,Live API,Ads Search API,POST /v3/serp/google/ads_search/live/advanced,On-demand,No cache (live),Ad creative title
+ads[].description,/api/serp/business/:profileId/ads,Live API,Ads Search API,POST /v3/serp/google/ads_search/live/advanced,On-demand,No cache (live),Ad creative description
+ads[].url,/api/serp/business/:profileId/ads,Live API,Ads Search API,POST /v3/serp/google/ads_search/live/advanced,On-demand,No cache (live),Ad creative URL
+isRunningAds,/api/serp/business/:profileId/ads,Live API,Ads Search API + Ads Advertisers API,Multiple endpoints,On-demand,No cache (live),Whether business is running ads
+reviews[],/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,GET maps/api/place/details + POST /v3/business_data/google/reviews,On-demand,No cache (live),Array of review objects
+reviews[].text,/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,Multiple endpoints,On-demand,No cache (live),Review text content
+reviews[].rating,/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,Multiple endpoints,On-demand,No cache (live),Review rating (1-5)
+reviews[].time,/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,Multiple endpoints,On-demand,No cache (live),Review timestamp
+rating,/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,Multiple endpoints,On-demand,No cache (live),Average rating
+totalRatings,/api/serp/business/:profileId/reputation,Live API,Google Places API + DataForSEO Reviews API,Multiple endpoints,On-demand,No cache (live),Total number of ratings
+responseRate,/api/serp/business/:profileId/reputation,Calculated,DataForSEO Reviews API,Calculate from reviews with owner_response,On-demand,No cache (live),Percentage of reviews with responses
+reviewVelocity,/api/serp/business/:profileId/reputation,Calculated,Google Places API + DataForSEO Reviews API,Calculate reviews in last 90 days,On-demand,No cache (live),Number of reviews in last 90 days
+serpPosition,/api/serp/business/:profileId/seo-ppc,Database,Database Table,serp_results.rankAbsolute,Static,Persistent,SERP ranking position
+keywordRankings[],/api/serp/business/:profileId,Database,Database Table,keyword_rankings,Monthly,Persistent with refresh,Array of keyword rankings
+keywordRankings[].keyword,/api/serp/business/:profileId,Database,Database Table,keyword_rankings.keyword,Monthly,Persistent with refresh,Keyword text
+keywordRankings[].rankAbsolute,/api/serp/business/:profileId,Database,Database Table,keyword_rankings.rankAbsolute,Monthly,Persistent with refresh,Keyword ranking position
+safeBrowsing.isSafe,/api/serp/business/:profileId/seo-ppc,Live API,Safe Browsing API,POST safebrowsing/v4/threatMatches:find,On-demand,No cache (live),Whether site is safe
+schemaValidation.valid,/api/serp/business/:profileId/seo-ppc,Live API,HTML Analysis,validateSchemas(),On-demand,No cache (live),Whether schemas are valid
+coreWebVitals.lcp,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),Largest Contentful Paint
+coreWebVitals.fid,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),First Input Delay
+coreWebVitals.cls,/api/serp/business/:profileId/seo-ppc,Live API,PageSpeed Insights API,GET pagespeedonline/v5/runPagespeed,On-demand,No cache (live),Cumulative Layout Shift
+needsLiveData,/api/serp/business/:profileId,Database,Response Flag,Response metadata,Static,N/A,Array indicating which tabs need live data
+

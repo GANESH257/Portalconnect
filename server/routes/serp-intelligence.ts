@@ -132,6 +132,130 @@ export const searchProspects = async (req: Request, res: Response) => {
       });
     }
 
+    // DATABASE-ONLY MODE: Query existing data from database
+    console.log('🔍 Database-Only Mode: Querying database for cached data...');
+    
+    const existingJob = await prisma.serpJob.findFirst({
+      where: {
+        keyword: keyword,
+        location: location,
+        status: 'completed'
+      },
+      include: {
+        serpResults: {
+          include: {
+            businessProfile: {
+              include: {
+                keywordRankings: {
+                  orderBy: { rankAbsolute: 'asc' },
+                  take: 100
+                }
+              }
+            }
+          },
+          orderBy: { rankAbsolute: 'asc' },
+          take: 100
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    if (!existingJob || existingJob.serpResults.length === 0) {
+      console.log('⚠️  No data found in database for:', keyword, location);
+      return res.json({
+        success: false,
+        message: `No data found in database for "${keyword}" in "${location}". Please run data collection script first.`,
+        data: {
+          jobId: null,
+          businesses: [],
+          isFromDatabase: false
+        }
+      });
+    }
+
+    console.log(`✅ Found ${existingJob.serpResults.length} businesses in database`);
+
+    // Map database results to expected format
+    const businesses = existingJob.serpResults.map((result: any) => {
+      const rawData = result.rawData || {};
+      const profile = result.businessProfile || {};
+      
+      return {
+        id: result.placeId || result.cid || result.id,
+        businessProfileId: profile.id || result.id,
+        title: result.title || profile.name || rawData.title,
+        name: profile.name || result.title || rawData.title,
+        domain: result.domain || profile.domain || rawData.domain,
+        website: result.url || profile.websiteUrl || rawData.url || rawData.website,
+        url: result.url || profile.websiteUrl || rawData.url,
+        phone: result.phone || profile.phone || rawData.phone,
+        address: result.address || profile.address || rawData.address,
+        city: result.city || profile.city || rawData.address_info?.city,
+        state: result.state || profile.state || rawData.address_info?.region,
+        zipCode: result.zipCode || profile.zipCode || rawData.address_info?.postal_code,
+        rating: result.rating || profile.rating || rawData.rating?.value,
+        reviewsCount: result.reviewsCount || profile.reviewsCount || rawData.rating?.votes_count,
+        placeId: result.placeId || rawData.place_id,
+        cid: result.cid || rawData.cid,
+        category: result.resultType || profile.category || rawData.category,
+        rankAbsolute: result.rankAbsolute,
+        rankGroup: result.rankGroup,
+        type: result.resultType || 'maps',
+        // Include enriched data from business profile
+        keywordRankings: profile.keywordRankings || [],
+        domainAuthority: profile.domainAuthority,
+        backlinks: profile.backlinks,
+        monthlyTraffic: profile.monthlyTraffic,
+        isPaid: profile.isPaid || false,
+        isVerified: profile.isVerified || false,
+        // GPS coordinates - extract from multiple possible locations
+        lat: (() => {
+          const val = rawData.lat || rawData.latitude || 
+                     rawData.gps_coordinates?.lat || rawData.gps_coordinates?.latitude ||
+                     rawData.address_info?.lat || rawData.address_info?.latitude;
+          return val != null ? (typeof val === 'number' ? val : parseFloat(String(val))) : null;
+        })(),
+        lng: (() => {
+          const val = rawData.lng || rawData.longitude ||
+                     rawData.gps_coordinates?.lng || rawData.gps_coordinates?.longitude ||
+                     rawData.address_info?.lng || rawData.address_info?.longitude;
+          return val != null ? (typeof val === 'number' ? val : parseFloat(String(val))) : null;
+        })(),
+        // Also include as latitude/longitude for compatibility
+        latitude: (() => {
+          const val = rawData.lat || rawData.latitude || 
+                     rawData.gps_coordinates?.lat || rawData.gps_coordinates?.latitude ||
+                     rawData.address_info?.lat || rawData.address_info?.latitude;
+          return val != null ? (typeof val === 'number' ? val : parseFloat(String(val))) : null;
+        })(),
+        longitude: (() => {
+          const val = rawData.lng || rawData.longitude ||
+                     rawData.gps_coordinates?.lng || rawData.gps_coordinates?.longitude ||
+                     rawData.address_info?.lng || rawData.address_info?.longitude;
+          return val != null ? (typeof val === 'number' ? val : parseFloat(String(val))) : null;
+        })(),
+        gps_coordinates: rawData.gps_coordinates,
+        address_info: rawData.address_info || {
+          city: result.city || profile.city,
+          region: result.state || profile.state,
+          postal_code: result.zipCode || profile.zipCode,
+          country_code: 'US'
+        }
+      };
+    });
+
+    return res.json({
+      success: true,
+      data: {
+        jobId: existingJob.id,
+        businesses: businesses,
+        jobDetails: existingJob,
+        isFromDatabase: true,
+        message: `Returned ${businesses.length} businesses from database (no API calls)`
+      }
+    });
+
+    /* OLD API-BASED CODE - DISABLED FOR DATABASE-ONLY MODE
     // Create SERP job with Missouri-specific parameters
     const job = await databaseService.createSerpJob(userId, {
       keyword,
@@ -236,8 +360,8 @@ export const searchProspects = async (req: Request, res: Response) => {
             type: result.type,
             title: result.title,
           id: result.id
-        });
-        
+          });
+          
         // Use the actual database record ID as the business profile ID
         const businessProfileId = serpResultIds[i];
         result.businessProfileId = businessProfileId;
@@ -291,7 +415,7 @@ export const searchProspects = async (req: Request, res: Response) => {
       // Add business profile IDs and enrich with ad data
       const resultsWithProfileIds = finalResults.map((result, index) => {
         const enrichedResult: any = {
-          ...result,
+        ...result,
           businessProfileId: businessProfileIds[index] || null,
           // Ensure the businessProfileId is the database ID, not the Google Place ID
           id: result.id, // Keep the original Google Place ID as 'id'
@@ -380,6 +504,7 @@ export const searchProspects = async (req: Request, res: Response) => {
 
       throw apiError;
     }
+    */
 
   } catch (error) {
     console.error('Search prospects error:', error);
@@ -726,12 +851,18 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
   try {
     const { profileId } = req.params;
 
-    console.log('Getting business profile for ID:', profileId);
+    console.log('🔍 Database-Only Mode: Getting business profile for ID:', profileId);
     
-    // 0) Try BusinessProfile by primary key first (most reliable for Watchlist/Prospects)
+    // DATABASE-ONLY MODE: Only query database, no API calls
     const existingBusiness = await prisma.businessProfile.findUnique({
       where: { id: profileId },
-      include: { serpResult: true }
+      include: { 
+        serpResult: true,
+        keywordRankings: {
+          orderBy: { rankAbsolute: 'asc' },
+          take: 100
+        }
+      }
     });
     if (existingBusiness) {
       const sr: any = existingBusiness.serpResult || null;
@@ -749,7 +880,7 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
         state: existingBusiness.state || raw.address_info?.region || sr?.state || '',
         zipCode: existingBusiness.zipCode || raw.address_info?.postal_code || sr?.zipCode || '',
         phone: existingBusiness.phone || raw.phone || sr?.phone || '',
-            email: '',
+        email: existingBusiness.email || '',
         rating: typeof existingBusiness.rating === 'number' ? existingBusiness.rating : (raw.rating?.value || sr?.rating || 0),
         reviewsCount: typeof existingBusiness.reviewsCount === 'number' ? existingBusiness.reviewsCount : (raw.rating?.votes_count || sr?.reviewsCount || 0),
         services: Array.isArray(existingBusiness.services) ? existingBusiness.services : (raw.additional_categories || []),
@@ -757,16 +888,31 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
         insuranceAccepted: existingBusiness.insuranceAccepted || [],
         socialMedia: existingBusiness.socialMedia || { facebook: '', instagram: '' },
         businessHours: existingBusiness.businessHours || raw.work_hours || {},
-            lastAnalyzed: new Date().toISOString(),
+        lastAnalyzed: existingBusiness.lastAnalyzed?.toISOString() || new Date().toISOString(),
         isActive: existingBusiness.isActive,
-        latitude: raw.latitude,
-        longitude: raw.longitude,
+        latitude: raw.latitude || raw.gps_coordinates?.latitude || raw.address_info?.latitude,
+        longitude: raw.longitude || raw.gps_coordinates?.longitude || raw.address_info?.longitude,
         isClaimed: raw.is_claimed,
         totalPhotos: raw.total_photos,
         mainImage: raw.main_image,
-        ratingDistribution: raw.rating_distribution
+        ratingDistribution: raw.rating_distribution,
+        // Include enriched data from database
+        keywordRankings: existingBusiness.keywordRankings || [],
+        domainAuthority: existingBusiness.domainAuthority,
+        backlinks: existingBusiness.backlinks,
+        monthlyTraffic: existingBusiness.monthlyTraffic,
+        pageSpeed: existingBusiness.pageSpeed,
+        mobileScore: existingBusiness.mobileScore,
+        accessibilityScore: existingBusiness.accessibilityScore,
+        isPaid: existingBusiness.isPaid,
+        isVerified: existingBusiness.isVerified,
+        isFromDatabase: true
       };
-      return res.json({ success: true, data: profile });
+      return res.json({ 
+        success: true, 
+        data: profile,
+        message: 'Data retrieved from database (no API calls)'
+      });
     }
 
     // First, try to find the business in our stored SERP results
@@ -853,7 +999,7 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
 
     // Fallback: Create a basic profile if no stored data found
     const profile = {
-      id: profileId,
+            id: profileId,
       name: `Business ${profileId.slice(-8)}`,
       domain: '',
       websiteUrl: '',
@@ -865,19 +1011,19 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
       state: 'MO',
       zipCode: '',
       phone: '',
-      email: '',
+            email: '',
       rating: 0,
       reviewsCount: 0,
-      services: [],
-      specialties: [],
-      insuranceAccepted: [],
+            services: [],
+            specialties: [],
+            insuranceAccepted: [],
       socialMedia: {
         facebook: '',
         instagram: ''
       },
-      businessHours: {},
-      lastAnalyzed: new Date().toISOString(),
-      isActive: true
+            businessHours: {},
+            lastAnalyzed: new Date().toISOString(),
+            isActive: true
     };
 
     console.log('Created fallback business profile:', profile.name);
@@ -885,7 +1031,7 @@ export const getBusinessProfile = async (req: Request, res: Response) => {
     return res.json({
         success: true,
       data: profile
-    });
+      });
 
   } catch (error) {
     console.error('Get business profile error:', error);
@@ -1107,21 +1253,47 @@ export const getBacklinkAnalysis = async (req: Request, res: Response) => {
  */
 export const getComprehensiveBusinessScore = async (req: Request, res: Response) => {
   try {
-    const { businessName, domain, location, keywords } = req.body;
+    const { businessName, domain, location, keywords, profileId } = req.body;
 
-    if (!businessName || !domain || !location) {
-      return res.status(400).json({
-        success: false,
-        message: 'Business name, domain, and location are required'
+    // DATABASE-ONLY MODE: Get score from database
+    console.log('[getComprehensiveBusinessScore] 🔍 Database-Only Mode: Getting score from database...');
+    
+    let businessProfile = null;
+    
+    if (profileId) {
+      businessProfile = await prisma.businessProfile.findUnique({
+        where: { id: profileId },
+        include: { serpResult: true, keywordRankings: true }
+      });
+    } else if (domain) {
+      businessProfile = await prisma.businessProfile.findFirst({
+        where: { domain: domain.replace(/^https?:\/\//, '').replace(/^www\./, '') },
+        include: { serpResult: true, keywordRankings: true }
       });
     }
-
-    const comprehensiveScore = await dataForSEOService.getComprehensiveBusinessScore({
-      businessName,
-      domain,
-      location,
-      keywords
-    });
+    
+    if (!businessProfile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Business profile not found in database'
+      });
+    }
+    
+    // Calculate comprehensive score from stored data
+    const comprehensiveScore = {
+      overallScore: businessProfile.seoScore || 0,
+      domainAuthority: businessProfile.domainAuthority || 0,
+      backlinks: businessProfile.backlinks || 0,
+      monthlyTraffic: businessProfile.monthlyTraffic || 0,
+      pageSpeed: businessProfile.pageSpeed || 0,
+      mobileScore: businessProfile.mobileScore || 0,
+      accessibilityScore: businessProfile.accessibilityScore || 0,
+      keywordRankings: businessProfile.keywordRankings?.length || 0,
+      isPaid: businessProfile.isPaid || false,
+      isVerified: businessProfile.isVerified || false,
+      isFromDatabase: true,
+      message: 'Score calculated from database (no API calls)'
+    };
 
     res.json({
       success: true,
@@ -1131,7 +1303,8 @@ export const getComprehensiveBusinessScore = async (req: Request, res: Response)
     console.error('Error getting comprehensive business score:', error);
     res.status(500).json({
       success: false,
-      message: 'Internal server error'
+      message: 'Internal server error',
+      error: error.message
     });
   }
 };
@@ -1249,7 +1422,15 @@ export const getBusinessAds = async (req: Request, res: Response) => {
     // 0) Try BusinessProfile by primary key first
     let businessProfile = await prisma.businessProfile.findUnique({
       where: { id: profileId },
-      include: { serpResult: true }
+      include: { 
+        serpResult: {
+          select: {
+            id: true,
+            rawData: true,
+            rankAbsolute: true
+          }
+        }
+      }
     });
 
     // 1) If not found, try to find via SerpResult (same logic as getBusinessProfile)
@@ -1329,57 +1510,27 @@ export const getBusinessAds = async (req: Request, res: Response) => {
       });
     }
 
+    // DATABASE-ONLY MODE: Read ads data from database
+    const startTime = Date.now();
+    console.log('[getBusinessAds] 🔍 Database-Only Mode: Reading ads from database...');
+    
     try {
-      console.log('[getBusinessAds] Starting ad fetch process...');
-      // Use locationCode for Missouri locations
-      const locationCode = (locationStr.includes('St. Louis') || locationStr.includes('Chesterfield') || locationStr.includes('Missouri')) ? 2840 : undefined;
+      // Get ads data from serpResult.rawData
+      const serpResult = businessProfile.serpResult;
+      const rawData: any = serpResult?.rawData || {};
+      const adsData = rawData.ads || null;
       
-      // First, try to get advertiser_id by calling ads_advertisers with business name
+      let creatives: any[] = [];
       let advertiserId: string | null = null;
-      try {
-        const advertisersData = await dataForSEOService.getAdsAdvertisers({
-          keyword: businessName,
-          locationCode: locationCode,
-          locationName: locationCode ? undefined : locationStr
-        });
-        console.log(`[getBusinessAds] Checking domain "${domain}" for advertiser match`);
-        advertiserId = dataForSEOService.findAdvertiserIdForDomain(advertisersData, domain);
-        if (advertiserId) {
-          console.log(`[getBusinessAds] ✅ Found advertiser ID: ${advertiserId} for domain: ${domain}`);
-        } else {
-          console.log(`[getBusinessAds] ⚠️ No advertiser ID found for domain: ${domain}, will try direct domain search`);
-        }
-      } catch (err) {
-        console.log('[getBusinessAds] Could not get advertiser ID, will try domain directly:', err);
+      
+      if (adsData && adsData.matched) {
+        // Ads data was stored during collection
+        advertiserId = adsData.advertiserId || null;
+        // Check if we have creatives stored in enriched data
+        creatives = adsData.creatives || rawData.enriched?.adsCreatives || [];
       }
-
-      // Get ads using domain (fallback) or advertiser_id (preferred)
-      let adsData;
-      if (advertiserId) {
-        console.log(`[getBusinessAds] Fetching ads using advertiser ID: ${advertiserId}`);
-        adsData = await dataForSEOService.getAdsForAdvertisers({
-          advertiserIds: [advertiserId],
-          locationCode: locationCode,
-          locationName: locationCode ? undefined : locationStr,
-          depth: 100
-        });
-      } else {
-        // Clean domain for request
-        const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-        console.log(`[getBusinessAds] Fetching ads directly for domain: ${cleanDomain}`);
-        adsData = await dataForSEOService.getAdsForDomain({
-          target: cleanDomain,
-          locationCode: locationCode,
-          locationName: locationCode ? undefined : locationStr,
-          depth: 100
-        });
-      }
-
-      // Extract ad creatives
-      console.log('[getBusinessAds] Extracting ad creatives from response...');
-      const creatives = extractAdCreativesFromResponse(adsData);
-      console.log(`[getBusinessAds] ✅ Extracted ${creatives.length} ad creatives`);
-
+      
+      // If no creatives but we have advertiser info, return empty array (frontend will handle)
       const responseData = {
         success: true,
         data: {
@@ -1387,15 +1538,18 @@ export const getBusinessAds = async (req: Request, res: Response) => {
           advertiserId,
           domain,
           businessName,
-          totalAds: creatives.length,
-          isRunningAds: creatives.length > 0
+          totalAds: creatives.length || (adsData?.approxAdsCount || 0),
+          isRunningAds: businessProfile.isPaid || (adsData?.matched || false),
+          isFromDatabase: true,
+          message: 'Ads data retrieved from database (no API calls)'
         }
       };
       
-      console.log(`[getBusinessAds] Sending response: ${creatives.length} ads found`);
+      const duration = Date.now() - startTime;
+      console.log(`[getBusinessAds] ✅ Returning ads data from database in ${duration}ms. isPaid: ${businessProfile.isPaid}, advertiserId: ${advertiserId}, creatives: ${creatives.length}`);
       res.json(responseData);
     } catch (error: any) {
-      console.error('Error fetching ads for business:', error);
+      console.error('[getBusinessAds] Error reading ads from database:', error);
       // Return empty ads rather than failing completely
       res.json({
         success: true,
@@ -1405,7 +1559,8 @@ export const getBusinessAds = async (req: Request, res: Response) => {
           domain,
           businessName,
           totalAds: 0,
-          isRunningAds: false,
+          isRunningAds: businessProfile.isPaid || false,
+          isFromDatabase: true,
           error: error.message
         }
       });
@@ -1464,9 +1619,41 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
     console.log('[getBusinessSEOAndPPC] Getting SEO & PPC analysis for business profile:', profileId);
 
     // Get business profile - use same lookup logic as getBusinessAds
+    // Optimize: Only fetch what we need for fast response
     let businessProfile = await prisma.businessProfile.findUnique({
       where: { id: profileId },
-      include: { serpResult: true }
+      select: {
+        id: true,
+        name: true,
+        domain: true,
+        websiteUrl: true,
+        city: true,
+        state: true,
+        isPaid: true,
+        pageSpeed: true,
+        mobileScore: true,
+        domainAuthority: true,
+        backlinks: true,
+        monthlyTraffic: true,
+        accessibilityScore: true,
+        seoScore: true,
+        keywordRankings: {
+          select: {
+            keyword: true,
+            rankAbsolute: true,
+            url: true
+          },
+          orderBy: { rankAbsolute: 'asc' },
+          take: 10
+        },
+        serpResult: {
+          select: {
+            id: true,
+            rawData: true,
+            rankAbsolute: true
+          }
+        }
+      }
     });
 
     if (!businessProfile) {
@@ -1483,7 +1670,38 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
       if (serpResult) {
         businessProfile = await prisma.businessProfile.findFirst({ 
           where: { serpResultId: serpResult.id },
-          include: { serpResult: true }
+          select: {
+            id: true,
+            name: true,
+            domain: true,
+            websiteUrl: true,
+            city: true,
+            state: true,
+            isPaid: true,
+            pageSpeed: true,
+            mobileScore: true,
+            domainAuthority: true,
+            backlinks: true,
+            monthlyTraffic: true,
+            accessibilityScore: true,
+            seoScore: true,
+            keywordRankings: {
+              select: {
+                keyword: true,
+                rankAbsolute: true,
+                url: true
+              },
+              orderBy: { rankAbsolute: 'asc' },
+              take: 10
+            },
+            serpResult: {
+              select: {
+                id: true,
+                rawData: true,
+                rankAbsolute: true
+              }
+            }
+          }
         });
         
         if (!businessProfile && serpResult.rawData) {
@@ -1510,7 +1728,38 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
               languages: [],
               isActive: true,
             },
-            include: { serpResult: true }
+            select: {
+              id: true,
+              name: true,
+              domain: true,
+              websiteUrl: true,
+              city: true,
+              state: true,
+              isPaid: true,
+              pageSpeed: true,
+              mobileScore: true,
+              domainAuthority: true,
+              backlinks: true,
+              monthlyTraffic: true,
+              accessibilityScore: true,
+              seoScore: true,
+              keywordRankings: {
+                select: {
+                  keyword: true,
+                  rankAbsolute: true,
+                  url: true
+                },
+                orderBy: { rankAbsolute: 'asc' },
+                take: 10
+              },
+              serpResult: {
+                select: {
+                  id: true,
+                  rawData: true,
+                  rankAbsolute: true
+                }
+              }
+            }
           });
         }
       }
@@ -1547,22 +1796,76 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
       });
     }
 
+    // DATABASE-ONLY MODE: Calculate SEO & PPC analysis from stored data
+    const startTime = Date.now();
+    console.log('[getBusinessSEOAndPPC] 🔍 Database-Only Mode: Calculating from stored data...');
+    
+    // Get stored data from database (declare outside try for catch block access)
+    const serpResult = businessProfile.serpResult;
+    const rawData: any = serpResult?.rawData || {};
+    const enriched = rawData.enriched || {};
+    
     try {
-      console.log('[getBusinessSEOAndPPC] Starting SEO & PPC analysis...');
+      // Extract analytics from onPage data if available
+      const onPageData = enriched.onPage?.result?.[0] || enriched.onPage;
+      const hasGoogleAnalytics = onPageData?.technologies?.some((tech: any) => 
+        tech.name?.toLowerCase().includes('google analytics') || 
+        tech.name?.toLowerCase().includes('ga4') ||
+        tech.name?.toLowerCase().includes('gtag')
+      ) || false;
+      const gaId = onPageData?.technologies?.find((tech: any) => 
+        tech.name?.toLowerCase().includes('google analytics') || 
+        tech.name?.toLowerCase().includes('ga4')
+      )?.id || null;
+      const hasFacebookPixel = onPageData?.technologies?.some((tech: any) => 
+        tech.name?.toLowerCase().includes('facebook pixel') || 
+        tech.name?.toLowerCase().includes('fbpixel')
+      ) || false;
       
-      // Get comprehensive SEO & PPC analysis
-      const analysis = await dataForSEOService.getSEOAndPPCAnalysis({
-        domain: domain.replace(/^https?:\/\//, '').replace(/^www\./, ''),
-        businessName,
-        location: locationStr,
-        // Include a category + location query to drive Local Finder competitors
-        keywords: [
-          businessName,
-          `${businessProfile.category} ${locationStr}`,
-          `${businessName} ${businessProfile.category}`,
-          `${businessName} ${locationStr}`
-        ]
-      });
+      // Extract keyword rankings for serpResults
+      const keywordRankings = businessProfile.keywordRankings || [];
+      const serpResults = keywordRankings.length > 0 ? keywordRankings.map((kr: any) => ({
+        keyword: kr.keyword || 'null',
+        rank: kr.rankAbsolute,
+        url: kr.url
+      })) : null;
+      
+      // Calculate analysis from stored data
+      const analysis = {
+        serpPosition: serpResult?.rankAbsolute || null,
+        serpResults: serpResults && serpResults.length > 0 ? serpResults : null,
+        schemas: {
+          localBusiness: !!enriched.gmbInfo,
+          faq: onPageData?.schemas?.some((s: any) => s.type === 'FAQPage') || false,
+          organization: onPageData?.schemas?.some((s: any) => s.type === 'Organization') || false,
+          breadcrumbs: onPageData?.schemas?.some((s: any) => s.type === 'BreadcrumbList') || false,
+          product: onPageData?.schemas?.some((s: any) => s.type === 'Product') || false,
+          review: onPageData?.schemas?.some((s: any) => s.type === 'Review') || false
+        },
+        analytics: {
+          googleAnalytics: { 
+            found: hasGoogleAnalytics,
+            type: gaId ? 'GA4' : null,
+            id: gaId || null
+          },
+          facebookPixel: { found: hasFacebookPixel }
+        },
+        ppcStatus: {
+          runningAds: businessProfile.isPaid || false,
+          advertiserId: rawData.ads?.advertiserId || null,
+          adCount: rawData.ads?.approxAdsCount || 0
+        },
+        speedScores: {
+          desktop: businessProfile.pageSpeed || 0,
+          mobile: businessProfile.mobileScore || 0
+        },
+        localCompetitors: null, // Would need to query other businesses
+        domainAuthority: businessProfile.domainAuthority || null,
+        backlinks: businessProfile.backlinks || null,
+        monthlyTraffic: businessProfile.monthlyTraffic || null,
+        accessibilityScore: businessProfile.accessibilityScore || null,
+        seoScore: businessProfile.seoScore || null
+      };
 
       // Calculate Opportunity Score (0-100)
       let opportunityScore = 0;
@@ -1623,21 +1926,30 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
         }
       };
       
-      console.log(`[getBusinessSEOAndPPC] ✅ Analysis complete. Opportunity Score: ${normalizedScore}/100`);
-      res.json(responseData);
+      const duration = Date.now() - startTime;
+      console.log(`[getBusinessSEOAndPPC] ✅ Analysis complete in ${duration}ms. Opportunity Score: ${normalizedScore}/100`);
+      res.json({
+        ...responseData,
+        isFromDatabase: true,
+        message: 'SEO & PPC analysis calculated from database (no API calls)'
+      });
     } catch (apiError: any) {
       console.error('[getBusinessSEOAndPPC] Error during analysis:', apiError);
       // Return partial data with error
       res.json({
         success: true,
         data: {
-          serpPosition: null,
-          schemas: { localBusiness: false, faq: false },
+          serpPosition: serpResult?.rankAbsolute || null,
+          schemas: { localBusiness: !!enriched.gmbInfo, faq: false },
           analytics: { googleAnalytics: { found: false }, facebookPixel: { found: false } },
-          ppcStatus: { runningAds: false, adCount: 0 },
-          speedScores: { desktop: 72, mobile: 67 }, // Default fallback
+          ppcStatus: { runningAds: businessProfile.isPaid || false, adCount: 0 },
+          speedScores: { 
+            desktop: businessProfile.pageSpeed || 0, 
+            mobile: businessProfile.mobileScore || 0 
+          },
           localCompetitors: null,
-          opportunityScore: 78, // Default fallback
+          opportunityScore: businessProfile.seoScore || 0,
+          isFromDatabase: true,
           error: apiError.message
         }
       });

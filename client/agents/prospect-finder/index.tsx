@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -109,9 +109,15 @@ export default function ProspectFinderAgent() {
     category: 'all',
     rating: 'all',
     score: 'all',
-    city: 'all'
+    city: 'all', // Changed from text input to select dropdown
+    zip: 'all' // ZIP code filter
   });
   const [viewMode, setViewMode] = useState<'list' | 'table' | 'grid'>('list');
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   // Load stored search results on component mount
   useEffect(() => {
@@ -123,26 +129,8 @@ export default function ProspectFinderAgent() {
           console.log('Loading stored search results:', results.length);
           setActiveTab('current');
           
-          // Load first page of results
-          const pageSize = 20;
-          const firstPage = results.slice(0, pageSize).map((business: any) => ({
-            id: business.place_id || business.cid || `${business.title}-0`,
-            name: business.title || business.name,
-            address: business.address_info?.formatted_address || business.address,
-            city: business.address_info?.city || business.city,
-            state: business.address_info?.region || business.state,
-            zipCode: business.address_info?.postal_code,
-            phone: business.phone,
-            website: business.url,
-            rating: business.rating?.value || 0,
-            reviewsCount: business.rating?.votes_count || 0,
-            category: business.category || 'Business',
-            businessProfileId: business.businessProfileId,
-            databaseId: business.databaseId,
-            type: business.type,
-            rank: business.rank_absolute || business.position || 1
-          }));
-          setSearchResults(firstPage);
+          // Don't set searchResults here - let the filtering and pagination handle it
+          // The allEnrichedResults will pick it up from sessionStorage
         }
       } catch (error) {
         console.error('Error loading stored results:', error);
@@ -228,7 +216,7 @@ export default function ProspectFinderAgent() {
           // Store raw results immediately
           sessionStorage.setItem('pf_raw_results', JSON.stringify(businesses));
           console.log('Stored raw results:', businesses.length);
-          
+
                 // Create enriched businesses for ALL results (not just page slice)
                 const enrichedBusinesses = businesses.map((business: any) => {
                   console.log('Processing business:', business.title, business);
@@ -335,9 +323,10 @@ export default function ProspectFinderAgent() {
           sessionStorage.setItem('pf_search_data', JSON.stringify(searchData));
           console.log('Stored search form data:', searchData);
           
-          // Show only the first page of results, but store all for pagination
-          const firstPage = enrichedBusinesses.slice(0, pageSize);
-          setSearchResults(firstPage);
+          // Store all results - filtering and pagination will handle display
+          // Reset page to 1 for new search
+          setPage(1);
+          setSearchResults(enrichedBusinesses.slice(0, pageSize)); // Keep for backward compatibility
           setActiveTab('current');
         }
       } else {
@@ -549,32 +538,299 @@ export default function ProspectFinderAgent() {
 
 
   // Use real search results only - no mock data fallback
-  // page controls
-  const totalRaw = (() => {
-    try { return JSON.parse(sessionStorage.getItem('pf_enriched_results') || '[]').length; } catch { return searchResults.length; }
-  })();
-  const totalPages = Math.max(1, Math.ceil(totalRaw / pageSize));
+  // Get ALL results from sessionStorage for filtering and map display
+  const allEnrichedResults = React.useMemo(() => {
+    try {
+      const stored = sessionStorage.getItem('pf_enriched_results');
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (e) {
+      console.error('Error parsing enriched results:', e);
+    }
+    return searchResults;
+  }, [searchResults]);
 
-  const displayResults = searchResults;
-  console.log('Display results:', displayResults);
+  // All results for filtering (not paginated yet)
+  const allResultsForFiltering = allEnrichedResults;
+  console.log('All results (total):', allResultsForFiltering.length);
   
-  const filteredProspects = displayResults.filter(prospect => {
+  // Extract dynamic filter options from ALL search results (not just current page)
+  const availableCategories = React.useMemo(() => {
+    const categories = new Set<string>();
+    allResultsForFiltering.forEach(prospect => {
+      const cat = prospect.category || 'Business';
+      if (cat && cat !== 'Business') categories.add(cat);
+    });
+    return Array.from(categories).sort();
+  }, [allResultsForFiltering]);
+
+  const availableRatings = React.useMemo(() => {
+    const ratings = allResultsForFiltering
+      .map(p => p.rating?.value || p.rating || 0)
+      .filter(r => r > 0);
+    if (ratings.length === 0) return [];
+    
+    const maxRating = Math.max(...ratings);
+    const minRating = Math.min(...ratings);
+    
+    // Generate rating thresholds based on actual data
+    const thresholds: number[] = [];
+    if (maxRating >= 4.5) thresholds.push(4.5);
+    if (maxRating >= 4.0) thresholds.push(4.0);
+    if (maxRating >= 3.5) thresholds.push(3.5);
+    if (maxRating >= 3.0) thresholds.push(3.0);
+    if (minRating < 3.0) thresholds.push(2.5);
+    
+    return Array.from(new Set(thresholds)).sort((a, b) => b - a);
+  }, [allResultsForFiltering]);
+
+  const availableScores = React.useMemo(() => {
+    const scores = allResultsForFiltering
+      .map(p => p.comprehensiveScore?.leadScore || p.score || 0)
+      .filter(s => s > 0);
+    if (scores.length === 0) return [];
+    
+    const maxScore = Math.max(...scores);
+    const minScore = Math.min(...scores);
+    
+    // Generate score thresholds based on actual data
+    const thresholds: number[] = [];
+    if (maxScore >= 90) thresholds.push(90);
+    if (maxScore >= 80) thresholds.push(80);
+    if (maxScore >= 70) thresholds.push(70);
+    if (maxScore >= 60) thresholds.push(60);
+    if (maxScore >= 50) thresholds.push(50);
+    if (minScore < 50) thresholds.push(40);
+    
+    return Array.from(new Set(thresholds)).sort((a, b) => b - a);
+  }, [allResultsForFiltering]);
+
+  const availableCities = React.useMemo(() => {
+    const cities = allResultsForFiltering
+      .map(p => p.city || p.address?.split(',')[0] || '')
+      .filter(c => c && c.trim())
+      .map(c => c.trim());
+    return Array.from(new Set(cities)).sort();
+  }, [allResultsForFiltering]);
+
+  const availableZipCodes = React.useMemo(() => {
+    const zipCodes = allResultsForFiltering
+      .map(p => {
+        // Priority 1: Direct zipCode field (most reliable)
+        if (p.zipCode) {
+          const zip = p.zipCode.toString().trim();
+          if (zip.length >= 5) return zip.split('-')[0]; // Take 5-digit part
+        }
+        
+        // Priority 2: postal_code from address_info (most reliable structured data)
+        if (p.address_info?.postal_code) {
+          const zip = p.address_info.postal_code.toString().trim();
+          if (zip.length >= 5) return zip.split('-')[0];
+        }
+        
+        // Priority 3: Extract from address string (last resort - be smart about it)
+        // ZIP codes typically appear after state abbreviation or at the end
+        const address = (p.address || p.address_info?.formatted_address || '').trim();
+        if (!address) return null;
+        
+        // Pattern 1: After state abbreviation (e.g., "MO 63017", "CA 90210")
+        const stateZipMatch = address.match(/[A-Z]{2}\s+(\d{5})(-\d{4})?/i);
+        if (stateZipMatch) return stateZipMatch[1];
+        
+        // Pattern 2: At the end of address (e.g., "...City, 63017" or "...63017")
+        const endZipMatch = address.match(/,?\s+(\d{5})(-\d{4})?\s*$/);
+        if (endZipMatch) return endZipMatch[1];
+        
+        // Pattern 3: After "Zip:" or "ZIP:" labels
+        const labeledZipMatch = address.match(/(?:zip|zipcode|postal\s*code)[:\s]+(\d{5})(-\d{4})?/i);
+        if (labeledZipMatch) return labeledZipMatch[1];
+        
+        return null;
+      })
+      .filter(zip => {
+        // Validate ZIP: must be exactly 5 digits, not a street number
+        if (!zip || zip.length !== 5) return false;
+        // Exclude common invalid patterns (all zeros, all same digit, etc.)
+        if (!/^\d{5}$/.test(zip)) return false;
+        // Valid US ZIP codes start with 0-9, and have valid ranges
+        // Basic validation: not all zeros and reasonable ranges
+        const num = parseInt(zip);
+        return num > 0 && num <= 99999;
+      });
+    return Array.from(new Set(zipCodes)).sort();
+  }, [allResultsForFiltering]);
+  
+  // Filter ALL results first (this applies to all 100 results)
+  const filteredAllResults = React.useMemo(() => {
+    return allResultsForFiltering.filter(prospect => {
     if (filters.category !== 'all' && prospect.category !== filters.category) return false;
     if (filters.rating !== 'all') {
       const rating = parseFloat(filters.rating);
-      if (prospect.rating < rating) return false;
+      const prospectRating = prospect.rating?.value || prospect.rating || 0;
+      if (prospectRating < rating) return false;
     }
     if (filters.score !== 'all') {
       const score = parseInt(filters.score);
-      const leadScore = prospect.comprehensiveScore?.leadScore || 0;
+      const leadScore = prospect.comprehensiveScore?.leadScore || prospect.score || 0;
       if (leadScore < score) return false;
     }
-    if (filters.city !== 'all' && !prospect.city.toLowerCase().includes(filters.city.toLowerCase())) return false;
+    if (filters.city !== 'all' && filters.city !== '') {
+      const prospectCity = (prospect.city || '').toLowerCase().trim();
+      const filterCity = filters.city.toLowerCase().trim();
+      // Exact match or contains match for city filtering
+      if (prospectCity !== filterCity && !prospectCity.includes(filterCity) && !filterCity.includes(prospectCity)) return false;
+    }
+    if (filters.zip !== 'all' && filters.zip !== '') {
+      // Extract ZIP from prospect using same logic as availableZipCodes
+      let prospectZip: string | null = null;
+      
+      // Priority 1: Direct zipCode field
+      if (prospect.zipCode) {
+        const zip = prospect.zipCode.toString().trim();
+        if (zip.length >= 5) prospectZip = zip.split('-')[0];
+      }
+      
+      // Priority 2: postal_code from address_info
+      if (!prospectZip && prospect.address_info?.postal_code) {
+        const zip = prospect.address_info.postal_code.toString().trim();
+        if (zip.length >= 5) prospectZip = zip.split('-')[0];
+      }
+      
+      // Priority 3: Extract from address string (smart extraction)
+      if (!prospectZip) {
+        const address = (prospect.address || prospect.address_info?.formatted_address || '').trim();
+        if (address) {
+          // Pattern 1: After state abbreviation
+          const stateZipMatch = address.match(/[A-Z]{2}\s+(\d{5})(-\d{4})?/i);
+          if (stateZipMatch) {
+            prospectZip = stateZipMatch[1];
+          } else {
+            // Pattern 2: At the end of address
+            const endZipMatch = address.match(/,?\s+(\d{5})(-\d{4})?\s*$/);
+            if (endZipMatch) prospectZip = endZipMatch[1];
+          }
+        }
+      }
+      
+      const filterZip = filters.zip.trim().split('-')[0]; // 5-digit part
+      if (!prospectZip || prospectZip !== filterZip) return false;
+    }
     return true;
   });
+  }, [allResultsForFiltering, filters]);
   
-  console.log('Filtered prospects count:', filteredProspects.length);
+  // Paginate the FILTERED results (not the raw results)
+  const totalFiltered = filteredAllResults.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+  
+  // Get current page from FILTERED results
+  const filteredProspects = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    return filteredAllResults.slice(start, end);
+  }, [filteredAllResults, page, pageSize]);
+  
+  console.log('Filtered all results count (for map & list):', filteredAllResults.length);
+  console.log('Filtered prospects count (current page):', filteredProspects.length);
+  console.log('Total pages:', totalPages);
   console.log('Current filters:', filters);
+  console.log('Available categories:', availableCategories);
+  console.log('Available ratings:', availableRatings);
+  console.log('Available scores:', availableScores);
+  console.log('Available cities:', availableCities);
+  console.log('Available ZIP codes:', availableZipCodes);
+
+  // Map businesses for MapComponent - must be at component level, not inline
+  const mapBusinesses = React.useMemo(() => {
+    const mapped = filteredAllResults
+      .map(prospect => {
+        // Try multiple coordinate field locations and formats
+        let lat: number | null = null;
+        let lng: number | null = null;
+        
+        // Priority 1: Direct lat/lng fields (numbers or strings)
+        const latVal = prospect.lat || prospect.latitude;
+        const lngVal = prospect.lng || prospect.longitude;
+        if (latVal != null && lngVal != null) {
+          lat = typeof latVal === 'number' ? latVal : parseFloat(String(latVal));
+          lng = typeof lngVal === 'number' ? lngVal : parseFloat(String(lngVal));
+        }
+        
+        // Priority 2: GPS coordinates object
+        if ((lat == null || lng == null || isNaN(lat) || isNaN(lng)) && prospect.gps_coordinates) {
+          const gpsLat = prospect.gps_coordinates.latitude || prospect.gps_coordinates.lat;
+          const gpsLng = prospect.gps_coordinates.longitude || prospect.gps_coordinates.lng;
+          if (gpsLat != null && gpsLng != null) {
+            lat = typeof gpsLat === 'number' ? gpsLat : parseFloat(String(gpsLat));
+            lng = typeof gpsLng === 'number' ? gpsLng : parseFloat(String(gpsLng));
+          }
+        }
+        
+        // Priority 3: address_info coordinates
+        if ((lat == null || lng == null || isNaN(lat) || isNaN(lng)) && prospect.address_info) {
+          const addrLat = prospect.address_info.latitude || prospect.address_info.lat;
+          const addrLng = prospect.address_info.longitude || prospect.address_info.lng;
+          if (addrLat != null && addrLng != null) {
+            lat = typeof addrLat === 'number' ? addrLat : parseFloat(String(addrLat));
+            lng = typeof addrLng === 'number' ? addrLng : parseFloat(String(addrLng));
+          }
+        }
+        
+        // Validate coordinates are valid numbers and within reasonable ranges
+        const isValidLat = lat != null && !isNaN(lat) && lat >= -90 && lat <= 90;
+        const isValidLng = lng != null && !isNaN(lng) && lng >= -180 && lng <= 180;
+        
+        if (!isValidLat || !isValidLng) {
+          console.warn(`Invalid coordinates for ${prospect.title || prospect.name}: lat=${lat}, lng=${lng}`, prospect);
+          return null;
+        }
+        
+        return {
+          id: prospect.id || prospect.businessProfileId,
+          name: prospect.title || prospect.clinic || prospect.name,
+          address: prospect.address || prospect.address_info?.formatted_address || '',
+          city: prospect.city || prospect.address_info?.city || searchLocation.split(',')[0],
+          state: prospect.state || prospect.address_info?.region || searchLocation.split(',')[1]?.trim() || 'MO',
+          zipCode: prospect.zipCode || prospect.address_info?.postal_code,
+          phone: prospect.phone,
+          website: prospect.website || prospect.url,
+          domain: prospect.domain,
+          rating: prospect.rating?.value || prospect.rating,
+          reviewsCount: prospect.rating?.votes_count || prospect.reviewsCount || prospect.reviews || 0,
+          lat: lat as number,
+          lng: lng as number,
+          placeId: prospect.placeId || prospect.place_id,
+          cid: prospect.cid,
+          category: prospect.category,
+          mainImage: prospect.mainImage || prospect.main_image
+        };
+      })
+      .filter(b => b != null) as Array<{
+        id: string;
+        name: string;
+        address: string;
+        city: string;
+        state: string;
+        zipCode?: string;
+        phone?: string;
+        website?: string;
+        domain?: string;
+        rating?: number;
+        reviewsCount?: number;
+        lat: number;
+        lng: number;
+        placeId?: string;
+        cid?: string;
+        category?: string;
+        mainImage?: string;
+      }>;
+    console.log(`Map: ${filteredAllResults.length} filtered results, ${mapped.length} with valid coordinates`);
+    if (mapped.length < filteredAllResults.length) {
+      console.warn(`Missing coordinates for ${filteredAllResults.length - mapped.length} results`);
+    }
+    return mapped;
+  }, [filteredAllResults, searchLocation]);
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{
@@ -769,13 +1025,13 @@ export default function ProspectFinderAgent() {
         </Card>
 
         {/* Enhanced Missouri Map View */}
-        {filteredProspects.length > 0 && (
+        {filteredAllResults.length > 0 && (
           <Card className="bg-white/95 backdrop-blur-sm border-white/20 mb-6 shadow-lg">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-theme-dark-blue flex items-center gap-2">
                   <Map className="w-5 h-5" />
-                  Missouri Map View
+                  Map View - {filteredAllResults.length} {filteredAllResults.length === 1 ? 'Location' : 'Locations'}
                 </CardTitle>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
@@ -783,7 +1039,7 @@ export default function ProspectFinderAgent() {
                       {mapView.toUpperCase()} View
                     </Badge>
                     <Badge variant="secondary">
-                      {filteredProspects.length} Prospects
+                      {filteredAllResults.length} {filteredAllResults.length === 1 ? 'Location' : 'Locations'}
                     </Badge>
                   </div>
                   <div className="flex gap-2">
@@ -821,89 +1077,13 @@ export default function ProspectFinderAgent() {
             <CardContent>
               <div className="h-96 rounded-lg overflow-hidden">
                 <MapComponent 
-                  businesses={filteredProspects.map(prospect => ({
-                    id: prospect.id,
-                    name: prospect.title || prospect.clinic || prospect.name,
-                    address: prospect.address || '',
-                    city: prospect.city || searchLocation.split(',')[0],
-                    state: searchLocation.split(',')[1]?.trim() || 'MO',
-                    zipCode: prospect.zipCode,
-                    phone: prospect.phone,
-                    website: prospect.website || prospect.url,
-                    rating: prospect.rating?.value || prospect.rating,
-                    reviewsCount: prospect.rating?.votes_count || prospect.reviewsCount || prospect.reviews
-                  }))}
+                  businesses={mapBusinesses}
                   center={getMapCenter(searchLocation)}
                   mapView={mapView}
                   radius={radius}
                   selectedZipCodes={selectedZipCodes}
                   selectedCounties={selectedCounties}
                 />
-              </div>
-              
-              {/* Map Legend */}
-              <div className="mt-4 p-4 bg-white/50 backdrop-blur-sm rounded-lg border border-white/20">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-medium text-theme-dark-blue">Map Controls</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <Button size="sm" variant="outline" className="text-xs">
-                        <Navigation className="w-3 h-3 mr-1" />
-                        Pan
-                      </Button>
-                      <Button size="sm" variant="outline" className="text-xs">
-                        <Target className="w-3 h-3 mr-1" />
-                        Zoom
-                      </Button>
-                      <Button size="sm" variant="outline" className="text-xs">
-                        <Layers className="w-3 h-3 mr-1" />
-                        Layers
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-medium text-theme-dark-blue">Filter by ZIP</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {['63101', '63102', '63103', '63104', '63105'].map(zip => (
-                        <Button
-                          key={zip}
-                          size="sm"
-                          variant={selectedZipCodes.includes(zip) ? 'default' : 'outline'}
-                          onClick={() => setSelectedZipCodes(prev => 
-                            prev.includes(zip) 
-                              ? prev.filter(z => z !== zip)
-                              : [...prev, zip]
-                          )}
-                          className="text-xs"
-                        >
-                          {zip}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-medium text-theme-dark-blue">Filter by County</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {['St. Louis County', 'St. Charles County', 'Jefferson County'].map(county => (
-                        <Button
-                          key={county}
-                          size="sm"
-                          variant={selectedCounties.includes(county) ? 'default' : 'outline'}
-                          onClick={() => setSelectedCounties(prev => 
-                            prev.includes(county) 
-                              ? prev.filter(c => c !== county)
-                              : [...prev, county]
-                          )}
-                          className="text-xs"
-                        >
-                          {county}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -915,64 +1095,14 @@ export default function ProspectFinderAgent() {
             <div className="flex items-center justify-between">
               <CardTitle className="text-theme-dark-blue">Search Results</CardTitle>
                 <div className="flex items-center gap-4">
-                <span className="text-theme-light-blue">{filteredProspects.length} results</span>
+                <span className="text-theme-light-blue">{filteredAllResults.length} results</span>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" disabled={page<=1} onClick={() => {
-                      const raw = JSON.parse(sessionStorage.getItem('pf_enriched_results') || '[]');
-                      const newPage = Math.max(1, page-1);
-                      const start = (newPage-1)*pageSize;
-                      const end = start+pageSize;
-                      const slice = raw.slice(start,end).map((business:any)=>({
-                        id: business.place_id || business.cid || `${business.title}-${start}`,
-                        name: business.title || business.name,
-                        address: business.address_info?.formatted_address || business.address,
-                        city: business.address_info?.city || business.city,
-                        state: business.address_info?.region || business.state,
-                        zipCode: business.address_info?.postal_code,
-                        phone: business.phone,
-                        website: business.website || business.url,
-                        domain: business.domain,
-                        rating: business.rating?.value || business.rating || 0,
-                        reviewsCount: business.rating?.votes_count || business.reviews_count || 0,
-                        lat: business.latitude || business.gps_coordinates?.latitude,
-                        lng: business.longitude || business.gps_coordinates?.longitude,
-                        placeId: business.place_id,
-                        cid: business.cid,
-                        category: business.category,
-                        mainImage: business.main_image,
-                        businessProfileId: business.businessProfileId
-                      }));
-                      setPage(newPage);
-                      setSearchResults(slice);
+                      setPage(Math.max(1, page-1));
                     }}>Prev</Button>
-                    <span className="text-theme-light-blue">Page {page}/{totalPages}</span>
+                    <span className="text-theme-light-blue">Page {page}/{totalPages} (showing {filteredProspects.length} of {filteredAllResults.length})</span>
                     <Button variant="outline" disabled={page>=totalPages} onClick={() => {
-                      const raw = JSON.parse(sessionStorage.getItem('pf_enriched_results') || '[]');
-                      const newPage = Math.min(totalPages, page+1);
-                      const start = (newPage-1)*pageSize;
-                      const end = start+pageSize;
-                      const slice = raw.slice(start,end).map((business:any)=>({
-                        id: business.place_id || business.cid || `${business.title}-${start}`,
-                        name: business.title || business.name,
-                        address: business.address_info?.formatted_address || business.address,
-                        city: business.address_info?.city || business.city,
-                        state: business.address_info?.region || business.state,
-                        zipCode: business.address_info?.postal_code,
-                        phone: business.phone,
-                        website: business.website || business.url,
-                        domain: business.domain,
-                        rating: business.rating?.value || business.rating || 0,
-                        reviewsCount: business.rating?.votes_count || business.reviews_count || 0,
-                        lat: business.latitude || business.gps_coordinates?.latitude,
-                        lng: business.longitude || business.gps_coordinates?.longitude,
-                        placeId: business.place_id,
-                        cid: business.cid,
-                        category: business.category,
-                        mainImage: business.main_image,
-                        businessProfileId: business.businessProfileId
-                      }));
-                      setPage(newPage);
-                      setSearchResults(slice);
+                      setPage(Math.min(totalPages, page+1));
                     }}>Next</Button>
                   </div>
                   <div className="flex items-center gap-2">
@@ -1019,11 +1149,15 @@ export default function ProspectFinderAgent() {
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Spine Care">Spine Care</SelectItem>
-                  <SelectItem value="Spine Surgery">Spine Surgery</SelectItem>
-                  <SelectItem value="Chiropractic">Chiropractic</SelectItem>
-                  <SelectItem value="Orthopedics">Orthopedics</SelectItem>
+                  <SelectItem value="all">All Categories ({filteredAllResults.length})</SelectItem>
+                  {availableCategories.map(category => {
+                    const count = filteredAllResults.filter(p => p.category === category).length;
+                    return (
+                      <SelectItem key={category} value={category}>
+                        {category} ({count})
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               <Select value={filters.rating} onValueChange={(value) => setFilters(prev => ({...prev, rating: value}))}>
@@ -1032,9 +1166,17 @@ export default function ProspectFinderAgent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Ratings</SelectItem>
-                  <SelectItem value="4.5">4.5+ Stars</SelectItem>
-                  <SelectItem value="4.0">4.0+ Stars</SelectItem>
-                  <SelectItem value="3.5">3.5+ Stars</SelectItem>
+                  {availableRatings.map(rating => {
+                    const count = filteredAllResults.filter(p => {
+                      const prospectRating = p.rating?.value || p.rating || 0;
+                      return prospectRating >= rating;
+                    }).length;
+                    return (
+                      <SelectItem key={rating.toString()} value={rating.toString()}>
+                        {rating.toFixed(1)}+ Stars ({count})
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               <Select value={filters.score} onValueChange={(value) => setFilters(prev => ({...prev, score: value}))}>
@@ -1043,23 +1185,84 @@ export default function ProspectFinderAgent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Scores</SelectItem>
-                  <SelectItem value="90">90+ Score</SelectItem>
-                  <SelectItem value="80">80+ Score</SelectItem>
-                  <SelectItem value="70">70+ Score</SelectItem>
+                  {availableScores.map(score => {
+                    const count = filteredAllResults.filter(p => {
+                      const leadScore = p.comprehensiveScore?.leadScore || p.score || 0;
+                      return leadScore >= score;
+                    }).length;
+                    return (
+                      <SelectItem key={score.toString()} value={score.toString()}>
+                        {score}+ Score ({count})
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
-              <Input
-                placeholder="Filter by city..."
-                value={filters.city}
-                onChange={(e) => setFilters(prev => ({...prev, city: e.target.value}))}
-                className="w-48"
-              />
+              <Select value={filters.city === 'all' || filters.city === '' ? 'all' : filters.city} onValueChange={(value) => setFilters(prev => ({...prev, city: value}))}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="City" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Cities ({filteredAllResults.length})</SelectItem>
+                  {availableCities.map((city: string) => {
+                    const count = filteredAllResults.filter(p => {
+                      const prospectCity = (p.city || '').toLowerCase();
+                      return prospectCity === city.toLowerCase() || prospectCity.includes(city.toLowerCase());
+                    }).length;
+                    return (
+                      <SelectItem key={city} value={city}>
+                        {String(city)} ({count})
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <Select value={filters.zip === 'all' || filters.zip === '' ? 'all' : filters.zip} onValueChange={(value) => setFilters(prev => ({...prev, zip: value}))}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="ZIP" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All ZIPs ({filteredAllResults.length})</SelectItem>
+                  {availableZipCodes.map((zip: string) => {
+                    const count = filteredAllResults.filter(p => {
+                      // Use same extraction logic as availableZipCodes
+                      let prospectZip: string | null = null;
+                      
+                      if (p.zipCode) {
+                        const z = p.zipCode.toString().trim();
+                        if (z.length >= 5) prospectZip = z.split('-')[0];
+                      } else if (p.address_info?.postal_code) {
+                        const z = p.address_info.postal_code.toString().trim();
+                        if (z.length >= 5) prospectZip = z.split('-')[0];
+                      } else {
+                        const address = (p.address || p.address_info?.formatted_address || '').trim();
+                        if (address) {
+                          const stateZipMatch = address.match(/[A-Z]{2}\s+(\d{5})(-\d{4})?/i);
+                          if (stateZipMatch) {
+                            prospectZip = stateZipMatch[1];
+                          } else {
+                            const endZipMatch = address.match(/,?\s+(\d{5})(-\d{4})?\s*$/);
+                            if (endZipMatch) prospectZip = endZipMatch[1];
+                          }
+                        }
+                      }
+                      
+                      return prospectZip === zip;
+                    }).length;
+                    return (
+                      <SelectItem key={String(zip)} value={String(zip)}>
+                        {String(zip)} ({count})
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Results */}
             {viewMode === 'list' ? (
-              <div className="space-y-4">
-                {filteredProspects.map((prospect, index) => (
+            <div className="space-y-4">
+              {filteredProspects.map((prospect, index) => (
                 <Link key={prospect.businessProfileId || index} to={`/business/${prospect.businessProfileId}`} className="block">
                   <Card className="bg-white/90 backdrop-blur-sm border-white/20 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer">
                     <CardContent className="p-6">
@@ -1075,7 +1278,7 @@ export default function ProspectFinderAgent() {
                               #{prospect.rank || index + 1}
                             </Badge>
                             <div className="flex items-center gap-2 flex-1">
-                              <h3 className="text-lg font-semibold text-theme-dark-blue">{prospect.title || prospect.clinic || prospect.name}</h3>
+                            <h3 className="text-lg font-semibold text-theme-dark-blue">{prospect.title || prospect.clinic || prospect.name}</h3>
                               {prospect.isRunningAds && (
                                 <Badge variant="secondary" className="bg-purple-100 text-purple-800 text-xs border-purple-300">
                                   <TrendingUp className="w-3 h-3 mr-1" />
@@ -1267,7 +1470,7 @@ export default function ProspectFinderAgent() {
                   </CardContent>
                   </Card>
                 </Link>
-                ))}
+              ))}
               </div>
             ) : viewMode === 'table' ? (
               <div className="overflow-x-auto">
@@ -1350,9 +1553,9 @@ export default function ProspectFinderAgent() {
                       <div className="mt-3 flex items-center gap-2">
                         <Button size="sm" variant="outline" className="text-theme-blue-primary border-theme-blue-primary" onClick={() => handleAddToWatchlist(p)}>Watchlist</Button>
                         <Button size="sm" variant="outline" className="text-purple-600 border-purple-600" onClick={() => handleAddToProspects(p.businessProfileId, p)}>Prospect</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+            </div>
+          </CardContent>
+        </Card>
                 ))}
               </div>
             )}
