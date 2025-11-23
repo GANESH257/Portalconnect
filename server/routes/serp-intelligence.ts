@@ -15,7 +15,7 @@ function isMissouriCity(city: string): boolean {
   try {
     if (!city) return false;
     
-    const csvPath = path.join(process.cwd(), 'missouri_locations_transformed.csv');
+    const csvPath = path.join(process.cwd(), 'data', 'missouri_locations_transformed.csv');
     const csvContent = fs.readFileSync(csvPath, 'utf8');
     const lines = csvContent.split('\n').filter(line => line.trim());
     
