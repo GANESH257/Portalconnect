@@ -1,0 +1,3485 @@
+﻿Google Local Finder SERP: Overview
+This API is designed to provide top SERP results from Google Local Finder search
+The returned results are specific to the indicated keyword, search engine, and location parameters.
+Example of Google Local Finder search engine results:
+  
+
+We emulate the set location and search engine with the highest accuracy so that the results you receive will match the actual search results for the specified parameters at the time of task setting. You can always check the returned results by accessing the check_url in the Incognito mode to make sure the received data is entirely relevant. Note that user preferences, search history, and other personalized search factors are ignored by our system and thus would not be reflected in the returned SERP results.
+When setting a task, you can indicate the following device types and OS for which you would like to receive Google Local Finder results:
+* Mobile. Available OS types: iOS, Android
+* Desktop. Available OS types: Windows, macOS
+ 
+Google Local Finder SERP functions
+ 
+Google Local Finder SERP Advanced endpoint provides data on the top search engine results for the specified keyword, search engine, and location.
+
+Google Local Finder SERP HTML endpoint provides a raw HTML page of the top Google Local Finder results for the specified keyword, search engine, and location.
+Methods
+ 
+The cost of using Google Local Finder SERP endpoints depends on the selected method and priority of task execution. Available methods and priorities are described below.
+DataForSEO has two main methods to deliver SERP results: Standard and Live.
+If your system requires delivering instant results, the Live method is the best solution for you. Unlike the Standard method, this method doesn’t require making separate POST and GET requests to the corresponding endpoints.
+If you don’t need to receive data in real-time, you can use the Standard method of data retrieval. This method requires making separate POST and GET requests, but it’s more affordable. Using this method, you can retrieve the results after our system collects them.
+‌Alternatively, you can specify pingback_url or postback_url when setting a task, and we will notify you on completion of tasks or send the results to you respectively. Note that if you use the postback_url field, you should also indicate the function that will be applied for data retrieval: advanced or html.
+If you use the Standard method without specifying pingback_url or postback_url, you can receive the list of id for all completed tasks using the ‘Tasks Ready’ endpoint. It is designed to provide you with the list of completed tasks, which haven’t been collected yet. Then, you can retrieve the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+You can send up to 2000 POST and GET API calls per minute in total, with each POST call containing no more than 100 tasks. Contact us if you would like to raise the limit. ‌ 
+Priorities and cost
+ 
+The Live method delivers results in real-time, and accordingly, the cost of requests made using this method will be the highest.
+The Standard method has two different priorities that stand for the relative speed of task execution and have different prices:
+1. Normal priority;
+2. High priority.
+Note: setting depth above the default value will increase the cost of the task. Your account will be billed for every 20 results for desktop and for every 10 results for mobile.
+The cost can be calculated on the Pricing page.
+Setting Google Local Finder SERP Tasks
+‌‌
+Google Local Finder SERP API provides top search engine results specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.
+There are two different priorities that stand for the relative speed of task execution: normal and high.
+Note: your account will be billed per each SERP containing up to 20 results for desktop and up to 10 results for mobile.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/local_finder/task_post" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "local nail services",
+       "min_rating": 4.5,
+       "time_filter": "monday"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "3.20191128",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2539 sec.",
+ "cost": 0.1,
+ "tasks_count": 3,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11141653-0696-0066-0000-dd1e3c01884b",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0000 sec.",
+     "cost": 0.05,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "local_finder",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "local_finder",
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   },
+   {
+     "id": "11141653-0696-0066-0000-fa25e0da658e",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0000 sec.",
+     "cost": 0.05,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "local_finder",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "local_finder",
+       "language_name": "English",
+       "location_name": "United States",
+       "keyword": "local nail services",
+       "priority": 2,
+       "pingback_url": "https://your-server.com/pingscript?id=$id&tag=$tag",
+       "tag": "some_string_123",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   }
+ ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/local_finder/task_post Your account will be charged only for setting a task.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, with each POST call containing no more than 100 tasks. If your POST call contains over 100 tasks, the tasks over this limit will return the 40006 error. Visit DataForSEO Help Center to get practical tips for request handling depending on your SERP API payload volume.
+You can retrieve the results of completed tasks using the unique task identifier id. Alternatively, we can send them to you as soon as they are ready if you specify the postback_url or pingback_url when setting a task. Note that if your server doesn’t respond within 10 seconds, the connection will be aborted by timeout, and the task will be transferred to the ‘Tasks Ready’ list. The error code and message depend on your server’s configuration. See Help Center to learn more about using pingbacks and postbacks with DataForSEO APIs.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”
+learn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article
+	
+
+	priority
+	integer
+	task priority
+optional field
+can take the following values:
+1 – normal execution priority (set by default)
+2 – high execution priority
+You will be additionally charged for the tasks with high execution priority.
+The cost can be calculated on the Pricing page.
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,zoom” format
+if “zoom” is not specified, 9z will be applied as a default value
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “zoom”: 4z
+the maximum value for “zoom”: 18z
+example:
+52.6178549,-155.352142,18z
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value for desktop: 20
+max value for desktop: 500
+default value for mobile: 10
+max value for mobile: 350
+Your account will be billed per each SERP containing up to 20 results for desktop or up to 10 results for a mobile device;
+Setting depth above 20 for desktop or above 10 for mobile may result in additional charges if the search engine returns more than 20 or 10 results respectively;
+If the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically
+The cost can be calculated on the Pricing page.
+	
+
+	min_rating
+	float
+	filter results by minimum rating
+optional field
+possible values for desktop: 3.5, 4, 4.5;
+possible values for mobile: 2, 2.5, 3, 3.5, 4, 4.5
+	
+
+	time_filter
+	string
+	filter results by open hours
+optional field
+using this field, you can filter places in the results by the time a place is open for visitors
+note that Google may also provide results that do not match this filter
+possible values: "open_now", "24_hours", "$day_value", "$day_value;$time_value";
+instead of $day_value use one of these values: "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday";
+instead of $time_value use one of these values: "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
+example: "tuesday;18"
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	postback_url
+	string
+	return URL for sending task results
+optional field
+once the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.
+example:
+http://your-server.com/postbackscript?id=$id
+http://your-server.com/postbackscript?id=$id&tag=$tag
+Note: special characters in postback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+	
+
+	postback_data
+	string
+	postback_url datatype
+required field if you specify postback_url
+corresponds to the function you used for setting a task
+possible values:
+advanced, html
+	
+
+	pingback_url
+	string
+	notification URL of a completed task
+optional field
+when a task is completed we will notify you by GET request sent to the URL you have specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.
+example:
+http://your-server.com/pingscript?id=$id
+http://your-server.com/pingscript?id=$id&tag=$tag
+Note: special characters in pingback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+	
+
+	‌‌‌‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasksarray
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	unique task identifier in our system
+in the Universally unique identifier (UUID) format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+	
+
+	        status_message
+	string
+	informational message of the task
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+in this case, the value will be null
+	
+
+	‌‌
+Get Local Finder SERP Completed Tasks
+‌
+The ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+Note: due to the peculiarities of our architecture the queue of completed tasks is updated with a small delay, which can be an issue for high-volume users.
+If your system requires collecting over 1000 tasks a minute, we recommend using pingbacks/postbacks instead, and applying the Tasks Ready endpoint only to obtain the IDs of failed postback tasks.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/local_finder/tasks_ready" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "local_finder",
+       "tasks_ready"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_ready",
+       "se": "google",
+       "se_type": "local_finder"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "local_finder",
+         "date_posted": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/local_finder/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/local_finder/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/local_finder/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "local_finder",
+         "date_posted": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/local_finder/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/local_finder/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/local_finder/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/local_finder/tasks_ready
+You can obtain a list of completed tasks for the selected search engine (replace $se with a search engine name).
+GET https://api.dataforseo.com/v3/serp/$se/tasks_ready
+To obtain a list of completed SERP API tasks, use the following endpoint:
+GET https://api.dataforseo.com/v3/serp/tasks_readyYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within three previous days. The list will not contain the tasks which have already been collected and the tasks that were not collected within three days after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+example: local_finder
+	
+
+	            date_posted
+	string
+	date when the task was posted (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+Get Local Finder SERP Completed Tasks With Re-parsed Markup
+‌
+The ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.
+Learn more about re-parsing SERP markup in this help center article.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/local_finder/tasks_fixed" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "local_finder",
+       "tasks_fixed"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_fixed",
+       "se": "google",
+       "se_type": "local_finder"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "local_finder",
+         "date_fixed": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/local_finder/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/local_finder/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/local_finder/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "local_finder",
+         "date_fixed": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/local_finder/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/local_finder/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/local_finder/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/local_finder/tasks_fixedYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within the last 24 hours. The list will not contain the tasks which have already been collected and the tasks that were not collected within 24 hours after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+can take the following values: local_finder
+	
+
+	            date_fixed
+	string
+	date when the task was fixed (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+Get Google Local Finder SERP Advanced Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="02261816-2027-0066-0000-c27d02864073"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/local_finder/task_get/advanced/${id}" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+   "version": "0.1.20220819",
+   "status_code": 20000,
+   "status_message": "Ok.",
+   "time": "0.0847 sec.",
+   "cost": 0,
+   "tasks_count": 1,
+   "tasks_error": 0,
+   "tasks": [
+       {
+           "id": "09021430-0696-0066-0000-c80786095500",
+           "status_code": 20000,
+           "status_message": "Ok.",
+           "time": "0.0214 sec.",
+           "cost": 0,
+           "result_count": 1,
+           "path": [
+               "v3",
+               "serp",
+               "google",
+               "local_finder",
+               "task_get",
+               "advanced",
+               "09021430-0696-0066-0000-c80786095500"
+           ],
+           "data": {
+               "api": "serp",
+               "function": "task_get",
+               "se": "google",
+               "se_type": "local_finder",
+               "language_code": "en",
+               "location_code": 2840,
+               "keyword": "local nail services",
+               "min_rating": 4.5,
+               "time_filter": "monday",
+               "device": "desktop",
+               "os": "windows"
+           },
+           "result": [
+               {
+                   "keyword": "local nail services",
+                   "type": "local_finder",
+                   "se_domain": "google.com",
+                   "location_code": 2840,
+                   "language_code": "en",
+                   "check_url": "https://www.google.com/search?q=local+nail+services&oq=local+nail+services&tbm=lcl&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc&tbs=lrf:!1m4!1u3!2m2!3m1!1e1!1m4!1u2!2m2!2m1!1e1!1m7!1u3!3m4!3m3!5m2!2e1!3e1!4e2!2m1!1e3!2m4!1e2!5m2!2m1!2e9!3sIAE,lf:1,lf_ui:14",
+                   "datetime": "2022-09-02 11:30:28 +00:00",
+                   "spell": null,
+                   "refinement_chips": null,
+                   "item_types": [
+                       "local_pack"
+                   ],
+                   "se_results_count": 0,
+                   "items_count": 20,
+                   "items": [
+                       {
+                           "type": "local_pack",
+                           "rank_group": 1,
+                           "rank_absolute": 1,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[2]",
+                           "title": "Liam Nails",
+                           "description": "5+ years in business \nMon: 9AM–5PM · +1 443-640-4298 \n\"I’ve been to many nail places in my life and so far this one is the best.\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 443-640-4298",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?liam+nails",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 50,
+                               "rating_max": 5
+                           },
+                           "cid": "5302726516741959894",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 2,
+                           "rank_absolute": 2,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[4]",
+                           "title": "Elite Nails",
+                           "description": "10+ years in business · Bartlesville, OK, United States \nMon: 9AM–7PM · +1 918-333-9888 \n\"Best nail experience of all time!!!!\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 918-333-9888",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?elite+nails",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 353,
+                               "rating_max": 5
+                           },
+                           "cid": "17867200233795892980",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 3,
+                           "rank_absolute": 3,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[6]",
+                           "title": "Kim's Nails",
+                           "description": "10+ years in business · Bartlesville, OK, United States \nMon: 10AM–6PM · +1 918-331-9099 \n\"Thought it was a good place to get my nails done.\" \n",
+                           "domain": null,
+                           "phone": "+1 918-331-9099",
+                           "url": null,
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 150,
+                               "rating_max": 5
+                           },
+                           "cid": "4930805168864698620",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 4,
+                           "rank_absolute": 4,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[8]",
+                           "title": "The Nailspot",
+                           "description": "3+ years in business · Bartlesville, OK, United States · In Eastland Shopping Center \nMon: 10AM–6PM · +1 918-876-4593 \n\"I love The Nailspot always professional and amazing nail art designs!\" \n",
+                           "domain": "www.thenailspot.biz",
+                           "phone": "+1 918-876-4593",
+                           "url": "http://www.thenailspot.biz/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 160,
+                               "rating_max": 5
+                           },
+                           "cid": "12480940054693735955",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 5,
+                           "rank_absolute": 5,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[10]",
+                           "title": "KATE Nail Salon",
+                           "description": "Owasso, OK, United States · In Reasor's \nMon: 10AM–5PM · +1 918-401-4288 \n\"I absolutely loved my nails from here!!\" \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-401-4288",
+                           "url": "https://www.facebook.com/katenailok/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 143,
+                               "rating_max": 5
+                           },
+                           "cid": "14192547868485754516",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 6,
+                           "rank_absolute": 6,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[12]",
+                           "title": "Bellagio Nail Lounge",
+                           "description": "Webb City, MO, United States · In Madison Square \nMon: 9AM–7PM · +1 417-717-5026 \n\"This is my new nail place!\" \n",
+                           "domain": "bellagionailloungewebbcity.com",
+                           "phone": "+1 417-717-5026",
+                           "url": "https://bellagionailloungewebbcity.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 120,
+                               "rating_max": 5
+                           },
+                           "cid": "15457043881368533418",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 7,
+                           "rank_absolute": 7,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[14]",
+                           "title": "Humble Bees Nail Spa",
+                           "description": "Joplin, MO, United States · In Crown Plaza \nMon: 9AM–7PM · +1 417-553-0144 \n\"The nail technicians are wonderful, plus I love the atmosphere!\" \n",
+                           "domain": "www.humblebeesnail.com",
+                           "phone": "+1 417-553-0144",
+                           "url": "https://www.humblebeesnail.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 688,
+                               "rating_max": 5
+                           },
+                           "cid": "1529620928837849201",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 8,
+                           "rank_absolute": 8,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[16]",
+                           "title": "LEE NAILS SPA",
+                           "description": "3+ years in business · Owasso, OK, United States \nMon: 9:30AM–7PM · +1 918-516-2018 \n\"I will 100% continue to come here for my nails.\" \n",
+                           "domain": "leenailsspaowasso.com",
+                           "phone": "+1 918-516-2018",
+                           "url": "https://leenailsspaowasso.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 150,
+                               "rating_max": 5
+                           },
+                           "cid": "2509344316202225659",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 9,
+                           "rank_absolute": 9,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[18]",
+                           "title": "Lush Nail Bar",
+                           "description": "Broken Arrow, OK, United States \nMon: 9AM–7PM · +1 918-994-6399 \nOffer: We're open today! \n",
+                           "domain": "vnailweb.com",
+                           "phone": "+1 918-994-6399",
+                           "url": "https://vnailweb.com/lush-nail-bar-nail-salon-near-me-broken-arrow-ok-74012/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 364,
+                               "rating_max": 5
+                           },
+                           "cid": "2866933479710100417",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 10,
+                           "rank_absolute": 10,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[20]",
+                           "title": "Nail Tech",
+                           "description": "10+ years in business · Joplin, MO, United States · In Southside Shopping Center \nMon: 9AM–7PM · +1 417-206-9499 \n\"Hands down favorite nail salon!\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 417-206-9499",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?nail+tech",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 64,
+                               "rating_max": 5
+                           },
+                           "cid": "2079100440959176574",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 11,
+                           "rank_absolute": 11,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[22]",
+                           "title": "Reflections Salon & Spa",
+                           "description": "7+ years in business · Independence, KS, United States \nMon: 10AM–5:30PM · +1 620-331-0925 \n\"One nail had to be tipped because it had broken off short.\" \n",
+                           "domain": "site2trust.com",
+                           "phone": "+1 620-331-0925",
+                           "url": "https://site2trust.com/browse-category/beauty-and-personal-care",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 38,
+                               "rating_max": 5
+                           },
+                           "cid": "1852682742792509771",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 12,
+                           "rank_absolute": 12,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[24]",
+                           "title": "VOCO Nails",
+                           "description": "7+ years in business · Broken Arrow, OK, United States · In Quail Run \nMon: 9:30AM–7PM · +1 918-679-0246 \n\"Best nail experience I’ve ever had.\" \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-679-0246",
+                           "url": "https://www.facebook.com/HeatherLeTul",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 53,
+                               "rating_max": 5
+                           },
+                           "cid": "5952138210777509341",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 13,
+                           "rank_absolute": 13,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[26]",
+                           "title": "Mon Amie Nails and Spa",
+                           "description": "Tulsa, OK, United States \nMon: 9AM–7PM · +1 918-584-8176 \n\"Good for the nails, good for the soul!\" \n",
+                           "domain": "www.monamiespa.com",
+                           "phone": "+1 918-584-8176",
+                           "url": "https://www.monamiespa.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 469,
+                               "rating_max": 5
+                           },
+                           "cid": "4171968824820092118",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 14,
+                           "rank_absolute": 14,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[28]",
+                           "title": "Magic Nails",
+                           "description": "10+ years in business · Bentonville, AR, United States \nMon: 10AM–6PM · +1 479-273-0008 \n\"I absolutely love going here to get my nails done!\" \n",
+                           "domain": "m.facebook.com",
+                           "phone": "+1 479-273-0008",
+                           "url": "https://m.facebook.com/Magic-Nails-105426367618355/?ref=bookmarks",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 70,
+                               "rating_max": 5
+                           },
+                           "cid": "6737696406619835671",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 15,
+                           "rank_absolute": 15,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[30]",
+                           "title": "Xtreme Nails",
+                           "description": "10+ years in business · Broken Arrow, OK, United States \nMon: 10AM–7PM · +1 918-615-3434 \nTakeout · No delivery \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-615-3434",
+                           "url": "http://www.facebook.com/xtremenailsBAOK/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 161,
+                               "rating_max": 5
+                           },
+                           "cid": "17518792514080419735",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 16,
+                           "rank_absolute": 16,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[32]",
+                           "title": "Bally's Nails",
+                           "description": "10+ years in business · Tulsa, OK, United States \nMon: 10AM–7PM · +1 918-742-4340 \n\"I really want to thank you so much, Natalie, for fixing my nail.\" \n",
+                           "domain": "ballynailstulsa.com",
+                           "phone": "+1 918-742-4340",
+                           "url": "https://ballynailstulsa.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 188,
+                               "rating_max": 5
+                           },
+                           "cid": "10346393581796099215",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 17,
+                           "rank_absolute": 17,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[34]",
+                           "title": "Nail Focus",
+                           "description": "5+ years in business · Claremore, OK, United States · In The Market \nMon: 10AM–7PM · +1 918-341-7900 \n\"My nails are not easy to do because of my short wide nail beds.\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 918-341-7900",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?nail+focus",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 77,
+                               "rating_max": 5
+                           },
+                           "cid": "6191133628297990316",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 18,
+                           "rank_absolute": 18,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[36]",
+                           "title": "LV Nails",
+                           "description": "10+ years in business · Broken Arrow, OK, United States · In Arrow Village Shopping Center \nMon: 9:30AM–7:30PM · +1 918-251-8777 \n\"When I would go to other places my nails would always chip or crack.\" \n",
+                           "domain": "m.facebook.com",
+                           "phone": "+1 918-251-8777",
+                           "url": "https://m.facebook.com/profile.php?id=100063803643102&fref=nf&_rdr",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 91,
+                               "rating_max": 5
+                           },
+                           "cid": "13974777229434172959",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 19,
+                           "rank_absolute": 19,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[38]",
+                           "title": "Nail Status",
+                           "description": "Grove, OK, United States \nMon: 9AM–6PM · +1 918-787-9940 \n\"My favorite nail place\" \n",
+                           "domain": null,
+                           "phone": "+1 918-787-9940",
+                           "url": null,
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 48,
+                               "rating_max": 5
+                           },
+                           "cid": "2325380371126469804",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 20,
+                           "rank_absolute": 20,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[40]",
+                           "title": "Quincy nail bar",
+                           "description": "Joplin, MO, United States \nMon: 10AM–7:30PM · +1 417-553-0652 \n\"Also the gel nails are great\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 417-553-0652",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?quincy+nail+bar",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 127,
+                               "rating_max": 5
+                           },
+                           "cid": "2417129273791838327",
+                           "rectangle": null
+                       }
+                   ]
+               }
+           ]
+       }
+   ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/local_finder/task_get/advanced/$id Your account will be charged only for posting a task. You can get the results of the task within the next 30 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+a universally unique identifier (UUID)
+unique task identifier in our system
+you will be able to use it within 30 days to request the results of the task at any time
+	
+
+	‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+You can also get all available SERP features and possible extra elements by making a request to the following Sandbox URL:
+https://sandbox.dataforseo.com/v3/serp/google/local_finder/task_get/advanced/00000000-0000-0000-0000-000000000000
+The response will include all available items in the Google Local Finder SERP Advanced endpoint with the fields containing dummy data.
+You won’t be charged for using Sandbox endpoints.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+the keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided exact results
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results in SERP
+contains types of search results (items) found in SERP.
+possible item types:
+local_pack
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	            ‘Local Pack’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘local_pack’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                position
+	string
+	the alignment of the element in SERP
+can take the following values:
+left, right
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                phone
+	string
+	phone number
+	
+
+	                url
+	string
+	relevant URL
+	
+
+	                is_paid
+	boolean
+	indicates whether the element is an ad
+	
+
+	                rating
+	object
+	the item’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	float
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                cid
+	string
+	google-defined client id
+unique id of a local establishment;
+can be used with Google Reviews API to get a full list of reviews
+	
+
+	                rectangle
+	object
+	rectangle parameters
+contains cartesian coordinates and pixel dimensions of the result’s snippet in SERP
+in this case, will equal null
+	
+
+	‌‌
+Get Google Local Finder HTML Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="02261816-2027-0066-0000-c27d02864073"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/local_finder/task_get/html/${id}" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.3212 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151505-0696-0066-0000-340aec686f0d",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0684 sec.",
+     "cost": 0.00,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "local_finder",
+       "task_get",
+       "html",
+       "11151505-0696-0066-0000-340aec686f0d"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_get",
+       "se": "google",
+       "se_type": "local_finder",
+       "language_name": "English",
+       "location_code": 2840,
+       "keyword": "flight ticket new york san francisco",
+       "tag": "tag1",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "flight ticket new york san francisco",
+         "type": "local_finder",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "datetime": "2019-11-15 13:05:36 +0000",
+         "items_count": 1,
+         "items": [
+           {
+             "page": 1,
+             "date": "2019-11-15 13:05:36 +0000",
+             "html": "<!doctype html><html><head></head></body></html>"
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/local_finder/task_get/html/$id Your account will be charged only for posting a task. You can get the results of the task within the next 7 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+you will be able to use it within 7 days to request the results of the task at any time
+	
+
+	‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	                page
+	integer
+	serial number of the returned HTML page
+	
+
+	                date
+	string
+	date and time when the HTML page was scanned
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	                html
+	string
+	HTML page
+	
+
+	‌‌
+ Logo 
+
+* Introduction
+* Authentication
+* SERP API
+   * Overview
+   * ID List
+   * Errors
+   * Screenshot
+   * AI Summary
+   * Google
+      * Overview
+      * Locations
+      * Languages
+      * Organic
+      * Lite
+      * AI Mode
+      * Maps
+      * Local Finder
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Advanced
+            * HTML
+         * Live
+            * Advanced
+            * HTML
+      * News
+      * Events
+      * Images
+      * Search By Image
+      * Jobs
+      * Autocomplete
+      * Dataset Search
+      * Dataset Info
+      * Ads Advertisers
+      * Ads Search
+      * Finance Explore
+      * Finance Markets
+      * Finance Quote
+      * Finance Ticker Search
+   * Bing
+   * YouTube
+   * Yahoo
+   * Baidu
+   * Naver
+   * Seznam
+* AI Optimization API
+* Keywords Data API
+* Domain Analytics API
+* DataForSEO Labs API
+* Backlinks API
+* OnPage API
+* Content Analysis API
+* Content Generation API
+* Merchant API
+* App Data API
+* Business Data API
+* Databases
+* Appendix
+* Home Page
+* AI CHAT
+* Pricing
+* Sign in
+* Register
+* Docs v2
+Live Google Local Finder SERP
+‌‌
+Live Google Local_finder SERP provides real-time search engine results for the specified keyword and location. By default, you can get up to 20 results for desktop and up to 10 results for mobile.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/local_finder/live/advanced" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "local nail services",
+       "min_rating": 4.5,
+       "time_filter": "monday"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+   "version": "0.1.20220819",
+   "status_code": 20000,
+   "status_message": "Ok.",
+   "time": "4.0522 sec.",
+   "cost": 0.002,
+   "tasks_count": 1,
+   "tasks_error": 0,
+   "tasks": [
+       {
+           "id": "09021431-0696-0139-0000-b71ffca5264c",
+           "status_code": 20000,
+           "status_message": "Ok.",
+           "time": "4.0304 sec.",
+           "cost": 0.002,
+           "result_count": 1,
+           "path": [
+               "v3",
+               "serp",
+               "google",
+               "local_finder",
+               "live",
+               "advanced"
+           ],
+           "data": {
+               "api": "serp",
+               "function": "live",
+               "se": "google",
+               "se_type": "local_finder",
+               "language_code": "en",
+               "location_code": 2840,
+               "keyword": "local nail services",
+               "min_rating": 4.5,
+               "time_filter": "monday",
+               "device": "desktop",
+               "os": "windows"
+           },
+           "result": [
+               {
+                   "keyword": "local nail services",
+                   "type": "local_finder",
+                   "se_domain": "google.com",
+                   "location_code": 2840,
+                   "language_code": "en",
+                   "check_url": "https://www.google.com/search?q=local+nail+services&oq=local+nail+services&tbm=lcl&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc&tbs=lrf:!1m4!1u3!2m2!3m1!1e1!1m4!1u2!2m2!2m1!1e1!1m7!1u3!3m4!3m3!5m2!2e1!3e1!4e2!2m1!1e3!2m4!1e2!5m2!2m1!2e9!3sIAE,lf:1,lf_ui:14",
+                   "datetime": "2022-09-02 11:31:21 +00:00",
+                   "spell": null,
+                   "refinement_chips": null,
+                   "item_types": [
+                       "local_pack"
+                   ],
+                   "se_results_count": 0,
+                   "items_count": 20,
+                   "items": [
+                       {
+                           "type": "local_pack",
+                           "rank_group": 1,
+                           "rank_absolute": 1,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[2]",
+                           "title": "Liam Nails",
+                           "description": "5+ years in business \nMon: 9AM–5PM · +1 443-640-4298 \n\"I’ve been to many nail places in my life and so far this one is the best.\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 443-640-4298",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?liam+nails",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 50,
+                               "rating_max": 5
+                           },
+                           "cid": "5302726516741959894",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 2,
+                           "rank_absolute": 2,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[4]",
+                           "title": "Elite Nails",
+                           "description": "10+ years in business · Bartlesville, OK, United States \nMon: 9AM–7PM · +1 918-333-9888 \n\"Best nail experience of all time!!!!\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 918-333-9888",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?elite+nails",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 353,
+                               "rating_max": 5
+                           },
+                           "cid": "17867200233795892980",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 3,
+                           "rank_absolute": 3,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[6]",
+                           "title": "Kim's Nails",
+                           "description": "10+ years in business · Bartlesville, OK, United States \nMon: 10AM–6PM · +1 918-331-9099 \n\"Thought it was a good place to get my nails done.\" \n",
+                           "domain": null,
+                           "phone": "+1 918-331-9099",
+                           "url": null,
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 150,
+                               "rating_max": 5
+                           },
+                           "cid": "4930805168864698620",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 4,
+                           "rank_absolute": 4,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[8]",
+                           "title": "The Nailspot",
+                           "description": "3+ years in business · Bartlesville, OK, United States · In Eastland Shopping Center \nMon: 10AM–6PM · +1 918-876-4593 \n\"I love The Nailspot always professional and amazing nail art designs!\" \n",
+                           "domain": "www.thenailspot.biz",
+                           "phone": "+1 918-876-4593",
+                           "url": "http://www.thenailspot.biz/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 160,
+                               "rating_max": 5
+                           },
+                           "cid": "12480940054693735955",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 5,
+                           "rank_absolute": 5,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[10]",
+                           "title": "KATE Nail Salon",
+                           "description": "Owasso, OK, United States · In Reasor's \nMon: 10AM–5PM · +1 918-401-4288 \n\"I absolutely loved my nails from here!!\" \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-401-4288",
+                           "url": "https://www.facebook.com/katenailok/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 143,
+                               "rating_max": 5
+                           },
+                           "cid": "14192547868485754516",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 6,
+                           "rank_absolute": 6,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[12]",
+                           "title": "Humble Bees Nail Spa",
+                           "description": "Joplin, MO, United States · In Crown Plaza \nMon: 9AM–7PM · +1 417-553-0144 \n\"The nail technicians are wonderful, plus I love the atmosphere!\" \n",
+                           "domain": "www.humblebeesnail.com",
+                           "phone": "+1 417-553-0144",
+                           "url": "https://www.humblebeesnail.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 688,
+                               "rating_max": 5
+                           },
+                           "cid": "1529620928837849201",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 7,
+                           "rank_absolute": 7,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[14]",
+                           "title": "Bellagio Nail Lounge",
+                           "description": "Webb City, MO, United States · In Madison Square \nMon: 9AM–7PM · +1 417-717-5026 \n\"This is my new nail place!\" \n",
+                           "domain": "bellagionailloungewebbcity.com",
+                           "phone": "+1 417-717-5026",
+                           "url": "https://bellagionailloungewebbcity.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 120,
+                               "rating_max": 5
+                           },
+                           "cid": "15457043881368533418",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 8,
+                           "rank_absolute": 8,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[16]",
+                           "title": "Reflections Salon & Spa",
+                           "description": "7+ years in business · Independence, KS, United States \nMon: 10AM–5:30PM · +1 620-331-0925 \n\"One nail had to be tipped because it had broken off short.\" \n",
+                           "domain": "site2trust.com",
+                           "phone": "+1 620-331-0925",
+                           "url": "https://site2trust.com/browse-category/beauty-and-personal-care",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 38,
+                               "rating_max": 5
+                           },
+                           "cid": "1852682742792509771",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 9,
+                           "rank_absolute": 9,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[18]",
+                           "title": "LEE NAILS SPA",
+                           "description": "3+ years in business · Owasso, OK, United States \nMon: 9:30AM–7PM · +1 918-516-2018 \n\"I will 100% continue to come here for my nails.\" \n",
+                           "domain": "leenailsspaowasso.com",
+                           "phone": "+1 918-516-2018",
+                           "url": "https://leenailsspaowasso.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.8,
+                               "votes_count": 150,
+                               "rating_max": 5
+                           },
+                           "cid": "2509344316202225659",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 10,
+                           "rank_absolute": 10,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[20]",
+                           "title": "Lush Nail Bar",
+                           "description": "Broken Arrow, OK, United States \nMon: 9AM–7PM · +1 918-994-6399 \n\"This is my favorite nail bar..!\" \n",
+                           "domain": "vnailweb.com",
+                           "phone": "+1 918-994-6399",
+                           "url": "https://vnailweb.com/lush-nail-bar-nail-salon-near-me-broken-arrow-ok-74012/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 364,
+                               "rating_max": 5
+                           },
+                           "cid": "2866933479710100417",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 11,
+                           "rank_absolute": 11,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[22]",
+                           "title": "Nail Tech",
+                           "description": "10+ years in business · Joplin, MO, United States · In Southside Shopping Center \nMon: 9AM–7PM · +1 417-206-9499 \n\"Hands down favorite nail salon!\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 417-206-9499",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?nail+tech",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.6,
+                               "votes_count": 64,
+                               "rating_max": 5
+                           },
+                           "cid": "2079100440959176574",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 12,
+                           "rank_absolute": 12,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[24]",
+                           "title": "Mon Amie Nails and Spa",
+                           "description": "Tulsa, OK, United States \nMon: 9AM–7PM · +1 918-584-8176 \n\"Good for the nails, good for the soul!\" \n",
+                           "domain": "www.monamiespa.com",
+                           "phone": "+1 918-584-8176",
+                           "url": "https://www.monamiespa.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.9,
+                               "votes_count": 469,
+                               "rating_max": 5
+                           },
+                           "cid": "4171968824820092118",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 13,
+                           "rank_absolute": 13,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[26]",
+                           "title": "Magic Nails",
+                           "description": "10+ years in business · Bentonville, AR, United States \nMon: 10AM–6PM · +1 479-273-0008 \n\"I absolutely love going here to get my nails done!\" \n",
+                           "domain": "m.facebook.com",
+                           "phone": "+1 479-273-0008",
+                           "url": "https://m.facebook.com/Magic-Nails-105426367618355/?ref=bookmarks",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 70,
+                               "rating_max": 5
+                           },
+                           "cid": "6737696406619835671",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 14,
+                           "rank_absolute": 14,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[28]",
+                           "title": "Xtreme Nails",
+                           "description": "10+ years in business · Broken Arrow, OK, United States \nMon: 10AM–7PM · +1 918-615-3434 \nTakeaway · No delivery \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-615-3434",
+                           "url": "http://www.facebook.com/xtremenailsBAOK/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 161,
+                               "rating_max": 5
+                           },
+                           "cid": "17518792514080419735",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 15,
+                           "rank_absolute": 15,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[30]",
+                           "title": "Bally's Nails",
+                           "description": "10+ years in business · Tulsa, OK, United States \nMon: 10AM–7PM · +1 918-742-4340 \n\"I really want to thank you so much, Natalie, for fixing my nail.\" \n",
+                           "domain": "ballynailstulsa.com",
+                           "phone": "+1 918-742-4340",
+                           "url": "https://ballynailstulsa.com/",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 188,
+                               "rating_max": 5
+                           },
+                           "cid": "10346393581796099215",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 16,
+                           "rank_absolute": 16,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[32]",
+                           "title": "Nail Focus",
+                           "description": "5+ years in business · Claremore, OK, United States · In The Market \nMon: 10AM–7PM · +1 918-341-7900 \n\"My nails are not easy to do because of my short wide nail beds.\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 918-341-7900",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?nail+focus",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 77,
+                               "rating_max": 5
+                           },
+                           "cid": "6191133628297990316",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 17,
+                           "rank_absolute": 17,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[34]",
+                           "title": "VOCO Nails",
+                           "description": "7+ years in business · Broken Arrow, OK, United States · In Quail Run \nMon: 9:30AM–7PM · +1 918-679-0246 \n\"Best nail experience I’ve ever had.\" \n",
+                           "domain": "www.facebook.com",
+                           "phone": "+1 918-679-0246",
+                           "url": "https://www.facebook.com/HeatherLeTul",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 53,
+                               "rating_max": 5
+                           },
+                           "cid": "5952138210777509341",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 18,
+                           "rank_absolute": 18,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[36]",
+                           "title": "LV Nails",
+                           "description": "10+ years in business · Broken Arrow, OK, United States · In Arrow Village Shopping Center \nMon: 9:30AM–7:30PM · +1 918-251-8777 \n\"When I would go to other places my nails would always chip or crack.\" \n",
+                           "domain": "m.facebook.com",
+                           "phone": "+1 918-251-8777",
+                           "url": "https://m.facebook.com/profile.php?id=100063803643102&fref=nf&_rdr",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 91,
+                               "rating_max": 5
+                           },
+                           "cid": "13974777229434172959",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 19,
+                           "rank_absolute": 19,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[38]",
+                           "title": "Nail Status",
+                           "description": "Grove, OK, United States \nMon: 9AM–6PM · +1 918-787-9940 \n\"My favorite nail place\" \n",
+                           "domain": null,
+                           "phone": "+1 918-787-9940",
+                           "url": null,
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.7,
+                               "votes_count": 48,
+                               "rating_max": 5
+                           },
+                           "cid": "2325380371126469804",
+                           "rectangle": null
+                       },
+                       {
+                           "type": "local_pack",
+                           "rank_group": 20,
+                           "rank_absolute": 20,
+                           "position": "right",
+                           "xpath": "/html[1]/body[1]/div[6]/div[1]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[40]",
+                           "title": "Quincy nail bar",
+                           "description": "Joplin, MO, United States \nMon: 10AM–7:30PM · +1 417-553-0652 \n\"Also the gel nails are great\" \n",
+                           "domain": "kubiti.wordpress.com",
+                           "phone": "+1 417-553-0652",
+                           "url": "https://kubiti.wordpress.com/nail-trends/?quincy+nail+bar",
+                           "is_paid": false,
+                           "rating": {
+                               "rating_type": "Max5",
+                               "value": 4.5,
+                               "votes_count": 127,
+                               "rating_max": 5
+                           },
+                           "cid": "2417129273791838327",
+                           "rectangle": null
+                       }
+                   ]
+               }
+           ]
+       }
+   ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/local_finder/live/advancedYour account will be charged for each request.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, each Live SERP API call can contain only one task.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”
+learn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article
+	
+
+	priority
+	integer
+	task priority
+optional field
+can take the following values:
+1 – normal execution priority (set by default)
+2 – high execution priority
+You will be additionally charged for the tasks with high execution priority.
+The cost can be calculated on the Pricing page.
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,zoom” format
+if “zoom” is not specified, 9z will be applied as a default value
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “zoom”: 4z
+the maximum value for “zoom”: 18z
+example:
+52.6178549,-155.352142,20z
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value for desktop: 20
+max value for desktop: 100
+default value for mobile: 10
+max value for mobile: 100
+Your account will be billed per each SERP containing up to 20 results for desktop or up to 10 results for a mobile device;
+Setting depth above 20 for desktop or above 10 for mobile may result in additional charges if the search engine returns more than 20 or 10 results respectively;;
+If the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically
+The cost can be calculated on the Pricing page.
+	
+
+	min_rating
+	float
+	filter results by minimum rating
+optional field
+possible values for desktop: 3.5, 4, 4.5;
+possible values for mobile: 2, 2.5, 3, 3.5, 4, 4.5
+	
+
+	time_filter
+	string
+	filter results by open hours
+optional field
+using this field, you can filter places in the results by the time a place is open for visitors
+note that Google may also provide results that do not match this filter
+possible values: "open_now", "24_hours", "$day_value", "$day_value;$time_value";
+instead of $day_value use one of these values: "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday";
+instead of $time_value use one of these values: "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
+example: "tuesday;18"
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+‌
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+the keyword is returned with decoded %## (plus character ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided exact results
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results in SERP
+contains types of search results (items) found in SERP.
+possible item types:
+local_pack
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	            ‘Local Pack’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘local_pack’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                position
+	string
+	the alignment of the element in SERP
+can take the following values:
+left, right
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                phone
+	string
+	phone number
+	
+
+	                url
+	string
+	relevant URL
+	
+
+	                is_paid
+	boolean
+	indicates whether the element is an ad
+	
+
+	                rating
+	object
+	the item’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	float
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                cid
+	string
+	google-defined client id
+unique id of a local establishment;
+can be used with Google Reviews API to get a full list of reviews
+	
+
+	                rectangle
+	object
+	rectangle parameters
+contains cartesian coordinates and pixel dimensions of the result’s snippet in SERP
+in this case, will equal null
+	
+
+	‌‌
+cURL
+php
+NodeJs
+Python
+cSharp
+Live Google Local Finder SERP HTML
+‌
+Live Google Local Finder SERP HTML provides a raw HTML page of the search engine results for the specified keyword, search engine, and location.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/local_finder/live/htm" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+   "version": "0.1.20200130",
+   "status_code": 20000,
+   "status_message": "Ok.",
+   "time": "7.7543 sec.",
+   "cost": 0.003,
+   "tasks_count": 1,
+   "tasks_error": 0,
+   "tasks": [
+       {
+           "id": "01301613-1535-0140-0000-c64ff6de0501",
+           "status_code": 20000,
+           "status_message": "Ok.",
+           "time": "7.6463 sec.",
+           "cost": 0.003,
+           "result_count": 1,
+           "path": [
+               "v3",
+               "serp",
+               "google",
+               "local_finder",
+               "live",
+               "html"
+           ],
+           "data": {
+               "api": "serp",
+               "function": "live",
+               "se": "google",
+               "se_type": "local_finder",
+               "language_name": "English",
+               "location_name": "United States",
+               "keyword": "local nail services",
+               "tag": "tag1",
+               "device": "desktop",
+               "os": "windows"
+           },
+           "result": [
+               {
+                   "keyword": "local nail services",
+                   "type": "local_finder",
+                   "se_domain": "google.com",
+                   "location_code": 2840,
+                   "language_code": "en",
+                   "datetime": "2020-01-30 14:13:54 +0000",
+                   "items_count": 1,
+                   "items": [
+                       {
+                           "page": 1,
+                           "date": "2020-01-30 14:13:54 +0000",
+                           "html": "<!doctype html><html><head></head></body></html>"
+                       }
+                   ]
+               }
+           ]
+       }
+   ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/local_finder/live/htmlYour account will be charged for each request.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, each Live SERP API call can contain only one task.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”
+	
+
+	priority
+	integer
+	task priority
+optional field
+can take the following values:
+1 – normal execution priority (set by default)
+2 – high execution priority
+You will be additionally charged for the tasks with high execution priority.
+The cost can be calculated on the Pricing page.
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,zoom” format
+if “zoom” is not specified, 9z will be applied as a default value
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “zoom”: 4z
+the maximum value for “zoom”: 18z
+example:
+52.6178549,-155.352142,20z
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value for desktop: 20
+max value for desktop: 100
+default value for mobile: 10
+max value for mobile: 100
+Your account will be billed per each SERP containing up to 20 results for desktop or up to 10 results for a mobile device;
+Setting depth above 20 for desktop or above 10 for mobile may result in additional charges if the search engine returns more than 20 or 10 results respectively;
+If the specified depth is higher than the number of results in the response, the difference will be refunded to your account balance automatically
+The cost can be calculated on the Pricing page.
+	
+
+	min_rating
+	float
+	filter results by minimum rating
+optional field
+possible values for desktop: 3.5, 4, 4.5;
+possible values for mobile: 2, 2.5, 3, 3.5, 4, 4.5
+	
+
+	time_filter
+	string
+	filter results by open hours
+optional field
+using this field, you can filter places in the results by the time a place is open for visitors
+note that Google may also provide results that do not match this filter
+possible values: "open_now", "24_hours", "$day_value", "$day_value;$time_value";
+instead of $day_value use one of these values: "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday";
+instead of $time_value use one of these values: "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
+example: "tuesday;18"
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus character ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	                page
+	integer
+	serial number of the returned HTML page
+	
+
+	                date
+	string
+	date and time when the HTML page was scanned
+in the format: “year-month-date:minutes:UTC_difference_hours:UTC_difference_minutes”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	                html
+	string
+	HTML page
+	
+
+	‌‌

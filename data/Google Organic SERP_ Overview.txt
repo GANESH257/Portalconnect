@@ -1,0 +1,3143 @@
+﻿Google Organic SERP: Overview
+This API is designed to provide you with SERP results.
+The returned results are specific to the indicated keyword, search engine, and location parameters. We emulate set location and search engine with the highest accuracy so that the results you receive will match the actual search results for the specified parameters at the time of task setting. You can always check the returned results accessing the check_url in the Incognito mode to make sure the received data is entirely relevant. Note that user preferences, search history, and other personalized search factors are ignored by our system and thus would not be reflected in the returned SERP results.
+You can indicate the following device types and OS that you would like to receive SERP results for when setting a task:
+* Mobile. Available OS types: iOS, Android
+* Desktop. Available OS types: Windows, macOS
+‌
+Google Organic SERP functions
+ 
+Google Organic SERP Regular endpoint provides you with paid and organic search engine results. Note that this endpoint does not provide a complete overview of featured snippets and other extra elements of SERPs. Please, refer to Google Organic SERP Advanced if your project requires a detailed depiction of SERPs.
+Google Organic SERP Advanced endpoint provides data on search engine results for the specified keyword, search engine, and location. This endpoint will supply a complete overview of featured snippets and other extra elements of SERPs.
+Google Organic SERP HTML endpoint provides a raw HTML page of search engine results for the specified keyword, search engine, and location.
+‌ 
+Methods
+ 
+The cost of using Google Organic SERP endpoints depends on the selected method and priority of task execution. Available methods and priorities are described below.
+DataForSEO has two main methods to deliver SERP results: Standard and Live.
+If your system requires delivering instant results, the Live method is the best solution for you. Unlike the Standard method, this method doesn’t require making separate POST and GET requests to the corresponding endpoints.
+If you don’t need to receive data in real-time, you can use the Standard method of data retrieval. This method requires making separate POST and GET requests, but it’s more affordable. Using this method, you can retrieve the results after our system collects them.
+Alternatively, you can specify pingback_url or postback_url when setting a task, and we will notify you on completion of tasks or send them to you respectively.
+If you use the Standard method without specifying pingback_url or postback_url, you can receive the list of id for all completed tasks using the ‘Tasks Ready’ endpoint. It is designed to provide you with the list of completed tasks, which haven’t been collected yet. Then, you can retrieve the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+You can send up to 2000 API calls per minute, with each POST call containing no more than 100 tasks. Contact us if you would like to raise the limit.
+
+Priorities and cost
+ 
+The Live method delivers results in real-time, and accordingly, the cost of requests made using this method will be the highest.
+The Standard method has two different priorities that stand for the relative speed of task execution and have different prices:
+1. Normal priority;
+2. High priority.
+Note: there are several paid parameters that increase the cost of the task:
+* calculate_rectangles
+* search operators in keyword – ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘site:’
+* depth above the default value
+ 
+If you use paid parameters, the final cost of the task for the selected method and priority will be multiplied by the product of prices of all paid parameters you used. In short, the final cost of the task is calculated based on the formula below.
+cost= B * C * K * (D/default value)
+B=base price of the selected method and priority
+C=2, if "calculate_rectangles": true
+K=5, if keyword contains additional search operators
+D=depth value rounded up
+The cost can be calculated on the Pricing page.
+
+
+
+
+
+
+Setting Google Organic SERP Tasks
+‌‌
+SERP API provides top 10 search engine results by default. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.
+
+
+There are two different priorities that stand for the relative speed of task execution: normal and high.
+
+
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+
+
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST 'https://api.dataforseo.com/v3/serp/google/organic/task_post' \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein"
+   },
+   {
+       "language_name": "English",
+       "location_name": "United States",
+       "keyword": "albert einstein",
+       "priority": 2,
+       "tag": "some_string_123",
+       "pingback_url": "https://your-server.com/pingscript?id=$id&tag=$tag"
+   },
+   {
+       "url": "https://www.google.co.uk/search?q=albert%20einstein&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS",
+       "postback_data": "html",
+       "postback_url": "https://your-server.com/postbackscript"
+   }
+]'
+
+
+The above command returns JSON structured like this:
+
+
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.0818 sec.",
+ "cost": 0.0045,
+ "tasks_count": 3,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "01291721-1535-0066-0000-8f0635c0dc89",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0038 sec.",
+     "cost": 0.0015,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "organic",
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert enstein",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   },
+   {
+     "id": "01291721-1535-0066-0000-2e7a8bf7302c",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0050 sec.",
+     "cost": 0.0015,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "organic",
+       "language_name": "English",
+       "location_name": "United States",
+       "keyword": "albert enstein",
+       "priority":2,
+       "pingback_url": "https://your-server.com/pingscript?id=$id&tag=$tag",
+       "tag": "some_string_123",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   },
+   {
+     "id": "01291721-1535-0066-0000-ed3110168d43",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0040 sec.",
+     "cost": 0.0015,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "organic",
+       "url": "https://www.google.co.uk/search?q=albert%20einstein&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS",
+       "postback_data": "html",
+       "postback_url": "https://your-server.com/postbackscript",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   }
+ ]
+}
+
+
+POST https://api.dataforseo.com/v3/serp/google/organic/task_post
+Your account will be charged only for setting a task.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, with each POST call containing no more than 100 tasks. If your POST call contains over 100 tasks, the tasks over this limit will return the 40006 error. Visit DataForSEO Help Center to get practical tips for request handling depending on your SERP API payload volume.
+
+
+You can retrieve the results of completed tasks using the unique task identifier id. Alternatively, we can send them to you as soon as they are ready if you specify the postback_url or pingback_url when setting a task. Note that if your server doesn’t respond within 10 seconds, the connection will be aborted by timeout, and the task will be transferred to the ‘Tasks Ready’ list. The error code and message depend on your server’s configuration.
+
+
+See Help Center to learn more about using pingbacks and postbacks with DataForSEO APIs.
+
+
+Below you will find a detailed description of the fields you can use for setting a task.
+
+
+Description of the fields for setting a task:
+
+
+Field name        Type        Description
+keyword        string        keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”;
+if this field contains such parameters as ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘site:’, the charge per task will be multiplied by 5
+Note: queries containing the ‘cache:’ parameter are not supported and will return a validation error
+learn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article
+
+
+url        string        direct URL of the search query
+optional field
+you can specify a direct URL and we will sort it out to the necessary fields. Note that this method is the most difficult for our API to process and also requires you to specify the exact language and location in the URL. In most cases, we wouldn’t recommend using this method.
+example:
+https://www.google.co.uk/search?q=%20rank%20tracker%20api&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS
+priority        integer        task priority
+optional field
+can take the following values:
+1 – normal execution priority (set by default);
+2 – high execution priority
+You will be additionally charged for the tasks with high execution priority.
+The cost can be calculated on the Pricing page.
+depth        integer        parsing depth
+optional field
+number of results in SERP
+default value: 10
+max value: 700
+Your account will be billed per each SERP containing up to 10 results;
+Setting depth above 10 may result in additional charges if the search engine returns more than 10 results;
+The cost can be calculated on the Pricing page.
+stop_crawl_on_match        array        array of targets to stop crawling
+optional field
+if specified, the response will contain SERP results up to and including the specified match_value;
+you can specify up to 10 target values in this array
+example:
+"stop_crawl_on_match":[{"match_value":"dataforseo.com","match_type":"with_subdomains"}]
+Your account will be billed per each SERP crawled through the specified targets;
+       match_value        string        array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+specify a target domain or wildcard value;
+Note: domain name must be specified without a request protocol;
+example: dataforseo.com
+       match_type        array        array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+type of match for the match_value
+possible values: domain, with_subdomains, wildcard
+max_crawl_pages        integer        page crawl limit
+optional field
+number of search results pages to crawl
+max value: 100
+Note: you will be charged for each page crawled (10 organic results per page);
+learn more about pricing on our Pricing page;
+Note#2: the max_crawl_pages and depth parameters complement each other;
+learn more at our help center
+location_name        string        full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+location_code        integer        search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+location_coordinate        string        GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,radius” format
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “radius”: 199.9 (mm)
+the maximum value for “radius”: 199999 (mm)
+example:
+53.476225,-2.243572,200
+language_name        string        full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+language_code        string        search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+en
+se_domain        string        search engine domain
+optional field
+we choose the relevant search engine domain automatically according to the location and language you specify
+however, you can set a custom search engine domain in this field
+example:
+google.co.uk, google.com.au, google.de, etc.
+device        string        device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+os        string        device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+group_organic_results        boolean        display related results
+optional field
+if set to true, the related_result element in the response will be provided as a snippet of its parent organic result;
+if set to false, the related_result element will be provided as a separate organic result;
+default value: true
+calculate_rectangles        boolean        calcualte pixel rankings for SERP elements in advanced results
+optional field
+pixel ranking refers to the distance between the result snippet and top left corner of the screen;
+Visit Help Center to learn more>>
+by default, the parameter is set to false
+Note: you will be charged extra $0.0006 for using this parameter
+browser_screen_width        integer        browser screen width
+optional field
+you can set a custom browser screen width to calculate pixel rankings for a particular device;
+by default, the parameter is set to:
+1920 for desktop;
+360 for mobile on android;
+375 for mobile on iOS;
+Note: to use this parameter, set calculate_rectangles to true
+browser_screen_height        integer        browser screen height
+optional field
+you can set a custom browser screen height to calculate pixel rankings for a particular device;
+by default, the parameter is set to:
+1080 for desktop;
+640 for mobile on android;
+812 for mobile on iOS;
+Note: to use this parameter, set calculate_rectangles to true
+browser_screen_resolution_ratio        integer        browser screen resolution ratio
+optional field
+you can set a custom browser screen resolution ratio to calculate pixel rankings for a particular device;
+by default, the parameter is set to:
+1 for desktop;
+3 for mobile on android;
+3 for mobile on iOS;
+Note: to use this parameter, set calculate_rectangles to true
+people_also_ask_click_depth        integer        clicks on the corresponding element
+optional field
+specify the click depth on the people_also_ask element to get additional people_also_ask_element items;
+Note your account will be billed $0.00015 extra for each click regardless of task priority;
+if the element is absent or we perform fewer clicks than you specified, all extra charges will be returned to your account balance
+possible values: from 1 to 4
+load_async_ai_overview        boolean        load asynchronous ai overview
+optional field
+set to true to obtain ai_overview items is SERPs even if they are loaded asynchronically;
+if set to false, you will only obtain ai_overview items from cache;
+default value: false
+Note: you will be charged extra $0.0006 for using this parameter;
+if the element is absent or contains "asynchronous_ai_overview": false, all extra charges will be returned to your account balance
+expand_ai_overview        boolean        expand ai overview
+optional field
+set to true to expand the ai_overview item;
+default value: false;
+Note: this parameter applies only to HTML task results
+search_param        string        additional parameters of the search query
+optional field
+get the list of available parameters and additional details here
+remove_from_url        array        remove specific parameters from URLs
+optional field
+using this field, you can specify up to 10 parameters to remove from URLs in the result
+example:
+"remove_from_url": ["srsltid"]
+tag        string        user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+postback_url        string        return URL for sending task results
+optional field
+once the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request
+example:
+http://your-server.com/postbackscript?id=$id
+http://your-server.com/postbackscript?id=$id&tag=$tag
+Note: special characters in postback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+
+
+postback_data        string        postback_url datatype
+required field if you specify postback_url
+corresponds to the datatype that will be sent to your server
+possible values:
+regular, advanced, html
+pingback_url        string        notification URL of a completed task
+optional field
+when a task is completed we will notify you by GET request sent to the URL you have specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.
+example:
+http://your-server.com/pingscript?id=$id
+http://your-server.com/pingscript?id=$id&tag=$tag
+Note: special characters in pingback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+
+
+‌‌‌‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+
+
+Description of the fields in the results array:
+
+
+Field name        Type        Description
+version        string        the current version of the API
+status_code        integer        general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+status_message        string        general informational message
+you can find the full list of general informational messages here
+time        string        execution time, seconds
+cost        float        total tasks cost, USD
+tasks_count        integer        the number of tasks in the tasksarray
+tasks_error        integer        the number of tasks in the tasks array returned with an error
+tasks        array        array of tasks
+       id        string        unique task identifier in our system
+in the Universally unique identifier (UUID) format
+       status_code        integer        status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+       status_message        string        informational message of the task
+       time        string        execution time, seconds
+       cost        float        cost of the task, USD
+       result_count        integer        number of elements in the result array
+       path        array        URL path
+       data        object        contains the same parameters that you specified in the POST request
+       result        array        array of results
+in this case, the value will be null
+‌‌
+
+
+
+
+
+Get Organic SERP Completed Tasks
+‌
+The ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+Note: due to the peculiarities of our architecture the queue of completed tasks is updated with a small delay, which can be an issue for high-volume users.
+If your system requires collecting over 1000 tasks a minute, we recommend using pingbacks/postbacks instead, and applying the Tasks Ready endpoint only to obtain the IDs of failed postback tasks.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/organic/tasks_ready" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "tasks_ready"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_ready",
+       "se": "google",
+       "se_type": "organic"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "organic",
+         "date_posted": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/organic/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/organic/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/organic/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "organic",
+         "date_posted": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/organic/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/organic/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/organic/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/organic/tasks_ready
+You can obtain a list of completed tasks for the selected search engine (replace $se with a search engine name).
+GET https://api.dataforseo.com/v3/serp/$se/tasks_ready
+To obtain a list of completed SERP API tasks, use the following endpoint:
+GET https://api.dataforseo.com/v3/serp/tasks_readyYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within three previous days. The list will not contain the tasks which have already been collected and the tasks that were not collected within three days after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+example: organic
+	
+
+	            date_posted
+	string
+	date when the task was posted (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+
+
+
+Get Organic SERP Completed Tasks With Re-parsed Markup
+‌
+The ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.
+Learn more about re-parsing SERP markup in this help center article.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/organic/tasks_fixed" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "tasks_fixed"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_fixed",
+       "se": "google",
+       "se_type": "organic"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "organic",
+         "date_fixed": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/organic/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/organic/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/organic/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "organic",
+         "date_fixed": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/organic/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/organic/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/organic/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/organic/tasks_fixedYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within the last 24 hours. The list will not contain the tasks which have already been collected and the tasks that were not collected within 24 hours after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+can take the following values: organic
+	
+
+	            date_fixed
+	string
+	date when the task was fixed (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+Get Google Organic SERP Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="09171517-0696-0242-0000-a96bc1ad0bce"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/organic/task_get/regular/${id}" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.3059 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151456-0696-0066-0000-002a5915da37",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0952 sec.",
+     "cost": 0,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "task_get",
+       "regular",
+       "11151456-0696-0066-0000-002a5915da37"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_get",
+       "se": "google",
+       "se_type": "organic",
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "flight ticket new york san francisco",
+       "priority": "2",
+       "tag": "tag2",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "flight ticket new york san francisco",
+         "type": "organic",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "check_url": "https://www.google.com/search?q=flight%20ticket%20new%20york%20san%20francisco&num=100&hl=en&gl=US&gws_rd=cr&ie=UTF-8&oe=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+         "datetime": "2019-11-15 12:57:46 +00:00",
+         "spell": null,
+         "refinement_chips": {
+           "type": "refinement_chips",
+           "xpath": "/html[1]/body[1]/div[3]/div[1]/div[9]/div[1]/div[1]/div[3]/div[1]/div[1]",
+           "items": [
+             {
+               "type": "refinement_chips_element",
+               "title": "Remote",
+               "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+remote&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7drlQNXJ_q6WhUnfcnlFQAOVqvQ09aiEx7jUP4Wb5sg6FzKTGyEoBQg36hfgreicnnhtBQv8H25iRkUIMWBSqTcu0nGLObB57jKDn4sIHqgjkv6AqtXzA0gTV6n6-p1_aOUPMmYdgJOPy5xybgxI0ZY3-OZUg&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQxKsJegQIHRAB&ictx=0",
+               "domain": "www.google.com",
+               "options": null
+             },
+             {
+               "type": "refinement_chips_element",
+               "title": "Date posted",
+               "url": null,
+               "domain": null,
+               "options": [
+                 {
+                   "type": "refinement_chips_option",
+                   "title": "Yesterday",
+                   "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+since+yesterday&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7d1cxhUU_4I1tnZ_YIEcACz8ZYvzwewv2vtaifFRGAtrClbFOcrHbTAbAeXm1jREcC6VS1VsCvY-sITnX4ozb-ILgfWEVwq_Z5ROUTUSIPShEnKXD5sUUbZbocrG609xSmt2d98g8y8m1lGjX2kp2G7tWTnMoyaYhx7tPHFsc1SlxiTTuylOmQpyaET98nEnMhDFUw8hSQnpfQcpEDEdBLwrOxN3gOZC4RtcHuKTyeCrFRnaDjQ17dNosh1yiBWrSXB9e1dQF-1Pt17wXCHwRUCH6wH0DbAN-oCNd7lMT2v24eI8rDkLQP3kTLpzGMUZReaWIAPw&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQkbEKegQIDxAD",
+                   "domain": "www.google.com"
+                 },
+                 {
+                   "type": "refinement_chips_option",
+                   "title": "Last 3 days",
+                   "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+in+the+last+3+days&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7dLQVdkfQJDu14-gF_eQoKa39tQdXyMUfu3HnnM3Pu4g5hOzwEez_H8t-yULnPJEgal7YGml0mtSaIuH3YeuIhPq5mBSo_ECo7hOJVwSRGkksXQg-RdTy8GhoT8Qm-ZFkyAQnSLmnlmv0Rm042YAlQ6JFqnfOW0VIOgTeTdYm6SLpzQ3a6YSvEf2tau3pEKxnGWKleL613vj0tLBWg4Jhsa0trdMkFPHDQYhc2caGQ8cmSYU4cqdB2Eq3PsNGgjgebvt7_7bbvjixC19O4L9ZB02rwY0EP30_mYAeTG9lYAx8ZJvGDslVLp0DHS93P8ynaiA7Bbw&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQkbEKegQIDxAE",
+                   "domain": "www.google.com"
+                 }
+               ]
+             }
+           ]
+         },
+         "item_types": [
+           "featured_snippet",
+           "organic",
+           "paid",
+           "ai_overview"
+         ],
+         "se_results_count": 85600000,
+         "pages_count": 1,
+         "items_count": 96,
+         "items": [
+           {
+             "type": "paid",
+             "rank_group": 1,
+             "rank_absolute": 1,
+             "page": 1,
+             "domain": "www.bookingbuddy.com",
+             "title": "Flights To Lwo | Unbelievably Cheap Flights | BookingBuddy.com‎",
+             "description": "Compare Airlines & Sites. Cheap Flights on BookingBuddy, a TripAdvisor Company",
+             "url": "https://www.bookingbuddy.com/en/hero/",
+             "breadcrumb": "www.bookingbuddy.com/Flights"
+           },
+           {
+             "type": "paid",
+             "rank_group": 2,
+             "rank_absolute": 2,
+             "page": 1,
+             "domain": "www.trip.com",
+             "title": "Cheap Flight Tickets | Search & Find Deals on Flights | trip.com‎",
+             "description": "Wide Selection of Cheap Flights Online. Explore & Save with Trip.com! Fast, Easy & Secure...",
+             "url": "https://www.trip.com/flights/index?utm_campaign=GG_SE_All_en_Flight_Generic_NA_Phrase",
+             "breadcrumb": "www.trip.com/"
+           },
+           {
+             "type": "paid",
+             "rank_group": 3,
+             "rank_absolute": 4,
+             "page": 1,
+             "domain": "www.kayak.com",
+             "title": "Find the Cheapest Flights | Search, Compare & Save Today‎",
+             "description": "Cheap Flights, Airline Tickets and Flight Deals. Compare 100s of Airlines Worldwide. Search...",
+             "url": "https://www.kayak.com/horizon/sem/flights/general",
+             "breadcrumb": "www.kayak.com/flights"
+           },
+           {
+             "type": "featured_snippet",
+             "rank_group": 1,
+             "rank_absolute": 5,
+             "page": 1,
+             "domain": "www.kayak.com",
+             "title": "Cheap Flights from New York to San Francisco from $182 ...",
+             "description": "Fly from New York to San Francisco on Frontier from $182, United Airlines from ... the cheapest round-trip tickets were found on Frontier ($182), United Airlines ...",
+             "url": "https://www.kayak.com/flight-routes/New-York-NYC/San-Francisco-SFO",
+             "breadcrumb": null
+           },
+           {
+             "type": "organic",
+             "rank_group": 1,
+             "rank_absolute": 6,
+             "page": 1,
+             "domain": "www.skyscanner.com",
+             "title": "Cheap flights from New York to San Francisco SFO from $123 ...",
+             "description": "Flight information New York to San Francisco International .... tool will help you find the cheapest tickets from New York in San Francisco in just a few clicks.",
+             "url": "https://www.skyscanner.com/routes/nyca/sfo/new-york-to-san-francisco-international.html",
+             "breadcrumb": "https://www.skyscanner.com › United States › New York"
+           },
+           {
+             "type": "organic",
+             "rank_group": 2,
+             "rank_absolute": 7,
+             "page": 1,
+             "domain": "www.expedia.com",
+             "title": "JFK to SFO: Flights from New York to San Francisco for 2019 ...",
+             "description": "Book your New York (JFK) to San Francisco (SFO) flight with our Best Price ... How much is a plane ticket to San Francisco (SFO) from New York (JFK)?.",
+             "url": "https://www.expedia.com/lp/flights/jfk/sfo/new-york-to-san-francisco",
+             "breadcrumb": "https://www.expedia.com › flights › jfk › sfo › new-york-to-san-francisco"
+           },
+           {
+             "type": "organic",
+             "rank_group": 94,
+             "rank_absolute": 97,
+             "page": 1,
+             "domain": "www.ethiopianairlines.com",
+             "title": "Ethiopian Airlines | Book your next flight online and Fly Ethiopian",
+             "description": "Fly to your Favorite International Destination with Ethiopian Airlines. Book your Flights Online for Best Offers/Discounts and Enjoy African Flavored Hospitality.",
+             "url": "https://www.ethiopianairlines.com/",
+             "breadcrumb": "https://www.ethiopianairlines.com"
+           },
+           {
+             "type": "organic",
+             "rank_group": 95,
+             "rank_absolute": 98,
+             "page": 1,
+             "domain": "www.vietnamairlines.com",
+             "title": "Vietnam Airlines | Reach Further | Official website",
+             "description": "Great value fares with Vietnam Airlines. Book today and save! Skytrax – 4 Star airline. Official website. Earn frequent flyer miles with Lotusmiles.",
+             "url": "https://www.vietnamairlines.com/",
+             "breadcrumb": "https://www.vietnamairlines.com"
+           },
+           {
+             "type": "organic",
+             "rank_group": 96,
+             "rank_absolute": 99,
+             "page": 1,
+             "domain": "books.google.com",
+             "title": "Code of Federal Regulations: 1985-1999",
+             "description": "A purchases in New York a round-trip ticket for transportation by air from New York to ... B purchases a ticket in San Francisco for Combination rail and water ...",
+             "url": "https://books.google.com/books?id=av3umFsqbAEC&pg=PA305&lpg=PA305&dq=flight+ticket+new+york+san+francisco&source=bl&ots=fJJY5RUS9l&sig=ACfU3U16ejUqNf23jHD32QNCxDCa05Vn9g&hl=en&ppis=_e&sa=X&ved=2ahUKEwjs_4OnouzlAhXJ4zgGHeBcD3oQ6AEwdXoECHEQAQ",
+             "breadcrumb": "https://books.google.com › books"
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/organic/task_get/regular/$id Your account will be charged only for posting a task. You can get the results of the task within the next 30 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+you will be able to use it within 30 days to request the results of the task at any time
+	
+
+	‌‌‌‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+You can also get all available SERP features by making a request to the following Sandbox URL:
+https://sandbox.dataforseo.com/v3/serp/google/organic/task_get/regular/00000000-0000-0000-0000-000000000000
+The response will include all available items in the Google Organic SERP Regular endpoint with the fields containing dummy data.
+You won’t be charged for using Sandbox endpoints.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array that were returned an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided accurate results
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+note: Yahoo and Yandex support only the following autocorrection type:
+including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results found in SERP
+contains types of all search results (items) found in the returned SERP
+possible item types:
+answer_box, app, carousel, multi_carousel, featured_snippet, google_flights, google_reviews, images, jobs, knowledge_graph, local_pack, map, organic, paid, people_also_ask, related_searches, people_also_search, shopping, top_stories, twitter, video, events, mention_carousel, ai_overview
+note that this array contains all types of search results found in the returned SERP;
+however, this endpoint provides data for featured_snippet, organic and paid types only;
+to get all items (including SERP features and rich snippets) found in the returned SERP, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            pages_count
+	integer
+	total search results pages retrieved
+total number of retrieved SERPs in the result
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	items in SERP
+	
+
+	            ‘organic’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘organic’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results;
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                title
+	string
+	title of the results element in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                breadcrumb
+	string
+	breadcrumb in SERP
+	
+
+	            ‘paid’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘paid’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results;
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                title
+	string
+	title of the ad element in SERP
+	
+
+	                domain
+	string
+	domain of the ad element in SERP
+	
+
+	                description
+	string
+	description of the ad element in SERP
+	
+
+	                url
+	string
+	relevant URL of the ad element in SERP
+	
+
+	                breadcrumb
+	string
+	breadcrumb of the ad element in SERP
+	
+
+	            ‘featured_snippet’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘featured_snippet’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results;
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                url
+	string
+	relevant URL
+	
+
+	                breadcrumb
+	string
+	always equals null
+	
+
+	‌‌
+Get Google Organic HTML Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="02261816-2027-0066-0000-c27d02864073"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/organic/task_get/html/${id}" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.3212 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151505-0696-0066-0000-340aec686f0d",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0684 sec.",
+     "cost": 0.00,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "task_get",
+       "html",
+       "11151505-0696-0066-0000-340aec686f0d"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_get",
+       "se": "google",
+       "se_type": "organic",
+       "language_name": "English",
+       "location_code": 2840,
+       "keyword": "flight ticket new york san francisco",
+       "tag": "tag1",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "flight ticket new york san francisco",
+         "type": "organic",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "datetime": "2019-11-15 13:05:36 +0000",
+         "items_count": 1,
+         "items": [
+           {
+             "page": 1,
+             "date": "2019-11-15 13:05:36 +0000",
+             "html": "<!doctype html><html><head></head></body></html>"
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/organic/task_get/html/$id Your account will be charged only for posting a task. You can get the results of the task within the next 7 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+you will be able to use it within 7 days to request the results of the task at any time
+	
+
+	‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	                page
+	integer
+	serial number of the returned HTML page
+	
+
+	                date
+	string
+	date and time when the HTML page was scanned
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	                html
+	string
+	HTML page
+	
+
+	‌‌
+
+
+
+
+Live Google Organic SERP Regular
+Live SERP provides real-time data on search engine results for the specified keyword, search engine, and location.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/organic/live/regular" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "12.2397 sec.",
+ "cost": 0.003,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "01301234-1535-0121-0000-9c8e396a59cc",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "12.1329 sec.",
+     "cost": 0.003,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "organic",
+       "live",
+       "regular"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "live",
+       "se": "google",
+       "se_type": "organic",
+       "language_name": "English",
+       "location_name": "United States",
+       "keyword": "flight ticket new york san francisco",
+       "tag": "tag2",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "flight ticket new york san francisco",
+         "type": "organic",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "check_url": "https://www.google.com/search?q=flight%20ticket%20new%20york%20san%20francisco&num=100&hl=en&gl=US&gws_rd=cr&ie=UTF-8&oe=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+         "datetime": "2019-11-15 12:57:46 +00:00",
+         "spell": null,
+         "refinement_chips": {
+           "type": "refinement_chips",
+           "xpath": "/html[1]/body[1]/div[3]/div[1]/div[9]/div[1]/div[1]/div[3]/div[1]/div[1]",
+           "items": [
+             {
+               "type": "refinement_chips_element",
+               "title": "Remote",
+               "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+remote&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7drlQNXJ_q6WhUnfcnlFQAOVqvQ09aiEx7jUP4Wb5sg6FzKTGyEoBQg36hfgreicnnhtBQv8H25iRkUIMWBSqTcu0nGLObB57jKDn4sIHqgjkv6AqtXzA0gTV6n6-p1_aOUPMmYdgJOPy5xybgxI0ZY3-OZUg&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQxKsJegQIHRAB&ictx=0",
+               "domain": "www.google.com",
+               "options": null
+             },
+             {
+               "type": "refinement_chips_element",
+               "title": "Date posted",
+               "url": null,
+               "domain": null,
+               "options": [
+                 {
+                   "type": "refinement_chips_option",
+                   "title": "Yesterday",
+                   "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+since+yesterday&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7d1cxhUU_4I1tnZ_YIEcACz8ZYvzwewv2vtaifFRGAtrClbFOcrHbTAbAeXm1jREcC6VS1VsCvY-sITnX4ozb-ILgfWEVwq_Z5ROUTUSIPShEnKXD5sUUbZbocrG609xSmt2d98g8y8m1lGjX2kp2G7tWTnMoyaYhx7tPHFsc1SlxiTTuylOmQpyaET98nEnMhDFUw8hSQnpfQcpEDEdBLwrOxN3gOZC4RtcHuKTyeCrFRnaDjQ17dNosh1yiBWrSXB9e1dQF-1Pt17wXCHwRUCH6wH0DbAN-oCNd7lMT2v24eI8rDkLQP3kTLpzGMUZReaWIAPw&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQkbEKegQIDxAD",
+                   "domain": "www.google.com"
+                 },
+                 {
+                   "type": "refinement_chips_option",
+                   "title": "Last 3 days",
+                   "url": "https://www.google.com/search?num=100&sca_esv=427163c40a0d98b7&hl=en&gl=US&glp=1&q=bristol+temp+agencies+in+the+last+3+days&uds=ADvngMjcH0KdF7qGWtwTBrP0nt7dLQVdkfQJDu14-gF_eQoKa39tQdXyMUfu3HnnM3Pu4g5hOzwEez_H8t-yULnPJEgal7YGml0mtSaIuH3YeuIhPq5mBSo_ECo7hOJVwSRGkksXQg-RdTy8GhoT8Qm-ZFkyAQnSLmnlmv0Rm042YAlQ6JFqnfOW0VIOgTeTdYm6SLpzQ3a6YSvEf2tau3pEKxnGWKleL613vj0tLBWg4Jhsa0trdMkFPHDQYhc2caGQ8cmSYU4cqdB2Eq3PsNGgjgebvt7_7bbvjixC19O4L9ZB02rwY0EP30_mYAeTG9lYAx8ZJvGDslVLp0DHS93P8ynaiA7Bbw&sa=X&ved=2ahUKEwjEjMPzrvyIAxVgpIkEHYTyBqEQkbEKegQIDxAE",
+                   "domain": "www.google.com"
+                 }
+               ]
+             }
+           ]
+         },
+         "item_types": [
+           "paid",
+           "organic",
+           "ai_overview"
+         ],
+         "se_results_count": 85600000,
+         "pages_count": 1,
+         "items_count": 96,
+         "items": [
+           {
+             "type": "featured_snippet",
+             "rank_group": 1,
+             "rank_absolute": 1,
+             "page": 1,
+             "domain": "www.rome.net",
+             "title": "Rome Metro - Lines, hours, fares and Rome metro maps",
+             "description": "Most important metro stationsCipro - Musei Vaticani: The closest stop to the Vatican Museums and to the Sistine Chapel.Ottaviano - San Pietro: This station is a few minutes' walk from St. Peter's Square and St. Peter's Basilica.Spagna: Very convenient for visiting Piazza di Spagna and Villa Borghese.More items...",
+             "url": "https://www.rome.net/metro",
+             "breadcrumb": null
+           },
+           {
+             "type": "paid",
+             "rank_group": 1,
+             "rank_absolute": 2,
+             "page": 1,
+             "domain": "www.bookingbuddy.com",
+             "title": "Flights To Lwo | Unbelievably Cheap Flights | BookingBuddy.com‎",
+             "description": "Compare Airlines & Sites. Cheap Flights on BookingBuddy, a TripAdvisor Company",
+             "url": "https://www.bookingbuddy.com/en/hero/",
+             "breadcrumb": "www.bookingbuddy.com/Flights"
+           },
+           {
+             "type": "paid",
+             "rank_group": 2,
+             "rank_absolute": 3,
+             "page": 1,
+             "domain": "www.trip.com",
+             "title": "Cheap Flight Tickets | Search & Find Deals on Flights | trip.com‎",
+             "description": "Wide Selection of Cheap Flights Online. Explore & Save with Trip.com! Fast, Easy & Secure...",
+             "url": "https://www.trip.com/flights/index?utm_campaign=GG_SE_All_en_Flight_Generic_NA_Phrase",
+             "breadcrumb": "www.trip.com/"
+           },
+           {
+             "type": "paid",
+             "rank_group": 3,
+             "rank_absolute": 4,
+             "page": 1,
+             "domain": "www.kayak.com",
+             "title": "Find the Cheapest Flights | Search, Compare & Save Today‎",
+             "description": "Cheap Flights, Airline Tickets and Flight Deals. Compare 100s of Airlines Worldwide. Search...",
+             "url": "https://www.kayak.com/horizon/sem/flights/general",
+             "breadcrumb": "www.kayak.com/flights"
+           },
+           {
+             "type": "organic",
+             "rank_group": 1,
+             "rank_absolute": 5,
+             "page": 1,
+             "domain": "www.kayak.com",
+             "title": "Cheap Flights from New York to San Francisco from $182 ...",
+             "description": "Fly from New York to San Francisco on Frontier from $182, United Airlines from ... the cheapest round-trip tickets were found on Frontier ($182), United Airlines ...",
+             "url": "https://www.kayak.com/flight-routes/New-York-NYC/San-Francisco-SFO",
+             "breadcrumb": "https://www.kayak.com › Flights › North America › United States › California"
+           },
+           {
+             "type": "organic",
+             "rank_group": 2,
+             "rank_absolute": 6,
+             "page": 1,
+             "domain": "www.skyscanner.com",
+             "title": "Cheap flights from New York to San Francisco SFO from $123 ...",
+             "description": "Flight information New York to San Francisco International .... tool will help you find the cheapest tickets from New York in San Francisco in just a few clicks.",
+             "url": "https://www.skyscanner.com/routes/nyca/sfo/new-york-to-san-francisco-international.html",
+             "breadcrumb": "https://www.skyscanner.com › United States › New York"
+           },
+           {
+             "type": "organic",
+             "rank_group": 3,
+             "rank_absolute": 7,
+             "page": 1,
+             "domain": "www.expedia.com",
+             "title": "JFK to SFO: Flights from New York to San Francisco for 2019 ...",
+             "description": "Book your New York (JFK) to San Francisco (SFO) flight with our Best Price ... How much is a plane ticket to San Francisco (SFO) from New York (JFK)?.",
+             "url": "https://www.expedia.com/lp/flights/jfk/sfo/new-york-to-san-francisco",
+             "breadcrumb": "https://www.expedia.com › flights › jfk › sfo › new-york-to-san-francisco"
+           },
+           {
+             "type": "organic",
+             "rank_group": 94,
+             "rank_absolute": 97,
+             "page": 1,
+             "domain": "www.ethiopianairlines.com",
+             "title": "Ethiopian Airlines | Book your next flight online and Fly Ethiopian",
+             "description": "Fly to your Favorite International Destination with Ethiopian Airlines. Book your Flights Online for Best Offers/Discounts and Enjoy African Flavored Hospitality.",
+             "url": "https://www.ethiopianairlines.com/",
+             "breadcrumb": "https://www.ethiopianairlines.com"
+           },
+           {
+             "type": "organic",
+             "rank_group": 95,
+             "rank_absolute": 98,
+             "page": 1,
+             "domain": "www.vietnamairlines.com",
+             "title": "Vietnam Airlines | Reach Further | Official website",
+             "description": "Great value fares with Vietnam Airlines. Book today and save! Skytrax – 4 Star airline. Official website. Earn frequent flyer miles with Lotusmiles.",
+             "url": "https://www.vietnamairlines.com/",
+             "breadcrumb": "https://www.vietnamairlines.com"
+           },
+           {
+             "type": "organic",
+             "rank_group": 96,
+             "rank_absolute": 99,
+             "page": 1,
+             "domain": "books.google.com",
+             "title": "Code of Federal Regulations: 1985-1999",
+             "description": "A purchases in New York a round-trip ticket for transportation by air from New York to ... B purchases a ticket in San Francisco for Combination rail and water ...",
+             "url": "https://books.google.com/books?id=av3umFsqbAEC&pg=PA305&lpg=PA305&dq=flight+ticket+new+york+san+francisco&source=bl&ots=fJJY5RUS9l&sig=ACfU3U16ejUqNf23jHD32QNCxDCa05Vn9g&hl=en&ppis=_e&sa=X&ved=2ahUKEwjs_4OnouzlAhXJ4zgGHeBcD3oQ6AEwdXoECHEQAQ",
+             "breadcrumb": "https://books.google.com › books"
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/organic/live/regularYour account will be charged for each request.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, each Live SERP API call can contain only one task.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	url
+	string
+	direct URL of the search query
+optional field
+you can specify a direct URL and we will sort it out to the necessary fields. Note that this method is the most difficult for our API to process and also requires you to specify the exact language and location in the URL. In most cases, we wouldn’t recommend using this method.
+example:
+https://www.google.co.uk/search?q=%20rank%20tracker%20api&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”;
+if this field contains such parameters as ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘site:’, the charge per task will be multiplied by 5
+Note: queries containing the ‘cache:’ parameter are not supported and will return a validation error
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,radius” format
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “radius”: 199.9 (mm)
+the maximum value for “radius”: 199999 (mm)
+example:
+53.476225,-2.243572,200
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	se_domain
+	string
+	search engine domain
+optional field
+we choose the relevant search engine domain automatically according to the location and language you specify
+however, you can set a custom search engine domain in this field
+example:
+google.co.uk, google.com.au, google.de, etc.
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value: 10
+max value: 200
+Your account will be billed per each SERP containing up to 10 results;
+Setting depth above 10 may result in additional charges if the search engine returns more than 10 results;
+The cost can be calculated on the Pricing page.
+	
+
+	target
+	string
+	target domain, subdomain, or webpage to get results for
+optional field
+a domain or a subdomain should be specified without https:// and www.
+note that the results of target-specific tasks will only include SERP elements that contain a url string;
+you can also use a wildcard (‘*’) character to specify the search pattern in SERP and narrow down the results;
+examples:
+example.com – returns results for the website’s home page with URLs, such as https://example.com, or https://www.example.com/, or https://example.com/;
+example.com* – returns results for the domain, including all its pages;
+*example.com* – returns results for the entire domain, including all its pages and subdomains;
+*example.com – returns results for the home page regardless of the subdomain, such as https://en.example.com;
+example.com/example-page – returns results for the exact URL;
+example.com/example-page* – returns results for all domain’s URLs that start with the specified string
+	
+
+	stop_crawl_on_match
+	array
+	array of targets to stop crawling
+optional field
+if specified, the response will contain SERP results up to and including the specified match_value;
+you can specify up to 10 target values in this array
+example:
+"stop_crawl_on_match":[{"match_value":"dataforseo.com","match_type":"with_subdomains"}]
+Your account will be billed per each SERP crawled through the specified targets;
+	
+
+	        match_value
+	string
+	array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+specify a target domain or wildcard value;
+Note: domain name must be specified without a request protocol;
+example: dataforseo.com
+	
+
+	        match_type
+	array
+	array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+type of match for the match_value
+possible values: domain, with_subdomains, wildcard
+	
+
+	group_organic_results
+	boolean
+	display related results
+optional field
+if set to true, the related_result element in the response will be provided as a snippet of its parent organic result;
+if set to false, the related_result element will be provided as a separate organic result;
+default value: true
+	
+
+	max_crawl_pages
+	integer
+	page crawl limit
+optional field
+number of search results pages to crawl
+max value: 100
+Note: you will be charged for each page crawled (10 organic results per page);
+learn more about pricing on our Pricing page;
+Note#2: the max_crawl_pages and depth parameters complement each other;
+learn more at our help center
+	
+
+	search_param
+	string
+	additional parameters of the search query
+optional field
+get the list of available parameters and additional details here
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	‌‌‌‌‌‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasksarray
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	unique task identifier in our system
+in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus character ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided exact results
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results found in SERP
+contains types of all search results (items) found in the returned SERP
+possible item types:
+answer_box, app, carousel, multi_carousel, featured_snippet, google_flights, google_reviews, images, jobs, knowledge_graph, local_pack, map, organic, paid, people_also_ask, related_searches, people_also_search, shopping, top_stories, twitter, video, events, mention_carousel, ai_overview
+note that this array contains all types of search results found in the returned SERP;
+however, this endpoint provides data for featured_snippet, organic and paid types only
+to get all items (inlcuding SERP features and rich snippets) found in the returned SERP, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            pages_count
+	integer
+	total search results pages retrieved
+total number of retrieved SERPs in the result
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	items in SERP
+	
+
+	            ‘featured_snippet’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘featured_snippet’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results;
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                url
+	string
+	relevant URL
+	
+
+	                breadcrumb
+	string
+	always equals null
+	
+
+	            ‘organic’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘organic’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                domain
+	string
+	domain in SERP
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                description
+	string
+	description of the results element in SERP
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                breadcrumb
+	string
+	breadcrumb in SERP
+	
+
+	            ‘paid’ element in SERP
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘paid’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements found in SERP
+note values are returned in the ascending order, with values corresponding to advanced SERP features omitted from the results
+to get all items (including SERP features and rich snippets) with their positions, please refer to the Google Organiс Advanced SERP endpoint
+	
+
+	                page
+	integer
+	search results page number
+indicates the number of the SERP page on which the element is located
+	
+
+	                domain
+	string
+	domain of the ad element in SERP
+	
+
+	                title
+	string
+	title of the ad element in SERP
+	
+
+	                description
+	string
+	description of the ad element in SERP
+	
+
+	                url
+	string
+	relevant URL of the ad element in SERP
+	
+
+	                breadcrumb
+	string
+	breadcrumb of the ad element in SERP
+	
+
+	‌‌
+Live Google Organic SERP HTML
+ 
+‌
+Live SERP HTML provides a raw HTML page of search engine results for the specified keyword, search engine, and location.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/organic/live/html" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+   "version": "0.1.20200130",
+   "status_code": 20000,
+   "status_message": "Ok.",
+   "time": "7.7543 sec.",
+   "cost": 0.003,
+   "tasks_count": 1,
+   "tasks_error": 0,
+   "tasks": [
+       {
+           "id": "01301613-1535-0140-0000-c64ff6de0501",
+           "status_code": 20000,
+           "status_message": "Ok.",
+           "time": "7.6463 sec.",
+           "cost": 0.003,
+           "result_count": 1,
+           "path": [
+               "v3",
+               "serp",
+               "google",
+               "organic",
+               "live",
+               "html"
+           ],
+           "data": {
+               "api": "serp",
+               "function": "live",
+               "se": "google",
+               "se_type": "organic",
+               "language_code": "en",
+               "location_code": "2840",
+               "keyword": "albert einstein",
+               "tag": "tag2",
+               "device": "desktop",
+               "os": "windows"
+           },
+           "result": [
+               {
+                   "keyword": "albert einstein",
+                   "type": "organic",
+                   "se_domain": "google.com",
+                   "location_code": 2840,
+                   "language_code": "en",
+                   "datetime": "2020-01-30 14:13:54 +0000",
+                   "items_count": 1,
+                   "items": [
+                       {
+                           "page": 1,
+                           "date": "2020-01-30 14:13:54 +0000",
+                           "html": "<!doctype html><html><head></head></body></html>"
+                       }
+                   ]
+               }
+           ]
+       }
+   ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/organic/live/htmlYour account will be charged for each request.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, each Live SERP API call can contain only one task.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	url
+	string
+	direct URL of the search query
+optional field
+you can specify a direct URL and we will sort it out to the necessary fields. Note that this method is the most difficult for our API to process and also requires you to specify the exact language and location in the URL. In most cases, we wouldn’t recommend using this method.
+example:
+https://www.google.co.uk/search?q=%20rank%20tracker%20api&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”;
+if this field contains such parameters as ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘related:’, ‘site:’, the charge per task will be multiplied by 5
+Note: queries containing the ‘cache:’ parameter are not supported and will return a validation error
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,radius” format
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “radius”: 199.9 (mm)
+the maximum value for “radius”: 199999 (mm)
+example:
+53.476225,-2.243572,200
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	se_domain
+	string
+	search engine domain
+optional field
+we choose the relevant search engine domain automatically according to the location and language you specify
+however, you can set a custom search engine domain in this field
+example:
+google.co.uk, google.com.au, google.de, etc.
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value: 10
+max value: 200
+Your account will be billed per each SERP containing up to 10 results;
+Setting depth above 10 may result in additional charges if the search engine returns more than 10 results;
+The cost can be calculated on the Pricing page.
+	
+
+	max_crawl_pages
+	integer
+	page crawl limit
+optional field
+number of search results pages to crawl
+max value: 100
+Note: you will be charged for each page crawled (10 organic results per page);
+learn more about pricing on our Pricing page;
+Note#2: the max_crawl_pages and depth parameters complement each other;
+learn more at our help center
+	
+
+	search_param
+	string
+	additional parameters of the search query
+optional field
+get the list of available parameters and additional details here
+	
+
+	load_async_ai_overview
+	boolean
+	load asynchronous ai overview
+optional field
+set to true to obtain ai_overview items is SERPs even if they are loaded asynchronically;
+if set to false, you will only obtain ai_overview items from cache;
+default value: false
+Note your account will be billed $0.002 extra for each request;
+if the element is absent or contains "asynchronous_ai_overview": false, all extra charges will be returned to your account balance
+	
+
+	expand_ai_overview
+	boolean
+	expand ai overview
+optional field
+set to true to expand the ai_overview item;
+default value: false
+	
+
+	stop_crawl_on_match
+	array
+	array of targets to stop crawling
+optional field
+if specified, the response will contain SERP results up to and including the specified match_value;
+you can specify up to 10 target values in this array
+example:
+"stop_crawl_on_match":[{"match_value":"dataforseo.com","match_type":"with_subdomains"}]
+Your account will be billed per each SERP crawled through the specified targets;
+	
+
+	        match_value
+	string
+	array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+specify a target domain or wildcard value;
+Note: domain name must be specified without a request protocol;
+example: dataforseo.com
+	
+
+	        match_type
+	array
+	array of targets to stop crawling
+required field if stop_crawl_on_match is specified;
+type of match for the match_value
+possible values: domain, with_subdomains, wildcard
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	‌‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+keyword is returned with decoded %## (plus character ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	                page
+	integer
+	serial number of the returned HTML page
+	
+
+	                date
+	string
+	date and time when the HTML page was scanned
+in the format: “year-month-date:minutes:UTC_difference_hours:UTC_difference_minutes”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	                html
+	string
+	HTML page
+	
+
+	‌‌

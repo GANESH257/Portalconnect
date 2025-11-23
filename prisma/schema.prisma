@@ -115,7 +115,7 @@ model SerpResult {
   resultType        String   @map("result_type") // organic, local_pack, maps, featured_snippet
   title             String?
   description       String?
-  url               String?
+  url               String?  @db.Text
   domain            String?
   websiteName       String?  @map("website_name")
   phone             String?
@@ -133,8 +133,8 @@ model SerpResult {
   isVideo           Boolean  @default(false) @map("is_video")
   isMalicious       Boolean  @default(false) @map("is_malicious")
   breadcrumb        String?
-  cacheUrl          String?  @map("cache_url")
-  relatedSearchUrl  String?  @map("related_search_url")
+  cacheUrl          String?  @map("cache_url") @db.Text
+  relatedSearchUrl  String?  @map("related_search_url") @db.Text
   extendedSnippet   String?  @map("extended_snippet")
   highlighted       Json?    // Array of highlighted keywords (stored as JSON)
   links             Json?    // Related links as JSON
@@ -170,7 +170,7 @@ model BusinessProfile {
   cid               String?  // Google CID
   name              String
   domain            String?
-  websiteUrl        String?  @map("website_url")
+  websiteUrl        String?  @map("website_url") @db.Text
   category          String?
   subcategory       String?
   industry          String?
@@ -235,7 +235,7 @@ model KeywordRanking {
   rankAbsolute      Int      @map("rank_absolute")
   page              Int      @default(1)
   position          String?
-  url               String?
+  url               String?  @db.Text
   title             String?
   description       String?
   isPaid            Boolean  @default(false) @map("is_paid")

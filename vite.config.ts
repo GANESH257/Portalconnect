@@ -26,5 +26,6 @@ export default defineConfig({
         main: path.resolve(__dirname, "index.html"),
       },
     },
+    copyPublicDir: true,
   },
 });

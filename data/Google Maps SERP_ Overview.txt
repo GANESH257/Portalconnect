@@ -1,0 +1,4610 @@
+﻿Google Maps SERP: Overview
+This API is designed to provide you with the top 100 SERP results from Google Maps search
+The returned results are specific to the indicated keyword, search engine, and location parameters. Note that the results this endpoint provides are based on the “search this area” parameter, as it’s the only way to perform the search within a custom location in Google Maps. Please, make sure to select this parameter when checking the results to get accurate SERP positions.
+Example of Google Maps search engine results:
+
+We emulate set location and search engine with the highest accuracy so that the results you receive will match the actual search results for the specified parameters at the time of task setting. You can always check the returned results accessing the check_url in the Incognito mode to make sure the received data is entirely relevant. Note that user preferences, search history, and other personalized search factors are ignored by our system and thus would not be reflected in the returned SERP results.
+You can indicate the following device types and OS you would like to receive Google Maps results for when setting a task:
+* Mobile. Available OS types: iOS, Android
+* Desktop. Available OS types: Windows, macOS
+ 
+Google Maps SERP functions
+ 
+Google Maps SERP Advanced endpoint provides data on the top 100 search engine results for the specified keyword, search engine, and location.
+
+Methods
+ 
+The cost of using Google Maps SERP endpoints depends on the selected method and priority of task execution. Available methods and priorities are described below.
+DataForSEO has two main methods to deliver SERP results: Standard and Live.
+If your system requires delivering instant results, the Live method is the best solution for you. Unlike the Standard method, this method doesn’t require making separate POST and GET requests to the corresponding endpoints.
+If you don’t need to receive data in real-time, you can use the Standard method of data retrieval. This method requires making separate POST and GET requests, but it’s more affordable. Using this method, you can retrieve the results after our system collects them.
+‌Alternatively, you can specify pingback_url or postback_url when setting a task, and we will notify you on completion of tasks or send the results to you respectively. Note that if you use the postback_url field, you should also indicate the advanced function that will be applied for data retrieval.
+If you use the Standard method without specifying pingback_url or postback_url, you can receive the list of id for all completed tasks using the ‘Tasks Ready’ endpoint. It is designed to provide you with a list of completed tasks, which haven’t been collected yet. Then, you can retrieve the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+You can send up to 2000 POST and GET API calls per minute in total, with each POST call containing no more than 100 tasks. Contact us if you would like to raise the limit. ‌ 
+Priorities and cost
+ 
+The Live method delivers results in real-time, and accordingly, the cost of requests made using this method will be the highest.
+The Standard method has two different priorities that stand for the relative speed of task execution and have different prices:
+1. Normal priority;
+2. High priority.
+Note: setting depth above the default value will increase the cost of the task. For example, if the default value is 100, you will be billed for every 100 results. So, if you specify "depth": 150, the price for the task will be multiplied by 2 and you will be billed as for 200 results.
+The cost can be calculated on the Pricing page.
+
+
+Setting Google Maps SERP Tasks
+‌‌
+SERP API provides top 100 search engine results. These results are specific to the selected location (see the List of Locations) and language (see the List of Languages) settings.
+There are two different priorities that stand for the relative speed of task execution: normal and high.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/maps/task_post" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw '[
+   {
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein"
+   }
+]'
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "3.20191128",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2539 sec.",
+ "cost": 0.1,
+ "tasks_count": 3,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11141653-0696-0066-0000-dd1e3c01884b",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0000 sec.",
+     "cost": 0.05,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "maps",
+       "language_code": "en",
+       "location_code": 2840,
+       "keyword": "albert einstein",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   },
+   {
+     "id": "11141653-0696-0066-0000-fa25e0da658e",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0000 sec.",
+     "cost": 0.05,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "maps",
+       "language_name": "English",
+       "location_name": "United States",
+       "keyword": "albert einstein",
+       "priority": 2,
+       "pingback_url": "https://your-server.com/pingscript?id=$id&tag=$tag",
+       "tag": "some_string_123",
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": null
+   },
+   {
+     "id": "11141653-0696-0066-0000-fa25e0da658e",
+     "status_code": 20100,
+     "status_message": "Task Created.",
+     "time": "0.0000 sec.",
+     "cost": 0.05,
+     "result_count": 0,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "task_post"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_post",
+       "se": "google",
+       "se_type": "maps",
+       "url": "https://www.google.co.uk/search?q=albert%20einstein&hl=en&gl=GB&uule=w+CAIQIFISCXXeIa8LoNhHEZkq1d1aOpZS",
+       "postback_data": "advanced",
+       "postback_url": "https://your-server.com/postbackscript",
+       "device": "desktop",
+       "os": "windows"
+     }
+   }
+ ]
+}
+
+
+
+
+POST https://api.dataforseo.com/v3/serp/google/maps/task_post Your account will be charged only for setting a task.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, with each POST call containing no more than 100 tasks. If your POST call contains over 100 tasks, the tasks over this limit will return the 40006 error. Visit DataForSEO Help Center to get practical tips for request handling depending on your SERP API payload volume.
+You can retrieve the results of completed tasks using the unique task identifier id. Alternatively, we can send them to you as soon as they are ready if you specify the postback_url or pingback_url when setting a task. Note that if your server doesn’t respond within 10 seconds, the connection will be aborted by timeout, and the task will be transferred to the ‘Tasks Ready’ list. The error code and message depend on your server’s configuration. See Help Center to learn more about using pingbacks and postbacks with DataForSEO APIs.
+Below you will find a detailed description of the fields you can use for setting a task.
+Description of the fields for setting a task:
+Field name
+	Type
+	Description
+	
+
+	url
+	string
+	direct URL of the search query
+optional field
+you can specify a direct URL and we will sort it out to the necessary fields. Note that this method is the most difficult for our API to process and also requires you to specify the exact language and location in the URL. In most cases, we wouldn’t recommend using this method.
+example:
+https://google.com/maps/search/pizza/@37.09024,-95.712891,4z
+	
+
+	keyword
+	string
+	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”;
+if this field contains such parameters as ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘related:’, ‘site:’, the charge per task will be multiplied by 5
+Note: queries containing the ‘cache:’ parameter are not supported and will return a validation error
+learn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article
+	
+
+	priority
+	integer
+	task priority
+optional field
+can take the following values:
+1 – normal execution priority (set by default)
+2 – high execution priority
+You will be additionally charged for the tasks with high execution priority.
+The cost can be calculated on the Pricing page.
+	
+
+	location_name
+	string
+	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+	
+
+	location_code
+	integer
+	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+	
+
+	location_coordinate
+	string
+	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,zoom” format
+if “zoom” is not specified, 17z will be applied as a default value
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “zoom”: 3z
+the maximum value for “zoom”: 21z
+example:
+52.6178549,-155.352142,20z
+	
+
+	language_name
+	string
+	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+	
+
+	language_code
+	string
+	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+en
+	
+
+	device
+	string
+	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+note: for mobile device, only 20 results are returned for every SERP
+	
+
+	os
+	string
+	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+	
+
+	se_domain
+	string
+	search engine domain
+optional field
+we choose the relevant search engine domain automatically according to the location and language you specify
+however, you can set a custom search engine domain in this field
+example:
+google.co.uk, google.com.au, google.de, etc.
+	
+
+	depth
+	integer
+	parsing depth
+optional field
+number of results in SERP
+default value: 100
+max value: 700
+Your account will be billed per each SERP containing up to 100 results;
+Setting depth above 100 may result in additional charges if the search engine returns more than 100 results;
+The cost can be calculated on the Pricing page.
+	
+
+	max_crawl_pages
+	integer
+	page crawl limit
+optional field
+number of search results pages to crawl
+max value: 100
+Note: the max_crawl_pages and depth parameters complement each other;
+learn more at our help center
+	
+
+	search_this_area
+	boolean
+	search this area
+
+
+
+optional field
+can take the values:true, false
+default value: trueif set to false, the search_this_area mode will be turned off
+Note: if the search_this_area mode is turned off, Google Maps listings might contain results beyond the displayed area
+	
+
+	search_places
+	boolean
+	search places mode
+optional field
+the search places mode allows to obtain Google Maps results on a certain place (e.g., Apple Store in New York)
+however, due to the pecularities of our data mining algorithm, this mode might interfere with some local-intent queries – and display results for a location that is different from that specified in the request;
+to prevent this interference and obtain correct results for keywords with local intent you may set this parameter to false;default value: true
+Note: if the search_places mode is turned off and no results were found in the search area, the results array will be empty
+	
+
+	tag
+	string
+	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+	
+
+	postback_url
+	string
+	return URL for sending task results
+optional field
+once the task is completed, we will send a POST request with its results compressed in the gzip format to the postback_url you specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.
+example:
+http://your-server.com/postbackscript?id=$id
+http://your-server.com/postbackscript?id=$id&tag=$tag
+Note: special characters in postback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+	
+
+	postback_data
+	string
+	postback_url datatype
+required field if you specify postback_url
+corresponds to the function you used for setting a task
+possible values:
+advanced
+	
+
+	pingback_url
+	string
+	notification URL of a completed task
+optional field
+when a task is completed we will notify you by GET request sent to the URL you have specified
+you can use the ‘$id’ string as a $id variable and ‘$tag’ as urlencoded $tag variable. We will set the necessary values before sending the request.
+example:
+http://your-server.com/pingscript?id=$id
+http://your-server.com/pingscript?id=$id&tag=$tag
+Note: special characters in pingback_url will be urlencoded;
+i.a., the # character will be encoded into %23
+learn more on our Help Center
+	
+
+	‌‌‌‌‌
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasksarray
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	unique task identifier in our system
+in the Universally unique identifier (UUID) format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+	
+
+	        status_message
+	string
+	informational message of the task
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+in this case, the value will be null
+	
+
+	‌‌
+Get Maps SERP Completed Tasks
+‌
+The ‘Tasks Ready’ endpoint is designed to provide you with the list of completed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed tasks using this endpoint. Then, you can collect the results using the ‘Task GET’ endpoint.
+Learn more about task completion and obtaining a list of completed tasks in this help center article.
+Note: due to the peculiarities of our architecture the queue of completed tasks is updated with a small delay, which can be an issue for high-volume users.
+If your system requires collecting over 1000 tasks a minute, we recommend using pingbacks/postbacks instead, and applying the Tasks Ready endpoint only to obtain the IDs of failed postback tasks.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/maps/tasks_ready" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "tasks_ready"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_ready",
+       "se": "google",
+       "se_type": "maps"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "maps",
+         "date_posted": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/maps/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/maps/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/maps/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "maps",
+         "date_posted": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/maps/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/maps/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/maps/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/maps/tasks_ready
+You can obtain a list of completed tasks for the selected search engine (replace $se with a search engine name).
+GET https://api.dataforseo.com/v3/serp/$se/tasks_ready
+To obtain a list of completed SERP API tasks, use the following endpoint:
+GET https://api.dataforseo.com/v3/serp/tasks_readyYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within three previous days. The list will not contain the tasks which have already been collected and the tasks that were not collected within three days after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+example: maps
+	
+
+	            date_posted
+	string
+	date when the task was posted (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+Get Maps SERP Completed Tasks With Re-parsed Markup
+‌
+The ‘Tasks Fixed’ endpoint is designed to provide you with the list of re-parsed tasks, which haven’t been collected yet. If you use the Standard method without specifying the postback_url, you can receive the list of id for all completed re-parsed tasks using this endpoint. Then, you can re-collect the fixed results using the ‘Task GET’ endpoint.
+Learn more about re-parsing SERP markup in this help center article.
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/maps/tasks_fixed" \
+--header "Authorization: Basic ${cred}" \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20200129",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.2270 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "11151406-0696-0087-0000-e781cb0144a1",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0388 sec.",
+     "cost": 0,
+     "result_count": 2,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "tasks_fixed"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "tasks_fixed",
+       "se": "google",
+       "se_type": "maps"
+     },
+     "result": [
+       {
+         "id": "11081554-0696-0066-0000-27e68ec15871",
+         "se": "google",
+         "se_type": "maps",
+         "date_fixed": "2019-11-08 13:54:43 +00:00",
+         "tag": "tag1",
+         "endpoint_regular": "/v3/serp/google/maps/task_get/regular/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_advanced": "/v3/serp/google/maps/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/maps/task_get/html/11081554-0696-0066-0000-27e68ec15871"
+       },
+       {
+         "id": "11151406-0696-0066-0000-c4ece317cdb2",
+         "se": "google",
+         "se_type": "maps",
+         "date_fixed": "2019-11-15 12:06:09 +00:00",
+         "tag": "tag2",
+         "endpoint_regular": "/v3/serp/google/maps/task_get/regular/11151406-0696-0066-0000-c4ece317cdb2",
+         "endpoint_advanced": "/v3/serp/google/maps/task_get/advanced/11081554-0696-0066-0000-27e68ec15871",
+         "endpoint_html": "/v3/serp/google/maps/task_get/html/11151406-0696-0066-0000-c4ece317cdb2"
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/maps/tasks_fixedYour account is not charged when receiving results
+Each separate task will remain on the list until it is collected. You can make up to 20 API calls per minute. With each API call, you can get 1000 tasks completed within the last 24 hours. The list will not contain the tasks which have already been collected and the tasks that were not collected within 24 hours after completion.
+Please note that if you specify the postback_url, the task will not be in the list of completed tasks. The task can only be found in the list if the request to your server failed, and your server returned HTTP code response less than 200 or higher than 300.
+As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the parameters passed in the request’s URL
+	
+
+	        result
+	array
+	array of results
+	
+
+	            id
+	string
+	task identifier of the completed task
+unique task identifier in our system in the UUID format
+	
+
+	            se
+	string
+	search engine specified when setting the task
+	
+
+	            se_type
+	string
+	type of search engine
+can take the following values: maps
+	
+
+	            date_fixed
+	string
+	date when the task was fixed (in the UTC format)
+	
+
+	            tag
+	string
+	user-defined task identifier
+	
+
+	            endpoint_regular
+	string
+	URL for collecting the results of the SERP Regular task
+if SERP Regular is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_advanced
+	string
+	URL for collecting the results of the SERP Advanced task
+if SERP Advanced is not supported in the specified endpoint, the value will be null
+	
+
+	            endpoint_html
+	string
+	URL for collecting the results of the SERP HTML task
+if SERP HTML is not supported in the specified endpoint, the value will be null
+	
+
+	‌‌
+ Logo 
+
+* Introduction
+* Authentication
+* SERP API
+   * Overview
+   * ID List
+   * Errors
+   * Screenshot
+   * AI Summary
+   * Google
+      * Overview
+      * Locations
+      * Languages
+      * Organic
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Regular
+            * Advanced
+            * HTML
+         * Live
+            * Regular
+            * Advanced
+            * HTML
+      * Lite
+      * AI Mode
+         * Overview
+         * Languages
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Advanced
+            * HTML
+         * Live
+            * Advanced
+            * HTML
+      * Maps
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Advanced
+         * Live
+      * Local Finder
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+         * Live
+      * News
+      * Events
+      * Images
+      * Search By Image
+      * Jobs
+      * Autocomplete
+      * Dataset Search
+      * Dataset Info
+      * Ads Advertisers
+      * Ads Search
+      * Finance Explore
+      * Finance Markets
+      * Finance Quote
+      * Finance Ticker Search
+   * Bing
+   * YouTube
+   * Yahoo
+   * Baidu
+   * Naver
+   * Seznam
+* AI Optimization API
+* Keywords Data API
+* Domain Analytics API
+* DataForSEO Labs API
+* Backlinks API
+* OnPage API
+* Content Analysis API
+* Content Generation API
+* Merchant API
+* App Data API
+* Business Data API
+* Databases
+* Appendix
+* Home Page
+* AI CHAT
+* Pricing
+* Sign in
+* Register
+* Docs v2
+Get Google Maps SERP Advanced Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="02261816-2027-0066-0000-c27d02864073"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/maps/task_get/advanced/${id}" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20230705",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.0493 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "08021543-1535-0066-0000-bcbd9fbff47a",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0156 sec.",
+     "cost": 0,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "task_get",
+       "advanced",
+       "08021543-1535-0066-0000-bcbd9fbff47a"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_get",
+       "se": "google",
+       "se_type": "maps",
+       "language_code": "en",
+       "keyword": "albert einstein",
+       "location_code": 2840,
+       "depth": 3,
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "albert einstein",
+         "type": "maps",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "check_url": "https://google.com/maps/search/albert+einstein/@37.09024,-95.712891,4z?hl=en&gl=US&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+         "datetime": "2023-08-02 12:43:05 +00:00",
+         "spell": null,
+         "refinement_chips": null,
+         "item_types": [
+           "maps_search"
+         ],
+         "se_results_count": 0,
+         "items_count": 3,
+         "items": [
+           {
+             "type": "maps_search",
+             "rank_group": 1,
+             "rank_absolute": 1,
+             "domain": null,
+             "title": "Albert Einstein Statue",
+             "original_title": null,
+             "url": null,
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": null,
+             "rating_distribution": null,
+             "snippet": "6700 NW 35th St, Bethany, OK 73008",
+             "address": "6700 NW 35th St, Bethany, OK 73008",
+             "address_info": {
+               "borough": "Central Oklahoma City",
+               "address": "6700 NW 35th St",
+               "city": "Bethany",
+               "zip": "73008",
+               "region": "Oklahoma",
+               "country_code": "US"
+             },
+             "place_id": "ChIJSe0feYkFsocRajueupcvpas",
+             "phone": null,
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipOfM59_liNdL9hmEDbU0_K1uTSv4psbY7rY2bAj=w408-h541-k-no",
+             "total_photos": 12,
+             "category": "Tourist attraction",
+             "additional_categories": null,
+             "category_ids": [
+               "tourist_attraction"
+             ],
+             "work_hours": {
+               "timetable": null,
+               "current_status": "close"
+             },
+             "feature_id": "0x87b20589791fed49:0xaba52f97ba9e3b6a",
+             "cid": "12368344280360434538",
+             "latitude": 35.5064351,
+             "longitude": -97.6317255,
+             "is_claimed": false,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           },
+           {
+             "type": "maps_search",
+             "rank_group": 2,
+             "rank_absolute": 2,
+             "domain": "www.alberteinsteingroup.com",
+             "title": "The Albert Einstein Group, Inc.",
+             "original_title": null,
+             "url": "http://www.alberteinsteingroup.com/",
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": {
+               "rating_type": "Max5",
+               "value": 4,
+               "votes_count": 4,
+               "rating_max": null
+             },
+             "rating_distribution": {
+               "1": 1,
+               "2": 0,
+               "3": 0,
+               "4": 0,
+               "5": 3
+             },
+             "snippet": "8710 Converse Business Cir, Converse, TX 78109",
+             "address": "8710 Converse Business Cir, Converse, TX 78109",
+             "address_info": {
+               "borough": "Northeast Side",
+               "address": "8710 Converse Business Cir",
+               "city": "Converse",
+               "zip": "78109",
+               "region": "Texas",
+               "country_code": "US"
+             },
+             "place_id": "ChIJ5QKOJR6KXIYRm3-tvYC0RuE",
+             "phone": "+1833-463-3325",
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipMwYCFGMituQ_CohAgfNF6pQPNjt-b-FR96b7xc=w416-h240-k-no",
+             "total_photos": 18,
+             "category": "Business to business service",
+             "additional_categories": null,
+             "category_ids": [
+               "business_to_business_service"
+             ],
+             "work_hours": {
+               "timetable": {
+                 "sunday": null,
+                 "monday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "tuesday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "wednesday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "thursday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "friday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "saturday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 12,
+                       "minute": 0
+                     }
+                   }
+                 ]
+               },
+               "current_status": "close"
+             },
+             "feature_id": "0x865c8a1e258e02e5:0xe146b480bdad7f9b",
+             "cid": "16232860371934609307",
+             "latitude": 29.515755199999997,
+             "longitude": -98.3017169,
+             "is_claimed": true,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           },
+           {
+             "type": "maps_search",
+             "rank_group": 3,
+             "rank_absolute": 3,
+             "domain": null,
+             "title": "Albert Einstein Statue",
+             "original_title": null,
+             "url": null,
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": {
+               "rating_type": "Max5",
+               "value": 4.7,
+               "votes_count": 14,
+               "rating_max": null
+             },
+             "rating_distribution": {
+               "1": 0,
+               "2": 0,
+               "3": 1,
+               "4": 2,
+               "5": 11
+             },
+             "snippet": "172 Gore Creek Dr, Vail, CO 81657",
+             "address": "172 Gore Creek Dr, Vail, CO 81657",
+             "address_info": {
+               "borough": null,
+               "address": "172 Gore Creek Dr",
+               "city": "Vail",
+               "zip": "81657",
+               "region": "Colorado",
+               "country_code": "US"
+             },
+             "place_id": "ChIJy2EyO2xwaocRcwmC0WGy9jM",
+             "phone": null,
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipPzOIua4GVc8oLCTCNT6nkDZr369gpxVFPnkcOC=w408-h306-k-no",
+             "total_photos": 10,
+             "category": "Sculpture",
+             "additional_categories": [
+               "Tourist attraction"
+             ],
+             "category_ids": [
+               "sculpture",
+               "tourist_attraction"
+             ],
+             "work_hours": {
+               "timetable": {
+                 "sunday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "monday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "tuesday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "wednesday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "thursday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "friday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "saturday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ]
+               },
+               "current_status": "open"
+             },
+             "feature_id": "0x876a706c3b3261cb:0x33f6b261d1820973",
+             "cid": "3744376273401678195",
+             "latitude": 39.64065,
+             "longitude": -106.37506669999999,
+             "is_claimed": false,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/maps/task_get/advanced/$id Your account will be charged only for posting a task. You can get the results of the task within the next 30 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+a universally unique identifier (UUID)
+unique task identifier in our system
+you will be able to use it within 30 days to request the results of the task at any time
+	
+
+	‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+You can also get all available SERP features and possible extra elements by making a request to the following Sandbox URL:
+https://sandbox.dataforseo.com/v3/serp/google/maps/task_get/advanced/00000000-0000-0000-0000-000000000000
+The response will include all available items in the Google Maps SERP Advanced endpoint with the fields containing dummy data.
+You won’t be charged for using Sandbox endpoints.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+the keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided exact results
+Note: to check location-specific results, follow the provided check url, scroll up and down, then click the “Search this area” button
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results in SERP
+contains types of search results (items) found in SERP.
+possible item types:
+maps_search, maps_paid_item
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	            ‘Google Maps’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘maps_search’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                domain
+	string
+	domain in the SERP element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                original_title
+	string
+	original title of the element
+original title not translated by Google
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                contact_url
+	string
+	URL of the preferred contact page
+	
+
+	                contributor_url
+	string
+	URL of the user’s or entity’s Local Guides profile, if available
+	
+
+	                book_online_url
+	string
+	URL in the ‘book online’ button of the element
+URL directing users to the online booking or order page of the business entity
+	
+
+	                rating
+	object
+	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	integer
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                rating_distribution
+	object
+	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+	
+
+	                    1
+	integer
+	the number of 1-star ratings
+	
+
+	                    2
+	integer
+	the number of 2-star ratings
+	
+
+	                    3
+	integer
+	the number of 3-star ratings
+	
+
+	                    4
+	integer
+	the number of 4-star ratings
+	
+
+	                    5
+	integer
+	the number of 5-star ratings
+	
+
+	                snippet
+	string
+	element snippet
+contains the address and other information about the local establishment featured in the element
+	
+
+	                address
+	string
+	address line
+address of the local establishment featured in the element
+	
+
+	                address_info
+	object
+	object containing address components of the local establishment
+	
+
+	                    borough
+	string
+	administrative unit or district the local establishment belongs to
+	
+
+	                    address
+	string
+	street address of the local establishment
+	
+
+	                    city
+	string
+	name of the city where the local establishment is located
+	
+
+	                    zip
+	string
+	ZIP code of the local establishment
+	
+
+	                    region
+	string
+	DMA region the local establishment belongs to
+	
+
+	                    country_code
+	string
+	ISO country code of the local establishment
+	
+
+	                place_id
+	string
+	unique place identifier
+place id of the local establishment featured in the element
+	
+
+	                phone
+	string
+	phone number
+phone number of the local establishment featured in the element
+	
+
+	                main_image
+	string
+	URL of the main image featured in Google My Business profile
+	
+
+	                total_photos
+	integer
+	total count of images featured in Google My Business profile
+	
+
+	                category
+	string
+	business category
+Google My Business general category that best describes the services provided by the business entity
+	
+
+	                additional_categories
+	array
+	additional business categories
+additional Google My Business categories that describe the services provided by the business entity in more detail
+	
+
+	                category_ids
+	array
+	global category IDs
+universal category IDs that do not change based on the selected country
+	
+
+	                work_hours
+	object
+	open hours
+information about work hours of the local establishment
+	
+
+	                   timetable
+	object
+	work hours timetable
+	
+
+	                     sunday
+	array
+	work hours on Sundays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     monday
+	array
+	work hours on Mondays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     tuesday
+	array
+	work hours on Tuesdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     wednesday
+	array
+	work hours on Wednesdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     thursday
+	array
+	work hours on Thursdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     friday
+	array
+	work hours on Fridays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     saturday
+	array
+	work hours on Saturday
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                   current_status
+	string
+	current status of the establishment
+indicates whether the establishment is opened or closed
+	
+
+	                feature_id
+	string
+	the unique identifier of the element in SERP
+	
+
+	                cid
+	string
+	google-defined client id
+unique id of a local establishment;
+can be used with Google Reviews API to get a full list of reviews
+	
+
+	                latitude
+	float
+	latitude coordinate of the local establishments in google maps
+example:
+"latitude": 51.584091
+	
+
+	                longitude
+	float
+	longitude coordinate of the local establishment in google maps
+example:
+"longitude": -0.31365919999999997
+	
+
+	                is_claimed
+	boolean
+	indicates whether ownership of this local establishment is claimed
+	
+
+	                local_justifications
+	array
+	Google local justifications
+snippets of text that “justify” why the business is showing up for search query
+	
+
+	                   type
+	string
+	type of local justification
+posible values:
+"user_review",
+"website_mention",
+"menu",
+"other"
+	
+
+	                   text
+	string
+	text snippet of local justification
+	
+
+	                is_directory_item
+	boolean
+	indicates whether this local establishment is a directory
+	
+
+	                price_level
+	string
+	property price level
+can take values: inexpensive, moderate, expensive, very_expensive
+if there is no price level information, the value will be null
+	
+
+	                hotel_rating
+	integer
+	hotel class rating
+class ratings range between 1-5 stars, learn more
+if there is no hotel class rating information, the value will be null
+	
+
+	            ‘Local Search Ad’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘maps_paid_item’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                domain
+	string
+	domain in the SERP element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                original_title
+	string
+	original title of the element
+original title not translated by Google
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                contact_url
+	string
+	URL of the preferred contact page
+	
+
+	                rating
+	object
+	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	integer
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                rating_distribution
+	object
+	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+	
+
+	                    1
+	integer
+	the number of 1-star ratings
+	
+
+	                    2
+	integer
+	the number of 2-star ratings
+	
+
+	                    3
+	integer
+	the number of 3-star ratings
+	
+
+	                    4
+	integer
+	the number of 4-star ratings
+	
+
+	                    5
+	integer
+	the number of 5-star ratings
+	
+
+	‌‌
+cURL
+php
+NodeJs
+Python
+cSharp
+ Logo 
+
+* Introduction
+* Authentication
+* SERP API
+   * Overview
+   * ID List
+   * Errors
+   * Screenshot
+   * AI Summary
+   * Google
+      * Overview
+      * Locations
+      * Languages
+      * Organic
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Regular
+            * Advanced
+            * HTML
+         * Live
+            * Regular
+            * Advanced
+            * HTML
+      * Lite
+      * AI Mode
+         * Overview
+         * Languages
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Advanced
+            * HTML
+         * Live
+            * Advanced
+            * HTML
+      * Maps
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+            * Advanced
+         * Live
+      * Local Finder
+         * Overview
+         * Task POST
+         * Tasks Ready
+         * Tasks Fixed
+         * Task GET
+         * Live
+      * News
+      * Events
+      * Images
+      * Search By Image
+      * Jobs
+      * Autocomplete
+      * Dataset Search
+      * Dataset Info
+      * Ads Advertisers
+      * Ads Search
+      * Finance Explore
+      * Finance Markets
+      * Finance Quote
+      * Finance Ticker Search
+   * Bing
+   * YouTube
+   * Yahoo
+   * Baidu
+   * Naver
+   * Seznam
+* AI Optimization API
+* Keywords Data API
+* Domain Analytics API
+* DataForSEO Labs API
+* Backlinks API
+* OnPage API
+* Content Analysis API
+* Content Generation API
+* Merchant API
+* App Data API
+* Business Data API
+* Databases
+* Appendix
+* Home Page
+* AI CHAT
+* Pricing
+* Sign in
+* Register
+* Docs v2
+Get Google Maps SERP Advanced Results by id
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login"
+password="password"
+cred="$(printf ${login}:${password} | base64)"
+id="02261816-2027-0066-0000-c27d02864073"
+curl --location --request GET "https://api.dataforseo.com/v3/serp/google/maps/task_get/advanced/${id}" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw ''
+
+
+
+
+The above command returns JSON structured like this:
+{
+ "version": "0.1.20230705",
+ "status_code": 20000,
+ "status_message": "Ok.",
+ "time": "0.0493 sec.",
+ "cost": 0,
+ "tasks_count": 1,
+ "tasks_error": 0,
+ "tasks": [
+   {
+     "id": "08021543-1535-0066-0000-bcbd9fbff47a",
+     "status_code": 20000,
+     "status_message": "Ok.",
+     "time": "0.0156 sec.",
+     "cost": 0,
+     "result_count": 1,
+     "path": [
+       "v3",
+       "serp",
+       "google",
+       "maps",
+       "task_get",
+       "advanced",
+       "08021543-1535-0066-0000-bcbd9fbff47a"
+     ],
+     "data": {
+       "api": "serp",
+       "function": "task_get",
+       "se": "google",
+       "se_type": "maps",
+       "language_code": "en",
+       "keyword": "albert einstein",
+       "location_code": 2840,
+       "depth": 3,
+       "device": "desktop",
+       "os": "windows"
+     },
+     "result": [
+       {
+         "keyword": "albert einstein",
+         "type": "maps",
+         "se_domain": "google.com",
+         "location_code": 2840,
+         "language_code": "en",
+         "check_url": "https://google.com/maps/search/albert+einstein/@37.09024,-95.712891,4z?hl=en&gl=US&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+         "datetime": "2023-08-02 12:43:05 +00:00",
+         "spell": null,
+         "refinement_chips": null,
+         "item_types": [
+           "maps_search"
+         ],
+         "se_results_count": 0,
+         "items_count": 3,
+         "items": [
+           {
+             "type": "maps_search",
+             "rank_group": 1,
+             "rank_absolute": 1,
+             "domain": null,
+             "title": "Albert Einstein Statue",
+             "original_title": null,
+             "url": null,
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": null,
+             "rating_distribution": null,
+             "snippet": "6700 NW 35th St, Bethany, OK 73008",
+             "address": "6700 NW 35th St, Bethany, OK 73008",
+             "address_info": {
+               "borough": "Central Oklahoma City",
+               "address": "6700 NW 35th St",
+               "city": "Bethany",
+               "zip": "73008",
+               "region": "Oklahoma",
+               "country_code": "US"
+             },
+             "place_id": "ChIJSe0feYkFsocRajueupcvpas",
+             "phone": null,
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipOfM59_liNdL9hmEDbU0_K1uTSv4psbY7rY2bAj=w408-h541-k-no",
+             "total_photos": 12,
+             "category": "Tourist attraction",
+             "additional_categories": null,
+             "category_ids": [
+               "tourist_attraction"
+             ],
+             "work_hours": {
+               "timetable": null,
+               "current_status": "close"
+             },
+             "feature_id": "0x87b20589791fed49:0xaba52f97ba9e3b6a",
+             "cid": "12368344280360434538",
+             "latitude": 35.5064351,
+             "longitude": -97.6317255,
+             "is_claimed": false,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           },
+           {
+             "type": "maps_search",
+             "rank_group": 2,
+             "rank_absolute": 2,
+             "domain": "www.alberteinsteingroup.com",
+             "title": "The Albert Einstein Group, Inc.",
+             "original_title": null,
+             "url": "http://www.alberteinsteingroup.com/",
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": {
+               "rating_type": "Max5",
+               "value": 4,
+               "votes_count": 4,
+               "rating_max": null
+             },
+             "rating_distribution": {
+               "1": 1,
+               "2": 0,
+               "3": 0,
+               "4": 0,
+               "5": 3
+             },
+             "snippet": "8710 Converse Business Cir, Converse, TX 78109",
+             "address": "8710 Converse Business Cir, Converse, TX 78109",
+             "address_info": {
+               "borough": "Northeast Side",
+               "address": "8710 Converse Business Cir",
+               "city": "Converse",
+               "zip": "78109",
+               "region": "Texas",
+               "country_code": "US"
+             },
+             "place_id": "ChIJ5QKOJR6KXIYRm3-tvYC0RuE",
+             "phone": "+1833-463-3325",
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipMwYCFGMituQ_CohAgfNF6pQPNjt-b-FR96b7xc=w416-h240-k-no",
+             "total_photos": 18,
+             "category": "Business to business service",
+             "additional_categories": null,
+             "category_ids": [
+               "business_to_business_service"
+             ],
+             "work_hours": {
+               "timetable": {
+                 "sunday": null,
+                 "monday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "tuesday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "wednesday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "thursday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "friday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 17,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "saturday": [
+                   {
+                     "open": {
+                       "hour": 8,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 12,
+                       "minute": 0
+                     }
+                   }
+                 ]
+               },
+               "current_status": "close"
+             },
+             "feature_id": "0x865c8a1e258e02e5:0xe146b480bdad7f9b",
+             "cid": "16232860371934609307",
+             "latitude": 29.515755199999997,
+             "longitude": -98.3017169,
+             "is_claimed": true,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           },
+           {
+             "type": "maps_search",
+             "rank_group": 3,
+             "rank_absolute": 3,
+             "domain": null,
+             "title": "Albert Einstein Statue",
+             "original_title": null,
+             "url": null,
+             "contact_url": null,
+             "contributor_url": null,
+             "book_online_url": null,
+             "rating": {
+               "rating_type": "Max5",
+               "value": 4.7,
+               "votes_count": 14,
+               "rating_max": null
+             },
+             "rating_distribution": {
+               "1": 0,
+               "2": 0,
+               "3": 1,
+               "4": 2,
+               "5": 11
+             },
+             "snippet": "172 Gore Creek Dr, Vail, CO 81657",
+             "address": "172 Gore Creek Dr, Vail, CO 81657",
+             "address_info": {
+               "borough": null,
+               "address": "172 Gore Creek Dr",
+               "city": "Vail",
+               "zip": "81657",
+               "region": "Colorado",
+               "country_code": "US"
+             },
+             "place_id": "ChIJy2EyO2xwaocRcwmC0WGy9jM",
+             "phone": null,
+             "main_image": "https://lh5.googleusercontent.com/p/AF1QipPzOIua4GVc8oLCTCNT6nkDZr369gpxVFPnkcOC=w408-h306-k-no",
+             "total_photos": 10,
+             "category": "Sculpture",
+             "additional_categories": [
+               "Tourist attraction"
+             ],
+             "category_ids": [
+               "sculpture",
+               "tourist_attraction"
+             ],
+             "work_hours": {
+               "timetable": {
+                 "sunday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "monday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "tuesday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "wednesday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "thursday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "friday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ],
+                 "saturday": [
+                   {
+                     "open": {
+                       "hour": 0,
+                       "minute": 0
+                     },
+                     "close": {
+                       "hour": 0,
+                       "minute": 0
+                     }
+                   }
+                 ]
+               },
+               "current_status": "open"
+             },
+             "feature_id": "0x876a706c3b3261cb:0x33f6b261d1820973",
+             "cid": "3744376273401678195",
+             "latitude": 39.64065,
+             "longitude": -106.37506669999999,
+             "is_claimed": false,
+             "local_justifications": null,
+             "is_directory_item": false,
+             "price_level": null,
+             "hotel_rating": null
+           }
+         ]
+       }
+     ]
+   }
+ ]
+}
+
+
+
+
+GET https://api.dataforseo.com/v3/serp/google/maps/task_get/advanced/$id Your account will be charged only for posting a task. You can get the results of the task within the next 30 days for free.
+The cost can be calculated on the Pricing page.
+Description of the fields for sending a request:
+Field name
+	Type
+	Description
+	
+
+	id
+	string
+	task identifier
+a universally unique identifier (UUID)
+unique task identifier in our system
+you will be able to use it within 30 days to request the results of the task at any time
+	
+
+	‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+You can also get all available SERP features and possible extra elements by making a request to the following Sandbox URL:
+https://sandbox.dataforseo.com/v3/serp/google/maps/task_get/advanced/00000000-0000-0000-0000-000000000000
+The response will include all available items in the Google Maps SERP Advanced endpoint with the fields containing dummy data.
+You won’t be charged for using Sandbox endpoints.
+Description of the fields in the results array:
+Field name
+	Type
+	Description
+	
+
+	version
+	string
+	the current version of the API
+	
+
+	status_code
+	integer
+	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+	
+
+	status_message
+	string
+	general informational message
+you can find the full list of general informational messages here
+	
+
+	time
+	string
+	execution time, seconds
+	
+
+	cost
+	float
+	total tasks cost, USD
+	
+
+	tasks_count
+	integer
+	the number of tasks in the tasks array
+	
+
+	tasks_error
+	integer
+	the number of tasks in the tasks array returned with an error
+	
+
+	tasks
+	array
+	array of tasks
+	
+
+	        id
+	string
+	task identifier
+unique task identifier in our system in the UUID format
+	
+
+	        status_code
+	integer
+	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+	
+
+	        status_message
+	string
+	informational message of the task
+you can find the full list of general informational messages here
+	
+
+	        time
+	string
+	execution time, seconds
+	
+
+	        cost
+	float
+	cost of the task, USD
+	
+
+	        result_count
+	integer
+	number of elements in the result array
+	
+
+	        path
+	array
+	URL path
+	
+
+	        data
+	object
+	contains the same parameters that you specified in the POST request
+	
+
+	        result
+	array
+	array of results
+	
+
+	            keyword
+	string
+	keyword received in a POST array
+the keyword is returned with decoded %## (plus symbol ‘+’ will be decoded to a space character)
+	
+
+	            type
+	string
+	search engine type in a POST array
+	
+
+	            se_domain
+	string
+	search engine domain in a POST array
+	
+
+	            location_code
+	integer
+	location code in a POST array
+	
+
+	            language_code
+	string
+	language code in a POST array
+	
+
+	            check_url
+	string
+	direct URL to search engine results
+you can use it to make sure that we provided exact results
+Note: to check location-specific results, follow the provided check url, scroll up and down, then click the “Search this area” button
+	
+
+	            datetime
+	string
+	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+	
+
+	            spell
+	object
+	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+	
+
+	                keyword
+	string
+	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+	
+
+	                type
+	string
+	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+	
+
+	            refinement_chips
+	object
+	search refinement chips
+	
+
+	                type
+	string
+	type of element = ‘refinement_chips’
+	
+
+	                xpath
+	string
+	the XPath of the element
+	
+
+	                items
+	array
+	items of the element
+	
+
+	                    type
+	string
+	type of element = ‘refinement_chips_element’
+	
+
+	                    title
+	string
+	title of the element
+	
+
+	                    url
+	string
+	search URL with refinement parameters
+	
+
+	                    domain
+	string
+	domain in SERP
+	
+
+	                    options
+	array
+	further search refinement options
+	
+
+	                       type
+	string
+	type of element = ‘refinement_chips_option’
+	
+
+	                       title
+	string
+	title of the element
+	
+
+	                       url
+	string
+	search URL with refinement parameters
+	
+
+	                       domain
+	string
+	domain in SERP
+	
+
+	            item_types
+	array
+	types of search results in SERP
+contains types of search results (items) found in SERP.
+possible item types:
+maps_search, maps_paid_item
+	
+
+	            se_results_count
+	integer
+	total number of results in SERP
+	
+
+	            items_count
+	integer
+	the number of results returned in the items array
+	
+
+	            items
+	array
+	elements of search results found in SERP
+	
+
+	            ‘Google Maps’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘maps_search’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                domain
+	string
+	domain in the SERP element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                original_title
+	string
+	original title of the element
+original title not translated by Google
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                contact_url
+	string
+	URL of the preferred contact page
+	
+
+	                contributor_url
+	string
+	URL of the user’s or entity’s Local Guides profile, if available
+	
+
+	                book_online_url
+	string
+	URL in the ‘book online’ button of the element
+URL directing users to the online booking or order page of the business entity
+	
+
+	                rating
+	object
+	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	integer
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                rating_distribution
+	object
+	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+	
+
+	                    1
+	integer
+	the number of 1-star ratings
+	
+
+	                    2
+	integer
+	the number of 2-star ratings
+	
+
+	                    3
+	integer
+	the number of 3-star ratings
+	
+
+	                    4
+	integer
+	the number of 4-star ratings
+	
+
+	                    5
+	integer
+	the number of 5-star ratings
+	
+
+	                snippet
+	string
+	element snippet
+contains the address and other information about the local establishment featured in the element
+	
+
+	                address
+	string
+	address line
+address of the local establishment featured in the element
+	
+
+	                address_info
+	object
+	object containing address components of the local establishment
+	
+
+	                    borough
+	string
+	administrative unit or district the local establishment belongs to
+	
+
+	                    address
+	string
+	street address of the local establishment
+	
+
+	                    city
+	string
+	name of the city where the local establishment is located
+	
+
+	                    zip
+	string
+	ZIP code of the local establishment
+	
+
+	                    region
+	string
+	DMA region the local establishment belongs to
+	
+
+	                    country_code
+	string
+	ISO country code of the local establishment
+	
+
+	                place_id
+	string
+	unique place identifier
+place id of the local establishment featured in the element
+	
+
+	                phone
+	string
+	phone number
+phone number of the local establishment featured in the element
+	
+
+	                main_image
+	string
+	URL of the main image featured in Google My Business profile
+	
+
+	                total_photos
+	integer
+	total count of images featured in Google My Business profile
+	
+
+	                category
+	string
+	business category
+Google My Business general category that best describes the services provided by the business entity
+	
+
+	                additional_categories
+	array
+	additional business categories
+additional Google My Business categories that describe the services provided by the business entity in more detail
+	
+
+	                category_ids
+	array
+	global category IDs
+universal category IDs that do not change based on the selected country
+	
+
+	                work_hours
+	object
+	open hours
+information about work hours of the local establishment
+	
+
+	                   timetable
+	object
+	work hours timetable
+	
+
+	                     sunday
+	array
+	work hours on Sundays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     monday
+	array
+	work hours on Mondays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     tuesday
+	array
+	work hours on Tuesdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     wednesday
+	array
+	work hours on Wednesdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     thursday
+	array
+	work hours on Thursdays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     friday
+	array
+	work hours on Fridays
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                     saturday
+	array
+	work hours on Saturday
+	
+
+	                       open
+	object
+	opening time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                       close
+	object
+	closing time
+	
+
+	                         hour
+	integer
+	hours in the 24-hour format
+	
+
+	                         minute
+	integer
+	minutes
+	
+
+	                   current_status
+	string
+	current status of the establishment
+indicates whether the establishment is opened or closed
+	
+
+	                feature_id
+	string
+	the unique identifier of the element in SERP
+	
+
+	                cid
+	string
+	google-defined client id
+unique id of a local establishment;
+can be used with Google Reviews API to get a full list of reviews
+	
+
+	                latitude
+	float
+	latitude coordinate of the local establishments in google maps
+example:
+"latitude": 51.584091
+	
+
+	                longitude
+	float
+	longitude coordinate of the local establishment in google maps
+example:
+"longitude": -0.31365919999999997
+	
+
+	                is_claimed
+	boolean
+	indicates whether ownership of this local establishment is claimed
+	
+
+	                local_justifications
+	array
+	Google local justifications
+snippets of text that “justify” why the business is showing up for search query
+	
+
+	                   type
+	string
+	type of local justification
+posible values:
+"user_review",
+"website_mention",
+"menu",
+"other"
+	
+
+	                   text
+	string
+	text snippet of local justification
+	
+
+	                is_directory_item
+	boolean
+	indicates whether this local establishment is a directory
+	
+
+	                price_level
+	string
+	property price level
+can take values: inexpensive, moderate, expensive, very_expensive
+if there is no price level information, the value will be null
+	
+
+	                hotel_rating
+	integer
+	hotel class rating
+class ratings range between 1-5 stars, learn more
+if there is no hotel class rating information, the value will be null
+	
+
+	            ‘Local Search Ad’ SERP element
+	
+
+	
+
+	
+
+	                type
+	string
+	type of element = ‘maps_paid_item’
+	
+
+	                rank_group
+	integer
+	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+	
+
+	                rank_absolute
+	integer
+	absolute rank in SERP
+absolute position among all the elements in SERP
+	
+
+	                domain
+	string
+	domain in the SERP element
+	
+
+	                title
+	string
+	title of the result in SERP
+	
+
+	                original_title
+	string
+	original title of the element
+original title not translated by Google
+	
+
+	                url
+	string
+	relevant URL in SERP
+	
+
+	                contact_url
+	string
+	URL of the preferred contact page
+	
+
+	                rating
+	object
+	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+	
+
+	                    rating_type
+	string
+	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+	
+
+	                    value
+	integer
+	the value of the rating
+	
+
+	                    votes_count
+	integer
+	the amount of feedback
+	
+
+	                    rating_max
+	integer
+	the maximum value for a rating_type
+	
+
+	                rating_distribution
+	object
+	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+	
+
+	                    1
+	integer
+	the number of 1-star ratings
+	
+
+	                    2
+	integer
+	the number of 2-star ratings
+	
+
+	                    3
+	integer
+	the number of 3-star ratings
+	
+
+	                    4
+	integer
+	the number of 4-star ratings
+	
+
+	                    5
+	integer
+	the number of 5-star ratings
+	
+
+	‌‌
+cURL
+php
+NodeJs
+Python
+cSharp
+
+
+Logo
+Introduction
+Authentication
+SERP API
+Overview
+ID List
+Errors
+Screenshot
+AI Summary
+Google
+Overview
+Locations
+Languages
+Organic
+Lite
+AI Mode
+Maps
+Overview
+Task POST
+Tasks Ready
+Tasks Fixed
+Task GET
+Advanced
+Live
+Advanced
+Local Finder
+Overview
+Task POST
+Tasks Ready
+Tasks Fixed
+Task GET
+Advanced
+HTML
+Live
+Advanced
+HTML
+News
+Events
+Images
+Search By Image
+Jobs
+Autocomplete
+Dataset Search
+Dataset Info
+Ads Advertisers
+Overview
+Locations
+Task POST
+Tasks Ready
+Task GET
+Live
+Ads Search
+Overview
+Locations
+Task POST
+Tasks Ready
+Task GET
+Live
+Finance Explore
+Finance Markets
+Finance Quote
+Finance Ticker Search
+Bing
+YouTube
+Yahoo
+Baidu
+Naver
+Seznam
+AI Optimization API
+Keywords Data API
+Domain Analytics API
+DataForSEO Labs API
+Backlinks API
+OnPage API
+Content Analysis API
+Content Generation API
+Merchant API
+App Data API
+Business Data API
+Databases
+Appendix
+Home Page
+AI CHAT
+Pricing
+Sign in
+Register
+Docs v2
+Live Google Maps SERP
+‌‌
+Live Google Maps SERP provides real-time data on top 100 search engine results for the specified keyword, search engine, and location.
+
+Instead of ‘login’ and ‘password’ use your credentials from https://app.dataforseo.com/api-access
+
+# Instead of 'login' and 'password' use your credentials from https://app.dataforseo.com/api-access \
+login="login" 
+password="password" 
+cred="$(printf ${login}:${password} | base64)" 
+curl --location --request POST "https://api.dataforseo.com/v3/serp/google/maps/live/advanced" \
+--header "Authorization: Basic ${cred}"  \
+--header "Content-Type: application/json" \
+--data-raw '[
+    {
+        "language_code": "en",
+        "location_code": 2840,
+        "keyword": "albert einstein"
+    }
+]'
+
+The above command returns JSON structured like this:
+
+{
+  "version": "0.1.20230705",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "4.0977 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08021555-1535-0139-0000-462b80e927f7",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "4.0299 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "maps",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "maps",
+        "language_code": "en",
+        "location_code": 2840,
+        "keyword": "albert einstein",
+        "depth": 3,
+        "device": "desktop",
+        "os": "windows"
+      },
+      "result": [
+        {
+          "keyword": "albert einstein",
+          "type": "maps",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://google.com/maps/search/albert+einstein/@37.09024,-95.712891,4z?hl=en&gl=US&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2023-08-02 12:55:43 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "maps_search"
+          ],
+          "se_results_count": 0,
+          "items_count": 3,
+          "items": [
+            {
+              "type": "maps_search",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "domain": null,
+              "title": "Albert Einstein Statue",
+              "original_title": null,
+              "url": null,
+              "contact_url": null,
+              "contributor_url": null,
+              "book_online_url": null,
+              "rating": null,
+              "rating_distribution": null,
+              "snippet": "6700 NW 35th St, Bethany, OK 73008",
+              "address": "6700 NW 35th St, Bethany, OK 73008",
+              "address_info": {
+                "borough": "Central Oklahoma City",
+                "address": "6700 NW 35th St",
+                "city": "Bethany",
+                "zip": "73008",
+                "region": "Oklahoma",
+                "country_code": "US"
+              },
+              "place_id": "ChIJSe0feYkFsocRajueupcvpas",
+              "phone": null,
+              "main_image": "https://lh5.googleusercontent.com/p/AF1QipOfM59_liNdL9hmEDbU0_K1uTSv4psbY7rY2bAj=w408-h541-k-no",
+              "total_photos": 12,
+              "category": "Tourist attraction",
+              "additional_categories": null,
+              "category_ids": [
+                "tourist_attraction"
+              ],
+              "work_hours": {
+                "timetable": null,
+                "current_status": "close"
+              },
+              "feature_id": "0x87b20589791fed49:0xaba52f97ba9e3b6a",
+              "cid": "12368344280360434538",
+              "latitude": 35.5064351,
+              "longitude": -97.6317255,
+              "is_claimed": false,
+              "local_justifications": null,
+              "is_directory_item": false,
+              "price_level": null,
+              "hotel_rating": null
+            },
+            {
+              "type": "maps_search",
+              "rank_group": 2,
+              "rank_absolute": 2,
+              "domain": "www.nasonline.org",
+              "title": "Albert Einstein Memorial",
+              "original_title": null,
+              "url": "http://www.nasonline.org/about-nas/visiting-nas/nas-building/the-einstein-memorial.html",
+              "contact_url": null,
+              "contributor_url": null,
+              "book_online_url": null,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.7,
+                "votes_count": 1283,
+                "rating_max": null
+              },
+              "rating_distribution": {
+                "1": 4,
+                "2": 8,
+                "3": 51,
+                "4": 194,
+                "5": 1026
+              },
+              "snippet": "2101 Constitution Ave. NW, Washington, DC 20418",
+              "address": "2101 Constitution Ave. NW, Washington, DC 20418",
+              "address_info": {
+                "borough": "Northwest Washington",
+                "address": "2101 Constitution Ave. NW",
+                "city": "Washington",
+                "zip": "20418",
+                "region": "District of Columbia",
+                "country_code": "US"
+              },
+              "place_id": "ChIJJZaaKqm3t4kRbBG17Vcv8Rg",
+              "phone": null,
+              "main_image": "https://lh5.googleusercontent.com/p/AF1QipPyOiGml7eII8LgiYGtPh4wzI7g8GP3fZ9Hzsy8=w408-h306-k-no",
+              "total_photos": 2501,
+              "category": "Sculpture",
+              "additional_categories": [
+                "Monument"
+              ],
+              "category_ids": [
+                "sculpture",
+                "monument"
+              ],
+              "work_hours": {
+                "timetable": {
+                  "sunday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "monday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "tuesday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "wednesday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "thursday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "friday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "saturday": [
+                    {
+                      "open": {
+                        "hour": 0,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 0,
+                        "minute": 0
+                      }
+                    }
+                  ]
+                },
+                "current_status": "open"
+              },
+              "feature_id": "0x89b7b7a92a9a9625:0x18f12f57edb5116c",
+              "cid": "1797269780994265452",
+              "latitude": 38.8924028,
+              "longitude": -77.0484139,
+              "is_claimed": false,
+              "local_justifications": null,
+              "is_directory_item": false,
+              "price_level": null,
+              "hotel_rating": null
+            },
+            {
+              "type": "maps_search",
+              "rank_group": 3,
+              "rank_absolute": 3,
+              "domain": "www.alberteinsteingroup.com",
+              "title": "The Albert Einstein Group, Inc.",
+              "original_title": null,
+              "url": "http://www.alberteinsteingroup.com/",
+              "contact_url": null,
+              "contributor_url": null,
+              "book_online_url": null,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4,
+                "votes_count": 4,
+                "rating_max": null
+              },
+              "rating_distribution": {
+                "1": 1,
+                "2": 0,
+                "3": 0,
+                "4": 0,
+                "5": 3
+              },
+              "snippet": "8710 Converse Business Cir, Converse, TX 78109",
+              "address": "8710 Converse Business Cir, Converse, TX 78109",
+              "address_info": {
+                "borough": "Northeast Side",
+                "address": "8710 Converse Business Cir",
+                "city": "Converse",
+                "zip": "78109",
+                "region": "Texas",
+                "country_code": "US"
+              },
+              "place_id": "ChIJ5QKOJR6KXIYRm3-tvYC0RuE",
+              "phone": "+1833-463-3325",
+              "main_image": "https://lh5.googleusercontent.com/p/AF1QipMwYCFGMituQ_CohAgfNF6pQPNjt-b-FR96b7xc=w416-h240-k-no",
+              "total_photos": 18,
+              "category": "Business to business service",
+              "additional_categories": null,
+              "category_ids": [
+                "business_to_business_service"
+              ],
+              "work_hours": {
+                "timetable": {
+                  "sunday": null,
+                  "monday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 17,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "tuesday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 17,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "wednesday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 17,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "thursday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 17,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "friday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 17,
+                        "minute": 0
+                      }
+                    }
+                  ],
+                  "saturday": [
+                    {
+                      "open": {
+                        "hour": 8,
+                        "minute": 0
+                      },
+                      "close": {
+                        "hour": 12,
+                        "minute": 0
+                      }
+                    }
+                  ]
+                },
+                "current_status": "close"
+              },
+              "feature_id": "0x865c8a1e258e02e5:0xe146b480bdad7f9b",
+              "cid": "16232860371934609307",
+              "latitude": 29.515755199999997,
+              "longitude": -98.3017169,
+              "is_claimed": true,
+              "local_justifications": null,
+              "is_directory_item": false,
+              "price_level": null,
+              "hotel_rating": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+POST https://api.dataforseo.com/v3/serp/google/maps/live/advanced
+Your account will be charged for each request.
+The cost can be calculated on the Pricing page.
+All POST data should be sent in the JSON format (UTF-8 encoding). The task setting is done using the POST method. When setting a task, you should send all task parameters in the task array of the generic POST array. You can send up to 2000 API calls per minute, each Live SERP API call can contain only one task.
+
+Below you will find a detailed description of the fields you can use for setting a task.
+
+Description of the fields for setting a task:
+
+Field name	Type	Description
+url	string	direct URL of the search query
+optional field
+you can specify a direct URL and we will sort it out to the necessary fields. Note that this method is the most difficult for our API to process and also requires you to specify the exact language and location in the URL. In most cases, we wouldn’t recommend using this method.
+example:
+https://google.com/maps/search/pizza/@37.09024,-95.712891,4z
+keyword	string	keyword
+required field
+you can specify up to 700 characters in the keyword field
+all %## will be decoded (plus character ‘+’ will be decoded to a space character)
+if you need to use the “%” character for your keyword, please specify it as “%25”;
+if you need to use the “+” character for your keyword, please specify it as “%2B”;
+if this field contains such parameters as ‘allinanchor:’, ‘allintext:’, ‘allintitle:’, ‘allinurl:’, ‘define:’, ‘filetype:’, ‘id:’, ‘inanchor:’, ‘info:’, ‘intext:’, ‘intitle:’, ‘inurl:’, ‘link:’, ‘related:’, ‘site:’, the charge per task will be multiplied by 5
+Note: queries containing the ‘cache:’ parameter are not supported and will return a validation error
+learn more about rules and limitations of keyword and keywords fields in DataForSEO APIs in this Help Center article
+
+location_name	string	full name of search engine location
+required field if you don’t specify location_code or location_coordinate
+if you use this field, you don’t need to specify location_code or location_coordinate
+you can receive the list of available locations of the search engine with their location_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+London,England,United Kingdom
+location_code	integer	search engine location code
+required field if you don’t specify location_name or location_coordinate
+if you use this field, you don’t need to specify location_name or location_coordinate
+you can receive the list of available locations of the search engines with their location_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/locations
+example:
+2840
+location_coordinate	string	GPS coordinates of a location
+required field if you don’t specify location_name or location_code
+if you use this field, you don’t need to specify location_name or location_code
+location_coordinate parameter should be specified in the “latitude,longitude,zoom” format
+if “zoom” is not specified, 17z will be applied as a default value
+the maximum number of decimal digits for “latitude” and “longitude”: 7
+the minimum value for “zoom”: 3z
+the maximum value for “zoom”: 21z
+example:
+52.6178549,-155.352142,20z
+language_name	string	full name of search engine language
+required field if you don’t specify language_code
+if you use this field, you don’t need to specify language_code
+you can receive the list of available languages of the search engine with their language_name by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+English
+language_code	string	search engine language code
+required field if you don’t specify language_name
+if you use this field, you don’t need to specify language_name
+you can receive the list of available languages of the search engine with their language_code by making a separate request to the https://api.dataforseo.com/v3/serp/google/languages
+example:
+en
+device	string	device type
+optional field
+can take the values:desktop, mobile
+default value: desktop
+note: for mobile device, only 20 results are returned for every SERP
+os	string	device operating system
+optional field
+if you specify desktop in the device field, choose from the following values: windows, macos
+default value: windows
+if you specify mobile in the device field, choose from the following values: android, ios
+default value: android
+se_domain	string	search engine domain
+optional field
+we choose the relevant search engine domain automatically according to the location and language you specify
+however, you can set a custom search engine domain in this field
+example:
+google.co.uk, google.com.au, google.de, etc.
+depth	integer	parsing depth
+optional field
+number of results in SERP
+default value: 100
+max value: 700
+Your account will be billed per each SERP containing up to 100 results;
+Setting depth above 100 may result in additional charges if the search engine returns more than 100 results;
+The cost can be calculated on the Pricing page.
+max_crawl_pages	integer	page crawl limit
+optional field
+number of search results pages to crawl
+max value: 100
+Note: the max_crawl_pages and depth parameters complement each other;
+learn more at our help center
+search_this_area	boolean	search this area
+optional field
+can take the values:true, false
+default value: true
+if set to false, the search_this_area mode will be turned off
+
+Note: if the search_this_area mode is turned off, Google Maps listings might contain results beyond the displayed area
+
+search_places	boolean	search places mode
+optional field
+the search places mode allows to obtain Google Maps results on a certain place (e.g., Apple Store in New York)
+however, due to the pecularities of our data mining algorithm, this mode might interfere with some local-intent queries – and display results for a location that is different from that specified in the request;
+to prevent this interference and obtain correct results for keywords with local intent you may set this parameter to false;
+default value: true
+Note: if the search_places mode is turned off and no results were found in the search area, the results array will be empty
+
+tag	string	user-defined task identifier
+optional field
+the character limit is 255
+you can use this parameter to identify the task and match it with the result
+you will find the specified tag value in the data object of the response
+‌
+‌‌As a response of the API server, you will receive JSON-encoded data containing a tasks array with the information specific to the set tasks.
+‌
+Description of the fields in the results array:
+
+                                             
+
+Field name	Type	Description
+version	string	the current version of the API
+status_code	integer	general status code
+you can find the full list of the response codes here
+Note: we strongly recommend designing a necessary system for handling related exceptional or error conditions
+status_message	string	general informational message
+you can find the full list of general informational messages here
+time	string	execution time, seconds
+cost	float	total tasks cost, USD
+tasks_count	integer	the number of tasks in the tasks array
+tasks_error	integer	the number of tasks in the tasks array returned with an error
+tasks	array	array of tasks
+        id	string	task identifier
+unique task identifier in our system in the UUID format
+        status_code	integer	status code of the task
+generated by DataForSEO; can be within the following range: 10000-60000
+you can find the full list of the response codes here
+        status_message	string	informational message of the task
+you can find the full list of general informational messages here
+        time	string	execution time, seconds
+        cost	float	cost of the task, USD
+        result_count	integer	number of elements in the result array
+        path	array	URL path
+        data	object	contains the same parameters that you specified in the POST request
+        result	array	array of results
+            keyword	string	keyword received in a POST array
+the keyword is returned with decoded %## (plus character ‘+’ will be decoded to a space character)
+            type	string	search engine type in a POST array
+            se_domain	string	search engine domain in a POST array
+            location_code	integer	location code in a POST array
+            language_code	string	language code in a POST array
+            check_url	string	direct URL to search engine results
+you can use it to make sure that we provided exact results
+Note: to check location-specific results, follow the provided check url, scroll up and down, then click the “Search this area” button
+            datetime	string	date and time when the result was received
+in the UTC format: “yyyy-mm-dd hh-mm-ss +00:00”
+example:
+2019-11-15 12:57:46 +00:00
+            spell	object	autocorrection of the search engine
+if the search engine provided results for a keyword that was corrected, we will specify the keyword corrected by the search engine and the type of autocorrection
+                keyword	string	keyword obtained as a result of search engine autocorrection
+the results will be provided for the corrected keyword
+                type	string	type of autocorrection
+possible values:
+did_you_mean, showing_results_for, no_results_found_for, including_results_for
+            refinement_chips	object	search refinement chips
+                type	string	type of element = ‘refinement_chips’
+                xpath	string	the XPath of the element
+                items	array	items of the element
+                    type	string	type of element = ‘refinement_chips_element’
+                    title	string	title of the element
+                    url	string	search URL with refinement parameters
+                    domain	string	domain in SERP
+                    options	array	further search refinement options
+                       type	string	type of element = ‘refinement_chips_option’
+                       title	string	title of the element
+                       original_title	string	original title of the element
+original title not translated by Google
+                       url	string	search URL with refinement parameters
+                       domain	string	domain in SERP
+            item_types	array	types of search results in SERP
+contains types of search results (items) found in SERP.
+possible item types:
+maps_search, maps_paid_item
+            se_results_count	integer	total number of results in SERP
+            items_count	integer	the number of results returned in the items array
+            items	array	elements of search results found in SERP
+            ‘Google Maps’ SERP element		
+                type	string	type of element = ‘maps_search’
+                rank_group	integer	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+                rank_absolute	integer	absolute rank in SERP
+absolute position among all the elements in SERP
+                domain	string	domain in the SERP element
+                title	string	title of the result in SERP
+                original_title	string	original title of the element
+original title not translated by Google
+                url	string	relevant URL in SERP
+                contact_url	string	URL of the preferred contact page
+                contributor_url	string	URL of the user’s or entity’s Local Guides profile, if available
+                book_online_url	string	URL in the ‘book online’ button of the element
+URL directing users to the online booking or order page of the business entity
+                rating	object	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+                    rating_type	string	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+                    value	integer	the value of the rating
+                    votes_count	integer	the amount of feedback
+                    rating_max	integer	the maximum value for a rating_type
+                rating_distribution	object	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+                    1	integer	the number of 1-star ratings
+                    2	integer	the number of 2-star ratings
+                    3	integer	the number of 3-star ratings
+                    4	integer	the number of 4-star ratings
+                    5	integer	the number of 5-star ratings
+                snippet	string	element snippet
+contains the address and other information about the local establishment featured in the element
+                address	string	address line
+address of the local establishment featured in the element
+                address_info	object	object containing address components of the local establishment
+                    borough	string	administrative unit or district the local establishment belongs to
+                    address	string	street address of the local establishment
+                    city	string	name of the city where the local establishment is located
+                    zip	string	ZIP code of the local establishment
+                    region	string	DMA region the local establishment belongs to
+                    country_code	string	ISO country code of the local establishment
+                place_id	string	unique place identifier
+place id of the local establishment featured in the element
+                phone	string	phone number
+phone number of the local establishment featured in the element
+                main_image	string	URL of the main image featured in Google My Business profile
+                total_photos	integer	total count of images featured in Google My Business profile
+                category	string	business category
+Google My Business general category that best describes the services provided by the business entity
+                additional_categories	array	additional business categories
+additional Google My Business categories that describe the services provided by the business entity in more detail
+                category_ids	array	global category IDs
+universal category IDs that do not change based on the selected country
+                work_hours	object	open hours
+information about work hours of the local establishment
+                   timetable	object	work hours timetable
+                     sunday	array	work hours on Sundays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     monday	array	work hours on Mondays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     tuesday	array	work hours on Tuesdays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     wednesday	array	work hours on Wednesdays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     thursday	array	work hours on Thursdays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     friday	array	work hours on Fridays
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                     saturday	array	work hours on Saturday
+                       open	object	opening time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                       close	object	closing time
+                         hour	integer	hours in the 24-hour format
+                         minute	integer	minutes
+                   current_status	string	current status of the establishment
+indicates whether the establishment is opened or closed
+                feature_id	string	the unique identifier of the element in SERP
+                cid	string	google-defined client id
+unique id of a local establishment;
+can be used with Google Reviews API to get a full list of reviews
+                latitude	float	latitude coordinate of the local establishments in google maps
+example:
+"latitude": 51.584091
+                longitude	float	longitude coordinate of the local establishment in google maps
+example:
+"longitude": -0.31365919999999997
+                is_claimed	boolean	indicates whether ownership of this local establishment is claimed
+                local_justifications	array	Google local justifications
+snippets of text that “justify” why the business is showing up for search query
+                   type	string	type of local justification
+posible values:
+"user_review",
+"website_mention",
+"menu",
+"other"
+                   text	string	text snippet of local justification
+                is_directory_item	boolean	indicates whether this local establishment is a directory
+                price_level	string	property price level
+can take values: inexpensive, moderate, expensive, very_expensive
+if there is no price level information, the value will be null
+                hotel_rating	integer	hotel class rating
+class ratings range between 1-5 stars, learn more
+if there is no hotel class rating information, the value will be null
+            ‘Local Search Ad’ SERP element		
+                type	string	type of element = ‘maps_paid_item’
+                rank_group	integer	group rank in SERP
+position within a group of elements with identical type values
+positions of elements with different type values are omitted from rank_group
+                rank_absolute	integer	absolute rank in SERP
+absolute position among all the elements in SERP
+                domain	string	domain in the SERP element
+                title	string	title of the result in SERP
+                original_title	string	original title of the element
+original title not translated by Google
+                url	string	relevant URL in SERP
+                contact_url	string	URL of the preferred contact page
+                rating	object	the element’s rating
+the popularity rate based on reviews and displayed in SERP
+                    rating_type	string	the type of rating
+here you can find the following elements: Max5, Percents, CustomMax
+                    value	integer	the value of the rating
+                    votes_count	integer	the amount of feedback
+                    rating_max	integer	the maximum value for a rating_type
+                rating_distribution	object	the distribution of ratings of the business entity
+the object displays the number of 1-star to 5-star ratings, as reviewed by users
+                    1	integer	the number of 1-star ratings
+                    2	integer	the number of 2-star ratings
+                    3	integer	the number of 3-star ratings
+                    4	integer	the number of 4-star ratings
+                    5	integer	the number of 5-star ratings
+‌‌
+
+cURLphpNodeJsPythoncSharp

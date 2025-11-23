@@ -512,7 +512,7 @@ export default function WebsiteIntelligenceAgent() {
                       <div key={tag} className="flex items-center justify-between">
                         <span className="text-theme-light-blue capitalize">{tag}:</span>
                         <Badge className={status === 'Present' ? "bg-green-100 text-green-800" : status === 'Missing' ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}>
-                          {status}
+                          {String(status)}
                         </Badge>
                       </div>
                     ))}
@@ -528,7 +528,7 @@ export default function WebsiteIntelligenceAgent() {
                       <div key={schema} className="flex items-center justify-between">
                         <span className="text-theme-light-blue capitalize">{schema}:</span>
                         <Badge className={status === 'Present' ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
-                          {status}
+                          {String(status)}
                         </Badge>
                       </div>
                     ))}
@@ -558,7 +558,7 @@ export default function WebsiteIntelligenceAgent() {
                         {Object.entries(analysisData.keywords.density).map(([keyword, density]) => (
                           <div key={keyword} className="flex items-center justify-between">
                             <span className="text-sm text-theme-light-blue">{keyword}:</span>
-                            <span className="text-sm font-medium text-theme-dark-blue">{density}%</span>
+                            <span className="text-sm font-medium text-theme-dark-blue">{typeof density === 'number' ? `${density}%` : String(density)}</span>
                           </div>
                         ))}
                       </div>
@@ -665,7 +665,7 @@ export default function WebsiteIntelligenceAgent() {
                         {Object.entries(analysisData.content.headings).map(([level, count]) => (
                           <div key={level} className="flex items-center justify-between">
                             <span className="text-sm text-theme-light-blue">{level.toUpperCase()}:</span>
-                            <span className="text-sm font-medium text-theme-dark-blue">{count}</span>
+                            <span className="text-sm font-medium text-theme-dark-blue">{typeof count === 'number' ? count : String(count)}</span>
                           </div>
                         ))}
                       </div>
@@ -813,25 +813,28 @@ export default function WebsiteIntelligenceAgent() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {Object.entries(analysisData.socialMedia).map(([platform, data]) => (
-                      <div key={platform} className="text-center">
-                        <h4 className="font-semibold text-theme-dark-blue mb-3 capitalize">{platform}</h4>
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-theme-light-blue">Followers:</span>
-                            <span className="text-sm font-medium text-theme-dark-blue">{data.followers.toLocaleString()}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-theme-light-blue">Engagement:</span>
-                            <span className="text-sm font-medium text-theme-dark-blue">{data.engagement}%</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-theme-light-blue">Last Post:</span>
-                            <span className="text-sm font-medium text-theme-dark-blue">{data.lastPost}</span>
+                    {Object.entries(analysisData.socialMedia).map(([platform, data]) => {
+                      const socialData = data as { followers?: number; engagement?: number; lastPost?: string };
+                      return (
+                        <div key={platform} className="text-center">
+                          <h4 className="font-semibold text-theme-dark-blue mb-3 capitalize">{platform}</h4>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-theme-light-blue">Followers:</span>
+                              <span className="text-sm font-medium text-theme-dark-blue">{socialData.followers ? socialData.followers.toLocaleString() : 'N/A'}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-theme-light-blue">Engagement:</span>
+                              <span className="text-sm font-medium text-theme-dark-blue">{socialData.engagement ? `${socialData.engagement}%` : 'N/A'}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-theme-light-blue">Last Post:</span>
+                              <span className="text-sm font-medium text-theme-dark-blue">{socialData.lastPost || 'N/A'}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>

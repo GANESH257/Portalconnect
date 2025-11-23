@@ -164,8 +164,14 @@ export default function BusinessProfilePage() {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [adsData, setAdsData] = useState<any>(null);
   const [adsLoading, setAdsLoading] = useState(false);
+  const [adsError, setAdsError] = useState<string | null>(null);
   const [seoPpcData, setSeoPpcData] = useState<any>(null);
   const [seoPpcLoading, setSeoPpcLoading] = useState(false);
+  const [seoPpcError, setSeoPpcError] = useState<string | null>(null);
+  const [reputationData, setReputationData] = useState<any>(null);
+  const [reputationLoading, setReputationLoading] = useState(false);
+  const [reputationError, setReputationError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('overview');
   // ROI Calculator user inputs (only top fields editable)
   const [roiInputs, setRoiInputs] = useState({
     currentTraffic: 500,
@@ -201,10 +207,8 @@ export default function BusinessProfilePage() {
           setIsInWatchlist(true);
         }
 
-        // Fetch ads data for this business
-        fetchBusinessAds(data.data);
-        // Fetch SEO & PPC data for this business
-        fetchBusinessSEOAndPPC(data.data);
+        // Note: Ads, SEO & PPC, and Reputation data will be fetched when their tabs are clicked
+        // This implements the hybrid model: database for initial load, live APIs for detailed tabs
       } else {
         console.error('Failed to fetch business profile:', response.status, response.statusText);
         const errorData = await response.json();
@@ -218,15 +222,21 @@ export default function BusinessProfilePage() {
   };
 
   const fetchBusinessAds = async (profileData?: BusinessProfile) => {
+    // Only fetch if not already loaded
+    if (adsData && !adsError) {
+      return;
+    }
+    
     try {
       setAdsLoading(true);
+      setAdsError(null);
       const token = localStorage.getItem('token');
       const businessProfile = profileData || profile;
       const location = businessProfile?.city && businessProfile?.state 
         ? `${businessProfile.city}, ${businessProfile.state}` 
         : 'Missouri';
       const url = `/api/serp/business/${profileId}/ads?location=${encodeURIComponent(location)}`;
-      console.log('[BusinessProfile] Fetching Ads (single-port):', { url, profileId, location });
+      console.log('[BusinessProfile] Fetching Ads (live API):', { url, profileId, location });
       const response = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -235,29 +245,40 @@ export default function BusinessProfilePage() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('[BusinessProfile] Ads data received:', data);
         setAdsData(data.data);
+        setAdsError(null);
       } else {
-        let body: any = undefined;
-        try { body = await response.json(); } catch (_) {}
-        console.error('Failed to fetch ads:', response.status, body);
+        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch ads data' }));
+        console.error('Failed to fetch ads:', response.status, errorData);
+        setAdsError(errorData.message || 'Failed to load ads data');
+        setAdsData(null);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching ads:', error);
+      setAdsError(error.message || 'Failed to load ads data');
+      setAdsData(null);
     } finally {
       setAdsLoading(false);
     }
   };
 
   const fetchBusinessSEOAndPPC = async (profileData?: BusinessProfile) => {
+    // Only fetch if not already loaded
+    if (seoPpcData && !seoPpcError) {
+      return;
+    }
+    
     try {
       setSeoPpcLoading(true);
+      setSeoPpcError(null);
       const token = localStorage.getItem('token');
       const businessProfile = profileData || profile;
       const location = businessProfile?.city && businessProfile?.state 
         ? `${businessProfile.city}, ${businessProfile.state}` 
         : 'Missouri';
       const url = `/api/serp/business/${profileId}/seo-ppc?location=${encodeURIComponent(location)}`;
-      console.log('[BusinessProfile] Fetching SEO & PPC:', { url, profileId, location });
+      console.log('[BusinessProfile] Fetching SEO & PPC (live API):', { url, profileId, location });
       const response = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -273,29 +294,83 @@ export default function BusinessProfilePage() {
             serpPosition: data.data.serpPosition,
             schemas: data.data.schemas,
             analytics: data.data.analytics,
+            speedScores: data.data.speedScores,
+            desktop: data.data.speedScores?.desktop,
+            mobile: data.data.speedScores?.mobile,
             localCompetitors: data.data.localCompetitors?.items?.length || 0,
             error: data.data.error
           });
+          console.log('[BusinessProfile] Setting seoPpcData with speedScores:', data.data.speedScores);
           setSeoPpcData(data.data);
+          setSeoPpcError(null);
         } else {
           console.warn('[BusinessProfile] SEO & PPC response missing data:', data);
+          setSeoPpcError('Invalid response format');
+          setSeoPpcData(null);
         }
       } else {
-        let body: any = undefined;
-        try { body = await response.json(); } catch (_) {}
+        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch SEO & PPC data' }));
         console.error('[BusinessProfile] Failed to fetch SEO & PPC:', {
           status: response.status,
           statusText: response.statusText,
-          body
+          errorData
         });
-        // Set null data so UI shows appropriate message
+        setSeoPpcError(errorData.message || 'Failed to load SEO & PPC data');
         setSeoPpcData(null);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('[BusinessProfile] Error fetching SEO & PPC:', error);
+      setSeoPpcError(error.message || 'Failed to load SEO & PPC data');
       setSeoPpcData(null);
     } finally {
       setSeoPpcLoading(false);
+    }
+  };
+
+  const fetchBusinessReputation = async (profileData?: BusinessProfile) => {
+    // Only fetch if not already loaded
+    if (reputationData && !reputationError) {
+      return;
+    }
+    
+    try {
+      setReputationLoading(true);
+      setReputationError(null);
+      const token = localStorage.getItem('token');
+      const businessProfile = profileData || profile;
+      const location = businessProfile?.city && businessProfile?.state 
+        ? `${businessProfile.city}, ${businessProfile.state}` 
+        : 'Missouri';
+      const url = `/api/serp/business/${profileId}/reputation?location=${encodeURIComponent(location)}`;
+      console.log('[BusinessProfile] Fetching Reputation (live API):', { url, profileId, location });
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[BusinessProfile] Reputation data received:', data);
+        if (data.success && data.data) {
+          setReputationData(data.data);
+          setReputationError(null);
+        } else {
+          setReputationError('Invalid response format');
+          setReputationData(null);
+        }
+      } else {
+        const errorData = await response.json().catch(() => ({ message: 'Failed to fetch reputation data' }));
+        console.error('[BusinessProfile] Failed to fetch reputation:', response.status, errorData);
+        setReputationError(errorData.message || 'Failed to load reputation data');
+        setReputationData(null);
+      }
+    } catch (error: any) {
+      console.error('[BusinessProfile] Error fetching reputation:', error);
+      setReputationError(error.message || 'Failed to load reputation data');
+      setReputationData(null);
+    } finally {
+      setReputationLoading(false);
     }
   };
 
@@ -317,7 +392,7 @@ export default function BusinessProfilePage() {
     const projectedRevenue = projectedLeads * (inputs.avgServiceValue || 0);
     const monthlyIncrease = projectedRevenue - currentRevenue;
     const roi = currentRevenue > 0 ? Math.round((monthlyIncrease / currentRevenue) * 100) : 0;
-
+    
     setRoiData({
       currentTraffic: inputs.currentTraffic,
       currentLeads,
@@ -344,7 +419,7 @@ export default function BusinessProfilePage() {
 
   const generateSolutions = (profile: BusinessProfile) => {
     const solutions: SolutionRecommendation[] = [];
-
+    
     // PPC Analysis (use live PPC status; reconcile with Ads tab if present)
     const runningAdsFromSeo = seoPpcData?.ppcStatus?.runningAds;
     const runningAdsFromAdsTab = adsData?.isRunningAds;
@@ -365,7 +440,7 @@ export default function BusinessProfilePage() {
         icon: 'Target'
       });
     }
-
+    
     // Reputation Management (use rating and reviews thresholds)
     const lowReviews = (profile.reviewsCount ?? 0) < 50;
     const lowRating = (profile.rating ?? 0) < 4.0;
@@ -449,8 +524,8 @@ export default function BusinessProfilePage() {
           comparison
         };
       });
-      
-      setCompetitors(competitorData);
+    
+    setCompetitors(competitorData);
     } else {
       // Fallback to empty array or show message that no competitors data is available yet
       setCompetitors([]);
@@ -519,7 +594,7 @@ export default function BusinessProfilePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button onClick={() => navigate(-1)} className="flex items-center text-white hover:text-theme-yellow-primary transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2" />
+              <ArrowLeft className="w-5 h-5 mr-2" />
                 Back
               </button>
             </div>
@@ -800,10 +875,10 @@ export default function BusinessProfilePage() {
                     </div>
                   ) : (
                     <>
-                      <div className="text-3xl font-bold text-theme-blue-primary mb-1">
+                  <div className="text-3xl font-bold text-theme-blue-primary mb-1">
                         {seoPpcData.opportunityScore}/100
-                      </div>
-                      <div className="text-sm text-theme-dark-blue/70">Opportunity Score</div>
+                  </div>
+                  <div className="text-sm text-theme-dark-blue/70">Opportunity Score</div>
                       <div className={`flex items-center font-bold ${
                         (seoPpcData.opportunityScore ?? 0) >= 70
                           ? 'text-green-600'
@@ -811,13 +886,13 @@ export default function BusinessProfilePage() {
                           ? 'text-yellow-600'
                           : 'text-red-600'
                       }`}>
-                        <Zap className="w-4 h-4 mr-1" />
+                    <Zap className="w-4 h-4 mr-1" />
                         {(seoPpcData.opportunityScore ?? 0) >= 70
                           ? 'High Potential'
                           : (seoPpcData.opportunityScore ?? 0) >= 50
                           ? 'Medium Potential'
                           : 'Low Potential'}
-                      </div>
+                  </div>
                     </>
                   )}
                 </div>
@@ -905,12 +980,12 @@ export default function BusinessProfilePage() {
                   <div className="text-theme-dark-blue/60">All good — no immediate gaps detected.</div>
                 )}
                 {!seoPpcLoading && solutions.length > 0 && (
-                  <div className="space-y-2">
+                <div className="space-y-2">
                     {solutions.map((s) => (
                       <div key={s.id} className="flex items-center text-orange-600">
-                        <AlertTriangle className="w-4 h-4 mr-2" />
+                    <AlertTriangle className="w-4 h-4 mr-2" />
                         <span>{s.description}</span>
-                      </div>
+                  </div>
                     ))}
                   </div>
                 )}
@@ -920,7 +995,17 @@ export default function BusinessProfilePage() {
         </div>
 
         {/* Tabs Navigation */}
-        <Tabs defaultValue="overview" className="w-full">
+        <Tabs value={activeTab} onValueChange={(value) => {
+          setActiveTab(value);
+          // Fetch live data when tab is clicked
+          if (value === 'seo' && !seoPpcData && !seoPpcLoading) {
+            fetchBusinessSEOAndPPC();
+          } else if (value === 'ads' && !adsData && !adsLoading) {
+            fetchBusinessAds();
+          } else if (value === 'reputation' && !reputationData && !reputationLoading) {
+            fetchBusinessReputation();
+          }
+        }} className="w-full">
           <TabsList className="grid w-full grid-cols-7 bg-white/20 backdrop-blur-sm rounded-lg p-1 mb-6">
             <TabsTrigger value="overview" className="data-[state=active]:bg-theme-blue-primary data-[state=active]:text-white text-white font-semibold">
               Overview
@@ -1106,63 +1191,63 @@ export default function BusinessProfilePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Current Performance (computed) */}
-                  <div>
+                    <div>
                     <h3 className="font-semibold text-theme-dark-blue mb-6 text-lg">Current Performance</h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Traffic:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Traffic:</span>
                         <span className="text-theme-dark-blue font-semibold">{roiData?.currentTraffic?.toLocaleString() || 0}</span>
-                      </div>
+                        </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Leads:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Leads:</span>
                         <span className="text-theme-dark-blue font-semibold">{roiData?.currentLeads?.toLocaleString() || 0}</span>
-                      </div>
+                        </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Revenue:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Revenue:</span>
                         <span className="text-theme-dark-blue font-semibold">${roiData?.currentRevenue?.toLocaleString() || 0}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
+                    
                   {/* With Our Services (computed) */}
-                  <div>
+                    <div>
                     <h3 className="font-semibold text-theme-dark-blue mb-6 text-lg">With Our Services</h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Traffic:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Traffic:</span>
                         <span className="text-theme-dark-blue font-semibold">{roiData?.projectedTraffic?.toLocaleString() || 0}</span>
-                      </div>
+                        </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Leads:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Leads:</span>
                         <span className="text-theme-dark-blue font-semibold">{roiData?.projectedLeads?.toLocaleString() || 0}</span>
-                      </div>
+                        </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-theme-dark-blue/70">Monthly Revenue:</span>
+                          <span className="text-theme-dark-blue/70">Monthly Revenue:</span>
                         <span className="text-theme-dark-blue font-semibold">${roiData?.projectedRevenue?.toLocaleString() || 0}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
+                
                 {roiData && (
                   <div className="mt-8 p-6 bg-theme-yellow-primary/10 rounded-lg border-2 border-theme-yellow-primary/20">
-                    <div className="text-center">
-                      <h3 className="text-2xl font-bold text-theme-dark-blue mb-2">
-                        Projected Monthly Increase
-                      </h3>
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold text-theme-dark-blue mb-2">
+                      Projected Monthly Increase
+                    </h3>
                       <div className="text-4xl font-bold text-theme-blue-primary mb-4">
                         ${roiData.monthlyIncrease.toLocaleString()}
-                      </div>
+                    </div>
                       <div className="text-xl font-semibold text-theme-dark-blue mb-4">
                         ROI: {roiData.roi}%
-                      </div>
+                    </div>
                       <p className="text-sm text-theme-dark-blue/60 italic">
                         *Projections based on industry averages and typical improvements from SEO/PPC optimization
                       </p>
-                    </div>
                   </div>
+                </div>
                 )}
               </CardContent>
             </Card>
@@ -1174,8 +1259,21 @@ export default function BusinessProfilePage() {
               <Card className="bg-white/95 backdrop-blur-sm">
                 <CardContent className="py-12 text-center">
                   <div className="flex flex-col items-center gap-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-theme-blue-primary"></div>
-                    <p className="text-theme-dark-blue/70">Loading SEO & PPC analysis...</p>
+                    <Loader2 className="w-12 h-12 animate-spin text-theme-blue-primary" />
+                    <p className="text-theme-dark-blue/70">Loading SEO & PPC analysis from live APIs...</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : seoPpcError ? (
+              <Card className="bg-white/95 backdrop-blur-sm border-2 border-red-500">
+                <CardContent className="py-12 text-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <AlertTriangle className="w-12 h-12 text-red-500" />
+                    <p className="text-theme-dark-blue font-semibold">Failed to load SEO & PPC data</p>
+                    <p className="text-theme-dark-blue/70 text-sm">{seoPpcError}</p>
+                    <Button onClick={() => fetchBusinessSEOAndPPC()} variant="outline" className="mt-4">
+                      Retry
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -1236,15 +1334,15 @@ export default function BusinessProfilePage() {
                   </CardContent>
                 </Card>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className="bg-white/95 backdrop-blur-sm">
-                    <CardHeader>
-                      <CardTitle className="text-theme-dark-blue">SEO Status</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">Local Business Schema</span>
-                        <div className="flex items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="bg-white/95 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-theme-dark-blue">SEO Status</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">Local Business Schema</span>
+                    <div className="flex items-center">
                           {seoPpcData.schemas?.localBusiness ? (
                             <>
                               <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
@@ -1252,15 +1350,15 @@ export default function BusinessProfilePage() {
                             </>
                           ) : (
                             <>
-                              <XCircle className="w-5 h-5 text-red-500 mr-2" />
-                              <span className="text-red-500 font-semibold">Missing</span>
+                      <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                      <span className="text-red-500 font-semibold">Missing</span>
                             </>
                           )}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">FAQ Schema</span>
-                        <div className="flex items-center">
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">FAQ Schema</span>
+                    <div className="flex items-center">
                           {seoPpcData.schemas?.faq ? (
                             <>
                               <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
@@ -1268,20 +1366,20 @@ export default function BusinessProfilePage() {
                             </>
                           ) : (
                             <>
-                              <XCircle className="w-5 h-5 text-red-500 mr-2" />
-                              <span className="text-red-500 font-semibold">Missing</span>
+                      <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                      <span className="text-red-500 font-semibold">Missing</span>
                             </>
                           )}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">SERP Position</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">SERP Position</span>
                         <span className="font-semibold text-theme-dark-blue">
                           {seoPpcData.serpPosition ? `#${seoPpcData.serpPosition}` : 'Not ranked'}
                         </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">PPC & Advertising</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">PPC & Advertising</span>
                         {seoPpcData.ppcStatus?.runningAds ? (
                           <div className="flex items-center">
                             <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
@@ -1290,20 +1388,20 @@ export default function BusinessProfilePage() {
                             </span>
                           </div>
                         ) : (
-                          <span className="text-orange-500 font-semibold">Not Running Ads</span>
+                    <span className="text-orange-500 font-semibold">Not Running Ads</span>
                         )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  </div>
+                </CardContent>
+              </Card>
 
-                  <Card className="bg-white/95 backdrop-blur-sm">
-                    <CardHeader>
-                      <CardTitle className="text-theme-dark-blue">Technical SEO</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">Google Analytics</span>
-                        <div className="flex items-center">
+              <Card className="bg-white/95 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-theme-dark-blue">Technical SEO</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">Google Analytics</span>
+                    <div className="flex items-center">
                           {seoPpcData.analytics?.googleAnalytics?.found ? (
                             <>
                               <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
@@ -1311,15 +1409,15 @@ export default function BusinessProfilePage() {
                             </>
                           ) : (
                             <>
-                              <XCircle className="w-5 h-5 text-red-500 mr-2" />
-                              <span className="text-red-500 font-semibold">Not Found</span>
+                      <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                      <span className="text-red-500 font-semibold">Not Found</span>
                             </>
                           )}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-dark-blue/70">Facebook Pixel</span>
-                        <div className="flex items-center">
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-dark-blue/70">Facebook Pixel</span>
+                    <div className="flex items-center">
                           {seoPpcData.analytics?.facebookPixel?.found ? (
                             <>
                               <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
@@ -1327,19 +1425,23 @@ export default function BusinessProfilePage() {
                             </>
                           ) : (
                             <>
-                              <XCircle className="w-5 h-5 text-red-500 mr-2" />
-                              <span className="text-red-500 font-semibold">Not Found</span>
+                      <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                      <span className="text-red-500 font-semibold">Not Found</span>
                             </>
                           )}
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-theme-dark-blue/70">Desktop Speed Score</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-theme-dark-blue/70">Desktop Speed Score</span>
                           <span className="font-semibold text-theme-dark-blue">
-                            {seoPpcData.speedScores?.desktop ? `${seoPpcData.speedScores.desktop}/100` : 'N/A'}
+                            {(() => {
+                              const desktop = seoPpcData?.speedScores?.desktop;
+                              console.log('[BusinessProfile] Rendering Desktop Speed:', { desktop, hasSeoPpcData: !!seoPpcData, speedScores: seoPpcData?.speedScores });
+                              return desktop ? `${desktop}/100` : 'N/A';
+                            })()}
                           </span>
-                        </div>
+                    </div>
                         {seoPpcData.speedScores?.desktop ? (
                           <Progress value={seoPpcData.speedScores.desktop} className="h-2" />
                         ) : (
@@ -1347,14 +1449,14 @@ export default function BusinessProfilePage() {
                             N/A — speed data not available for desktop
                           </div>
                         )}
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-theme-dark-blue/70">Mobile Speed Score</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-theme-dark-blue/70">Mobile Speed Score</span>
                           <span className="font-semibold text-theme-dark-blue">
                             {seoPpcData.speedScores?.mobile ? `${seoPpcData.speedScores.mobile}/100` : 'N/A'}
                           </span>
-                        </div>
+                    </div>
                         {seoPpcData.speedScores?.mobile ? (
                           <Progress value={seoPpcData.speedScores.mobile} className="h-2" />
                         ) : (
@@ -1362,10 +1464,10 @@ export default function BusinessProfilePage() {
                             N/A — speed data not available for mobile
                           </div>
                         )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
                 {/* Local Competitors */}
                 {competitors.length > 0 && (
@@ -1450,26 +1552,130 @@ export default function BusinessProfilePage() {
 
           {/* Reputation Tab */}
           <TabsContent value="reputation" className="space-y-6">
-            <Card className="bg-white/95 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-theme-dark-blue">Online Reputation</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-theme-dark-blue">Average Rating</h3>
-                      <div className="flex items-center mt-2">
-                        <Star className="w-6 h-6 text-theme-yellow-primary mr-1" />
-                        <span className="text-2xl font-bold text-theme-dark-blue">{profile.rating.toFixed(1)}</span>
-                        <span className="text-theme-dark-blue/70 ml-2">out of 5.0</span>
+            {reputationLoading ? (
+              <Card className="bg-white/95 backdrop-blur-sm">
+                <CardContent className="py-12 text-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="w-12 h-12 animate-spin text-theme-blue-primary" />
+                    <p className="text-theme-dark-blue/70">Loading reputation data from live APIs...</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : reputationError ? (
+              <Card className="bg-white/95 backdrop-blur-sm border-2 border-red-500">
+                <CardContent className="py-12 text-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <AlertTriangle className="w-12 h-12 text-red-500" />
+                    <p className="text-theme-dark-blue font-semibold">Failed to load reputation data</p>
+                    <p className="text-theme-dark-blue/70 text-sm">{reputationError}</p>
+                    <Button onClick={() => fetchBusinessReputation()} variant="outline" className="mt-4">
+                      Retry
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-white/95 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-theme-dark-blue">Online Reputation</CardTitle>
+                  {reputationData && (
+                    <CardDescription>
+                      {reputationData.reviews?.length || 0} reviews from live sources
+                    </CardDescription>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-theme-dark-blue">Average Rating</h3>
+                        <div className="flex items-center mt-2">
+                          <Star className="w-6 h-6 text-theme-yellow-primary mr-1" />
+                          <span className="text-2xl font-bold text-theme-dark-blue">
+                            {(reputationData?.rating || profile.rating).toFixed(1)}
+                          </span>
+                          <span className="text-theme-dark-blue/70 ml-2">out of 5.0</span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-theme-dark-blue">
+                          {reputationData?.totalRatings || profile.reviewsCount}
+                        </div>
+                        <div className="text-theme-dark-blue/70">Total Reviews</div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-theme-dark-blue">{profile.reviewsCount}</div>
-                      <div className="text-theme-dark-blue/70">Total Reviews</div>
-                    </div>
-                  </div>
+                    
+                    {reputationData && (
+                      <>
+                        {reputationData.responseRate !== undefined && (
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-blue-700 font-semibold">Response Rate</span>
+                              <span className="text-blue-700 font-bold">{reputationData.responseRate}%</span>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {reputationData.reviewVelocity !== undefined && (
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-green-700 font-semibold">Reviews in Last 90 Days</span>
+                              <span className="text-green-700 font-bold">{reputationData.reviewVelocity}</span>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {reputationData.serviceIssues && reputationData.serviceIssues.length > 0 && (
+                          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                            <div className="font-semibold text-orange-700 mb-2">Common Issues in Reviews:</div>
+                            <ul className="list-disc list-inside text-orange-700">
+                              {reputationData.serviceIssues.map((issue: string, idx: number) => (
+                                <li key={idx}>{issue}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {reputationData.reviews && reputationData.reviews.length > 0 && (
+                          <div className="space-y-4">
+                            <h4 className="font-semibold text-theme-dark-blue">Recent Reviews</h4>
+                            <div className="space-y-3 max-h-96 overflow-y-auto">
+                              {reputationData.reviews.slice(0, 10).map((review: any, idx: number) => (
+                                <div key={idx} className="border border-gray-200 rounded-lg p-4">
+                                  <div className="flex items-start justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                      <span className="font-semibold text-theme-dark-blue">{review.author}</span>
+                                      <div className="flex items-center">
+                                        {[...Array(5)].map((_, i) => (
+                                          <Star
+                                            key={i}
+                                            className={`w-4 h-4 ${
+                                              i < review.rating ? 'text-theme-yellow-primary fill-current' : 'text-gray-300'
+                                            }`}
+                                          />
+                                        ))}
+                                      </div>
+                                    </div>
+                                    {review.date && (
+                                      <span className="text-sm text-theme-dark-blue/70">
+                                        {new Date(review.date).toLocaleDateString()}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-theme-dark-blue/80 text-sm">{review.text}</p>
+                                  {review.ownerResponse && (
+                                    <div className="mt-2 pl-4 border-l-2 border-blue-200">
+                                      <p className="text-sm text-blue-700 font-semibold">Owner Response:</p>
+                                      <p className="text-sm text-blue-600">{review.ownerResponse.text}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
                   
                   {profile.reviewsCount < 50 && (
                     <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
@@ -1484,6 +1690,7 @@ export default function BusinessProfilePage() {
                 </div>
               </CardContent>
             </Card>
+            )}
           </TabsContent>
 
           {/* Competitors Tab */}
@@ -1510,8 +1717,8 @@ export default function BusinessProfilePage() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {competitors.map((competitor, index) => (
+                <div className="space-y-4">
+                  {competitors.map((competitor, index) => (
                     <div key={index} className="border border-theme-light-blue/30 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
@@ -1544,7 +1751,7 @@ export default function BusinessProfilePage() {
                       </div>
                     </div>
                   ))}
-                  </div>
+                </div>
                 )}
               </CardContent>
             </Card>
@@ -1563,7 +1770,23 @@ export default function BusinessProfilePage() {
               </CardHeader>
               <CardContent>
                 {adsLoading ? (
-                  <div className="text-center py-8 text-theme-dark-blue/70">Loading ads...</div>
+                  <div className="text-center py-12">
+                    <div className="flex flex-col items-center gap-4">
+                      <Loader2 className="w-12 h-12 animate-spin text-theme-blue-primary" />
+                      <p className="text-theme-dark-blue/70">Loading ads data from live APIs...</p>
+                    </div>
+                  </div>
+                ) : adsError ? (
+                  <div className="text-center py-12">
+                    <div className="flex flex-col items-center gap-4">
+                      <AlertTriangle className="w-12 h-12 text-red-500" />
+                      <p className="text-theme-dark-blue font-semibold">Failed to load ads data</p>
+                      <p className="text-theme-dark-blue/70 text-sm">{adsError}</p>
+                      <Button onClick={() => fetchBusinessAds()} variant="outline" className="mt-4">
+                        Retry
+                      </Button>
+                    </div>
+                  </div>
                 ) : adsData?.isRunningAds && adsData.ads && adsData.ads.length > 0 ? (
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -731,19 +731,9 @@ export default function ProspectFinderAgent() {
     return filteredAllResults.slice(start, end);
   }, [filteredAllResults, page, pageSize]);
   
-  console.log('Filtered all results count (for map & list):', filteredAllResults.length);
-  console.log('Filtered prospects count (current page):', filteredProspects.length);
-  console.log('Total pages:', totalPages);
-  console.log('Current filters:', filters);
-  console.log('Available categories:', availableCategories);
-  console.log('Available ratings:', availableRatings);
-  console.log('Available scores:', availableScores);
-  console.log('Available cities:', availableCities);
-  console.log('Available ZIP codes:', availableZipCodes);
-
-  // Map businesses for MapComponent - must be at component level, not inline
-  const mapBusinesses = React.useMemo(() => {
-    const mapped = filteredAllResults
+  // Map businesses for MapComponent (moved outside JSX to fix useMemo issue)
+  const mappedBusinessesForMap = React.useMemo(() => {
+    return filteredAllResults
       .map(prospect => {
         // Try multiple coordinate field locations and formats
         let lat: number | null = null;
@@ -788,49 +778,27 @@ export default function ProspectFinderAgent() {
         
         return {
           id: prospect.id || prospect.businessProfileId,
-          name: prospect.title || prospect.clinic || prospect.name,
-          address: prospect.address || prospect.address_info?.formatted_address || '',
-          city: prospect.city || prospect.address_info?.city || searchLocation.split(',')[0],
-          state: prospect.state || prospect.address_info?.region || searchLocation.split(',')[1]?.trim() || 'MO',
-          zipCode: prospect.zipCode || prospect.address_info?.postal_code,
-          phone: prospect.phone,
-          website: prospect.website || prospect.url,
-          domain: prospect.domain,
-          rating: prospect.rating?.value || prospect.rating,
-          reviewsCount: prospect.rating?.votes_count || prospect.reviewsCount || prospect.reviews || 0,
-          lat: lat as number,
-          lng: lng as number,
-          placeId: prospect.placeId || prospect.place_id,
-          cid: prospect.cid,
-          category: prospect.category,
-          mainImage: prospect.mainImage || prospect.main_image
+          name: prospect.title || prospect.name,
+          lat,
+          lng,
+          address: prospect.address,
+          city: prospect.city,
+          state: prospect.state,
+          zipCode: prospect.zipCode
         };
       })
-      .filter(b => b != null) as Array<{
-        id: string;
-        name: string;
-        address: string;
-        city: string;
-        state: string;
-        zipCode?: string;
-        phone?: string;
-        website?: string;
-        domain?: string;
-        rating?: number;
-        reviewsCount?: number;
-        lat: number;
-        lng: number;
-        placeId?: string;
-        cid?: string;
-        category?: string;
-        mainImage?: string;
-      }>;
-    console.log(`Map: ${filteredAllResults.length} filtered results, ${mapped.length} with valid coordinates`);
-    if (mapped.length < filteredAllResults.length) {
-      console.warn(`Missing coordinates for ${filteredAllResults.length - mapped.length} results`);
-    }
-    return mapped;
-  }, [filteredAllResults, searchLocation]);
+      .filter((b): b is NonNullable<typeof b> => b !== null);
+  }, [filteredAllResults]);
+  
+  console.log('Filtered all results count (for map & list):', filteredAllResults.length);
+  console.log('Filtered prospects count (current page):', filteredProspects.length);
+  console.log('Total pages:', totalPages);
+  console.log('Current filters:', filters);
+  console.log('Available categories:', availableCategories);
+  console.log('Available ratings:', availableRatings);
+  console.log('Available scores:', availableScores);
+  console.log('Available cities:', availableCities);
+  console.log('Available ZIP codes:', availableZipCodes);
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{
@@ -1077,7 +1045,7 @@ export default function ProspectFinderAgent() {
             <CardContent>
               <div className="h-96 rounded-lg overflow-hidden">
                 <MapComponent 
-                  businesses={mapBusinesses}
+                  businesses={mappedBusinessesForMap}
                   center={getMapCenter(searchLocation)}
                   mapView={mapView}
                   radius={radius}

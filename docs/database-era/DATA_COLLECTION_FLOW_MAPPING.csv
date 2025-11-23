@@ -1,0 +1,26 @@
+Phase,Step,Data Item,API Endpoint,Service Method,Parameters,Response Path,Storage Location,Required,Notes
+Phase 1,1.1,Maps Results,POST /v3/serp/google/maps/live/advanced,getMapsResults(),keyword, location, language, device,tasks[0].result[0].items[],businesses[] array,Yes,Combines with other discovery APIs
+Phase 1,1.2,Local Pack Results,POST /v3/serp/google/local_finder/live/advanced,getLocalPackResults(),keyword, location, language, device,tasks[0].result[0].items[],businesses[] array,Yes,Merged with Maps results
+Phase 1,1.3,Business Listings,POST /v3/business_data/business_listings/search/live,getBusinessListings(),keyword, location_name, language_code, limit,tasks[0].result[0].items[],businesses[] array,Yes,Up to 100 listings
+Phase 1,1.4,Deduplication,N/A,extractBusinesses(),placeId, cid, domain+name,N/A,unique businesses[],Yes,Removes duplicates by placeId/cid/domain
+Phase 2,2.1,GMB Info,POST /v3/business_data/google/my_business_info/live,getGoogleMyBusinessInfo(),businessName, location, placeId, cid,tasks[0].result[0].items[0],enriched.gmbInfo,Yes,Business hours, services, contact info
+Phase 2,2.2,Reviews,POST /v3/business_data/google/reviews/task_post,getBusinessReviews(),businessName, location, language_code, max_reviews_count,tasks[0].result[0].items[] (after polling),enriched.reviews,Yes,Async task - polls for completion
+Phase 2,2.3,Ranked Keywords,POST /v3/dataforseo_labs/google/ranked_keywords/live,getRankedKeywords(),target (domain), location_code, language_name, limit,tasks[0].result[0].items[],enriched.rankedKeywords,Yes,Up to 100 keywords
+Phase 2,2.4,Traffic Estimation,POST /v3/dataforseo_labs/google/bulk_traffic_estimation/live,getBulkTrafficEstimation(),targets (domains), location_code, language_name,tasks[0].result[0].items[],enriched.traffic,Yes,Monthly traffic estimate
+Phase 2,2.5,Ads Creatives,POST /v3/serp/google/ads_search/live/advanced,getAdsForDomain(),keyword, location_code, domain, language,tasks[0].result[0].items[],enriched.adsCreatives,Yes,Ad titles, descriptions, images
+Phase 2,2.6,On-Page Analysis,POST /v3/on_page/task_post → GET /v3/on_page/pages,getOnPageAnalysis(),url, enable_javascript, enable_browser_rendering,tasks[0].result[0].items[0] (after polling),enriched.onPageResults,Yes,Async task - retries up to 3 times
+Phase 2,2.7,Google Places,Google Places API,add-google-places.js,placeId, apiKey,Direct API response,enriched.googlePlaces,Optional,Ratings and reviews
+Phase 2,2.8,Safe Browsing,Google Safe Browsing API,add-safe-browsing.js,domain, apiKey,Direct API response,enriched.safeBrowsing,Optional,Malware/phishing check
+Phase 2,2.9,PageSpeed Insights,Google PageSpeed Insights API,add-pagespeed-insights.js,url, apiKey, category,Direct API response,enriched.pageSpeedInsights,Yes,Performance, accessibility, SEO scores
+Phase 2,2.10,HTML Content,Direct HTTP GET,axios.get(),url (https://domain),HTML string,enriched.htmlContent,Yes,Browser-like headers to avoid bot detection
+Phase 2,2.10,Analytics Detection,HTML Parsing,detectAnalyticsInHTML(),html string,Detected analytics object,enriched.analytics,Yes,Google Analytics, Facebook Pixel
+Phase 2,2.10,Schema Detection,HTML Parsing,detectSchemasInHTML(),html string,Detected schemas object,enriched.schemas,Yes,LocalBusiness, FAQ, Organization, etc.
+Phase 2,2.11,Schema Validation,Custom Validation,add-schema-validation.js,html string,Validation result,enriched.schemaValidation,Yes,Validates JSON-LD structure
+Phase 2,2.12,Backlinks,POST /v3/backlinks/summary/live,getBacklinkAnalysis(),target (domain), limit,tasks[0].result[0].items[],enriched.backlinks,Optional,Requires subscription
+Phase 2,2.13,Domain Rank,POST /v3/dataforseo_labs/google/domain_rank/live,getDomainAnalysis(),targets (domains), location_code, language_name,tasks[0].result[0].items[0],enriched.domainRank,Yes,ETV, keyword count, position distribution
+Phase 2,2.14,Ads Advertisers,POST /v3/serp/google/ads_advertisers/live/advanced,getAdsAdvertisers(),keyword, locationName,tasks[0].result[0].items[],business.ads, business.isPaid,Yes,Runs after all businesses enriched
+Phase 3,3.1,SERP Job,Prisma Create,prisma.serpJob.create(),keyword, location, userId, status,serpJob record,serp_jobs table,Yes,Parent job record
+Phase 3,3.2,SerpResult,Prisma Create,prisma.serpResult.create(),serpJobId, rankAbsolute, title, domain, placeId, cid, rawData,serpResult record,serp_results table,Yes,Stores rawData with enriched object
+Phase 3,3.3,BusinessProfile,Prisma Create,prisma.businessProfile.create(),serpResultId, name, domain, calculated scores,businessProfile record,business_profiles table,Yes,Stores normalized profile with scores
+Phase 3,3.4,KeywordRankings,Prisma Create,prisma.keywordRanking.createMany(),businessProfileId, keyword, rankAbsolute, url,keywordRanking records,keyword_rankings table,Yes,Up to 100 keywords per business
+

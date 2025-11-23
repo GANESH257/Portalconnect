@@ -5,7 +5,26 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Phone, Globe, ExternalLink, Clock, Users, Eye } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Fix Leaflet default icon path issue with bundlers
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  iconRetinaUrl: iconRetina,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 interface BusinessLocation {
   id: string;
@@ -126,7 +145,7 @@ export default function MapComponent({
                 {mapView === 'radius' && center && (
                   <Circle center={[center.lat, center.lng]} radius={(radius || 0) * 1609.34} {...({} as any)} />
                 )}
-                {geoBusinesses.slice(0, 200).map(b => (
+                {geoBusinesses.map(b => (
                   <Marker key={b.id} position={[b.lat as number, b.lng as number]} eventHandlers={{ click: () => setSelectedBusiness(b) }}>
                     <Popup>
                       <div className="text-sm min-w-[200px]">

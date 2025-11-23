@@ -38,6 +38,7 @@ import {
   getAdsSearch,
   getBusinessAds,
   getBusinessSEOAndPPC,
+  getBusinessReputation,
   getOnPageAnalysis,
   getBusinessListings,
   getGoogleMyBusinessInfo,
@@ -123,6 +124,7 @@ export function createServer() {
   // More specific routes first (order matters in Express)
   app.get("/api/serp/business/:profileId/seo-ppc", verifyToken, getBusinessSEOAndPPC);
   app.get("/api/serp/business/:profileId/ads", verifyToken, getBusinessAds);
+  app.get("/api/serp/business/:profileId/reputation", verifyToken, getBusinessReputation);
   app.get("/api/serp/business/:profileId", verifyToken, getBusinessProfile);
 
   // Enhanced prospect finder endpoints

@@ -87,7 +87,7 @@ export default function WatchlistPage() {
       return res.ok;
     } catch {
       return false;
-    }
+      }
   };
 
   // Fetch real watchlist data from API

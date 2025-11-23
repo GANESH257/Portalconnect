@@ -1,0 +1,57 @@
+Table Name,Field Name,Data Source,API Endpoint,API Response Path,Transformation,Required,Storage Location
+serp_results,rawData.enriched.gmbInfo,DataForSEO API,POST /v3/business_data/google/my_business_info/live,tasks[0].result[0].items[0],Direct mapping,Yes,rawData.enriched.gmbInfo
+serp_results,rawData.enriched.reviews,DataForSEO API,POST /v3/business_data/google/reviews/task_post,tasks[0].result[0].items[],Direct mapping,Yes,rawData.enriched.reviews
+serp_results,rawData.enriched.rankedKeywords,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[],Direct mapping,Yes,rawData.enriched.rankedKeywords
+serp_results,rawData.enriched.traffic,DataForSEO API,POST /v3/dataforseo_labs/google/bulk_traffic_estimation/live,tasks[0].result[0].items[],Direct mapping,Yes,rawData.enriched.traffic
+serp_results,rawData.enriched.onPageResults,DataForSEO API,POST /v3/on_page/task_post → GET /v3/on_page/pages,tasks[0].result[0].items[0],Direct mapping,Yes,rawData.enriched.onPageResults
+serp_results,rawData.enriched.onPage,DataForSEO API,POST /v3/on_page/task_post → GET /v3/on_page/pages,tasks[0].result[0].items[0],Direct mapping,Optional,rawData.enriched.onPage
+serp_results,rawData.enriched.backlinks,DataForSEO API,POST /v3/backlinks/summary/live,tasks[0].result[0].items[],Direct mapping,Optional,rawData.enriched.backlinks
+serp_results,rawData.enriched.domainRank,DataForSEO API,POST /v3/dataforseo_labs/google/domain_rank/live,tasks[0].result[0].items[0],Direct mapping,Yes,rawData.enriched.domainRank
+serp_results,rawData.enriched.analytics,HTML Analysis,HTTP GET + detectAnalyticsInHTML(),HTML string parsed,Detected from HTML patterns,Yes,rawData.enriched.analytics
+serp_results,rawData.enriched.analytics.googleAnalytics.found,HTML Analysis,detectAnalyticsInHTML(),HTML regex match,Boolean (true if GA detected),Yes,rawData.enriched.analytics.googleAnalytics.found
+serp_results,rawData.enriched.analytics.googleAnalytics.type,HTML Analysis,detectAnalyticsInHTML(),HTML regex match,"GA4, UA, or gtag",Optional,rawData.enriched.analytics.googleAnalytics.type
+serp_results,rawData.enriched.analytics.googleAnalytics.id,HTML Analysis,detectAnalyticsInHTML(),HTML regex match,Extracted tracking ID,Optional,rawData.enriched.analytics.googleAnalytics.id
+serp_results,rawData.enriched.analytics.facebookPixel.found,HTML Analysis,detectAnalyticsInHTML(),HTML regex match,Boolean (true if FB Pixel detected),Yes,rawData.enriched.analytics.facebookPixel.found
+serp_results,rawData.enriched.analytics.facebookPixel.id,HTML Analysis,detectAnalyticsInHTML(),HTML regex match,Extracted pixel ID,Optional,rawData.enriched.analytics.facebookPixel.id
+serp_results,rawData.enriched.schemas,HTML Analysis,HTTP GET + detectSchemasInHTML(),HTML JSON-LD parsed,Detected schema types object,Yes,rawData.enriched.schemas
+serp_results,rawData.enriched.schemas.localBusiness,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.localBusiness
+serp_results,rawData.enriched.schemas.faq,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.faq
+serp_results,rawData.enriched.schemas.organization,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.organization
+serp_results,rawData.enriched.schemas.breadcrumbs,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.breadcrumbs
+serp_results,rawData.enriched.schemas.product,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.product
+serp_results,rawData.enriched.schemas.review,HTML Analysis,detectSchemasInHTML(),JSON-LD @type check,Boolean,Yes,rawData.enriched.schemas.review
+serp_results,rawData.enriched.htmlContent,HTTP GET,Direct HTTP request,HTML string,Full HTML content (may be large),Optional,rawData.enriched.htmlContent
+serp_results,rawData.enriched.ads,DataForSEO API,POST /v3/serp/google/ads_advertisers/live/advanced,tasks[0].result[0].items[] matched,Advertiser match object,Yes,rawData.enriched.ads
+serp_results,rawData.enriched.adsCreatives,DataForSEO API,POST /v3/serp/google/ads_search/live/advanced,tasks[0].result[0].items[],Array of ad creatives,Yes,rawData.enriched.adsCreatives
+serp_results,rawData.enriched.adsCreativesCount,DataForSEO API,POST /v3/serp/google/ads_search/live/advanced,Array length,Count of adsCreatives array,Yes,rawData.enriched.adsCreativesCount
+serp_results,rawData.enriched.pageSpeedInsights,Google API,GET https://www.googleapis.com/pagespeedonline/v5/runPagespeed,lighthouseResult,Direct mapping,Yes,rawData.enriched.pageSpeedInsights
+serp_results,rawData.enriched.pageSpeedInsights.performance,Google API,PageSpeed Insights API,lighthouseResult.categories.performance.score,0-1 score (multiply by 100),Yes,rawData.enriched.pageSpeedInsights.performance
+serp_results,rawData.enriched.pageSpeedInsights.mobile,Google API,PageSpeed Insights API,lighthouseResult.categories.performance.score (mobile),0-1 score (multiply by 100),Yes,rawData.enriched.pageSpeedInsights.mobile
+serp_results,rawData.enriched.pageSpeedInsights.accessibility,Google API,PageSpeed Insights API,lighthouseResult.categories.accessibility.score,0-1 score (multiply by 100),Optional,rawData.enriched.pageSpeedInsights.accessibility
+serp_results,rawData.enriched.pageSpeedInsights.seo,Google API,PageSpeed Insights API,lighthouseResult.categories.seo.score,0-1 score (multiply by 100),Optional,rawData.enriched.pageSpeedInsights.seo
+serp_results,rawData.enriched.pageSpeedInsights.bestPractices,Google API,PageSpeed Insights API,lighthouseResult.categories.best-practices.score,0-1 score (multiply by 100),Optional,rawData.enriched.pageSpeedInsights.bestPractices
+serp_results,rawData.enriched.pageSpeedInsights.coreWebVitals,Google API,PageSpeed Insights API,lighthouseResult.audits,Extracted LCP FID CLS TTI FCP,Optional,rawData.enriched.pageSpeedInsights.coreWebVitals
+serp_results,rawData.enriched.googlePlaces,Google API,GET https://maps.googleapis.com/maps/api/place/details/json,result,Direct mapping,Optional,rawData.enriched.googlePlaces
+serp_results,rawData.enriched.googlePlaces.rating,Google API,Places API,result.rating,Direct mapping,Optional,rawData.enriched.googlePlaces.rating
+serp_results,rawData.enriched.googlePlaces.reviewsCount,Google API,Places API,result.user_ratings_total,Direct mapping,Optional,rawData.enriched.googlePlaces.reviewsCount
+serp_results,rawData.enriched.safeBrowsing,Google API,POST https://safebrowsing.googleapis.com/v4/threatMatches:find,matches array,Empty array = safe,Optional,rawData.enriched.safeBrowsing
+serp_results,rawData.enriched.schemaValidation,Custom Validation,add-schema-validation.js,Validation result,Valid/invalid with errors array,Yes,rawData.enriched.schemaValidation
+serp_results,rawData.enriched.schemaValidation.valid,Custom Validation,validateSchemas(),Boolean,true if valid,Yes,rawData.enriched.schemaValidation.valid
+serp_results,rawData.enriched.schemaValidation.errors,Custom Validation,validateSchemas(),Array,Array of error objects,Yes,rawData.enriched.schemaValidation.errors
+serp_results,rawData.enriched.schemaValidation.schemas,Custom Validation,validateSchemas(),Array,Array of validated schema objects,Yes,rawData.enriched.schemaValidation.schemas
+serp_results,rawData.enriched.paidETV,DataForSEO API,POST /v3/dataforseo_labs/google/bulk_traffic_estimation/live,tasks[0].result[0].items[0].metrics.organic.etv,Direct mapping,Optional,rawData.enriched.paidETV
+business_profiles,pageSpeed,Google API / On-Page API,PageSpeed Insights or On-Page API,pageSpeedInsights.performance or onPageResults.desktop_score,0-100 score,Optional,business_profiles.pageSpeed
+business_profiles,mobileScore,Google API / On-Page API,PageSpeed Insights or On-Page API,pageSpeedInsights.mobile or onPageResults.mobile_score,0-100 score,Optional,business_profiles.mobileScore
+business_profiles,accessibilityScore,Google API / On-Page API,PageSpeed Insights or On-Page API,pageSpeedInsights.accessibility or onPageResults.accessibility_score,0-100 score,Optional,business_profiles.accessibilityScore
+business_profiles,domainAuthority,DataForSEO API,POST /v3/dataforseo_labs/google/domain_rank/live,domainRank.metrics.organic.etv,Calculated: min(40, (etv/10000)*40),Yes,business_profiles.domainAuthority
+business_profiles,backlinks,DataForSEO API,POST /v3/backlinks/summary/live,backlinks.backlinks,Direct mapping,Optional,business_profiles.backlinks
+business_profiles,monthlyTraffic,DataForSEO API,POST /v3/dataforseo_labs/google/bulk_traffic_estimation/live,traffic.metrics.organic.etv,Direct mapping,Optional,business_profiles.monthlyTraffic
+business_profiles,seoScore,Calculated,Multiple sources,Combined metrics,calculateSEOScore() function,Yes,business_profiles.seoScore
+business_profiles,isPaid,DataForSEO API,POST /v3/serp/google/ads_advertisers/live/advanced,ads.matched or adsCreatives.length > 0,Boolean,Yes,business_profiles.isPaid
+keyword_rankings,keyword,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].keyword,Direct mapping,Yes,keyword_rankings.keyword
+keyword_rankings,rankAbsolute,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].rank_absolute,Direct mapping,Yes,keyword_rankings.rankAbsolute
+keyword_rankings,url,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].url,Direct mapping,Optional,keyword_rankings.url
+keyword_rankings,searchVolume,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].search_volume,Direct mapping,Optional,keyword_rankings.searchVolume
+keyword_rankings,competition,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].competition,Direct mapping,Optional,keyword_rankings.competition
+keyword_rankings,cpc,DataForSEO API,POST /v3/dataforseo_labs/google/ranked_keywords/live,tasks[0].result[0].items[].cpc,Direct mapping,Optional,keyword_rankings.cpc
+

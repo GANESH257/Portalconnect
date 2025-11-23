@@ -21,9 +21,10 @@ class DataForSEOService {
 
   /**
    * Create axios instance with authentication
+   * CRITICAL: Adds interceptor to STRIP location_name from Ads API requests
    */
   private getAxiosInstance() {
-    return axios.create({
+    const instance = axios.create({
       baseURL: DATAFORSEO_BASE_URL,
       auth: {
         username: DATAFORSEO_LOGIN!,
@@ -34,6 +35,39 @@ class DataForSEOService {
       },
       timeout: 60000 // 60 seconds timeout
     });
+
+    // CRITICAL INTERCEPTOR: Strip location_name from Ads API requests
+    // This is a FINAL safety net - removes location_name even if it somehow gets added
+    instance.interceptors.request.use((config) => {
+      // Check if this is an Ads API endpoint
+      const isAdsEndpoint = config.url?.includes('ads_search') || config.url?.includes('ads_advertisers');
+      
+      if (isAdsEndpoint && config.data) {
+        // Recursively remove location_name from request data
+        const removeLocationName = (obj: any): any => {
+          if (Array.isArray(obj)) {
+            return obj.map(removeLocationName);
+          } else if (obj && typeof obj === 'object') {
+            const cleaned: any = {};
+            for (const key in obj) {
+              if (key !== 'location_name' && key !== 'locationName') {
+                cleaned[key] = removeLocationName(obj[key]);
+              }
+            }
+            return cleaned;
+          }
+          return obj;
+        };
+        
+        config.data = removeLocationName(config.data);
+        console.log('[AXIOS INTERCEPTOR] 🛡️ Stripped location_name from Ads API request');
+        console.log('[AXIOS INTERCEPTOR] Final request data:', JSON.stringify(config.data, null, 2));
+      }
+      
+      return config;
+    });
+
+    return instance;
   }
 
   /**
@@ -330,7 +364,14 @@ class DataForSEOService {
   }
 
   /**
-   * Get location code from CSV data
+   * Get location code from CSV data (public method for use in routes)
+   */
+  getLocationCode(location: string): number {
+    return this.getLocationCodeFromCSV(location);
+  }
+
+  /**
+   * Get location code from CSV data (private implementation)
    */
   private getLocationCodeFromCSV(location: string): number {
     try {
@@ -719,13 +760,29 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
     
-    const requestBody = [{
+    // GMB Info API: Use proper location code lookup from CSV
+    // When place_id or cid is provided, location may not be needed, but try to include it anyway
+    let locationCode: number | undefined;
+    try {
+      locationCode = this.getLocationCodeFromCSV(params.location);
+    } catch (error) {
+      // If lookup fails, locationCode will be undefined and we'll use location_name
+    }
+    
+    const requestBody: any = [{
       keyword: params.businessName,
-      location_name: params.location,
       language_code: 'en',
       ...(params.placeId && { place_id: params.placeId }),
       ...(params.cid && { cid: params.cid })
     }];
+    
+    // Add location: prefer location_code if available, otherwise use location_name
+    // Note: Even when place_id/cid is provided, some APIs may still want location for context
+    if (locationCode) {
+      requestBody[0].location_code = locationCode;
+    } else {
+      requestBody[0].location_name = params.location;
+    }
 
     try {
       const response = await this.getAxiosInstance().post('/business_data/google/my_business_info/live', requestBody);
@@ -961,12 +1018,26 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
     
-    const requestBody = [{
+    // Reviews API: Use proper location code lookup from CSV
+    let locationCode: number | undefined;
+    try {
+      locationCode = this.getLocationCodeFromCSV(params.location);
+    } catch (error) {
+      // If lookup fails, locationCode will be undefined and we'll use location_name
+    }
+    
+    const requestBody: any = [{
       keyword: params.businessName,
-      location_name: params.location,
       language_code: 'en',
       max_reviews_count: params.maxReviews || 1000
     }];
+    
+    // Prefer location_code if available, otherwise use location_name
+    if (locationCode) {
+      requestBody[0].location_code = locationCode;
+    } else {
+      requestBody[0].location_name = params.location;
+    }
 
     try {
       const response = await this.getAxiosInstance().post('/business_data/google/reviews/task_post', requestBody);
@@ -988,9 +1059,12 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
     
+    // Ranked Keywords API doesn't accept location_name - use location_code or omit location
+    // Based on API docs, this endpoint uses location_code (numeric) or can work without location
     const requestBody = [{
       target: params.domain,
-      location_name: params.location || 'United States',
+      // Remove location_name - this API doesn't accept it
+      // If location is needed, it should be location_code (numeric) but we'll omit for now
       language_name: 'English',
       limit: params.limit || 1000
     }];
@@ -1014,10 +1088,12 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
     
+    // Bulk Traffic Estimation API doesn't accept location_name - use location_code or omit location
+    // Based on API docs, this endpoint uses location_code (numeric) or can work without location
     const requestBody = [{
-      targets: params.domains,
-      location_name: params.location || 'United States',
-      language_name: 'English'
+      targets: params.domains
+      // Remove location_name - this API doesn't accept it
+      // If location is needed, it should be location_code (numeric) but we'll omit for now
     }];
 
     try {
@@ -1116,10 +1192,9 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
 
-    const requestBody = [{
+    // Don't send both location_code and location_name - use location_code if provided, otherwise location_name
+    const requestBody: any = [{
       language_code: 'en',
-      location_code: params.locationCode,
-      location_name: params.locationName,
       platform: params.platform || 'all',
       format: params.format || 'all',
       date_from: params.dateFrom,
@@ -1127,11 +1202,72 @@ class DataForSEOService {
       depth: params.depth || 40,
       target: params.target
     }];
+    
+    // CRITICAL: Ads Search API ONLY accepts location_code, NEVER location_name
+    // This API will reject requests with location_name (error 40501)
+    if (params.locationCode) {
+      requestBody[0].location_code = params.locationCode;
+    }
+    // NEVER set location_name for Ads APIs - it causes error 40501
+    // Explicitly ensure location_name is NOT in the request - DELETE IT MULTIPLE TIMES TO BE SURE
+    delete requestBody[0].location_name;
+    delete requestBody[0].locationName;
+    delete requestBody[0]['location_name'];
+    delete requestBody[0]['locationName'];
+
+    // VERIFY location_name is NOT in request before sending
+    const hasLocationName = 'location_name' in requestBody[0] || 'locationName' in requestBody[0];
+    if (hasLocationName) {
+      console.error('[getAdsForDomain] ❌❌❌ ERROR: location_name STILL IN REQUEST BODY!');
+      console.error('[getAdsForDomain] Request body keys:', Object.keys(requestBody[0]));
+      // Force remove again
+      delete requestBody[0].location_name;
+      delete requestBody[0].locationName;
+    }
+
+    // FINAL CHECK - Create a CLEAN request body with ONLY allowed fields
+    const cleanRequestBody: any = [{
+      language_code: requestBody[0].language_code,
+      platform: requestBody[0].platform,
+      format: requestBody[0].format,
+      depth: requestBody[0].depth,
+      target: requestBody[0].target
+    }];
+    
+    // ONLY add location_code if provided - NEVER location_name
+    if (params.locationCode) {
+      cleanRequestBody[0].location_code = params.locationCode;
+    }
+    
+    // Add optional date fields if provided
+    if (requestBody[0].date_from) cleanRequestBody[0].date_from = requestBody[0].date_from;
+    if (requestBody[0].date_to) cleanRequestBody[0].date_to = requestBody[0].date_to;
+
+    console.log('[getAdsForDomain] 📤 CLEAN REQUEST BODY (location_name GUARANTEED REMOVED):', JSON.stringify(cleanRequestBody, null, 2));
+    console.log('[getAdsForDomain] 📤 Clean body keys:', Object.keys(cleanRequestBody[0]));
+    console.log('[getAdsForDomain] 📤 Has location_name?', 'location_name' in cleanRequestBody[0]);
+    console.log('[getAdsForDomain] 📤 Has location_code?', 'location_code' in cleanRequestBody[0]);
 
     try {
-      // Use live/advanced endpoint for synchronous results
-      const response = await this.getAxiosInstance().post('/serp/google/ads_search/live/advanced', requestBody);
-      console.log('Ads Search for Domain API response:', response.data);
+      // FINAL VERIFICATION - Log exact payload being sent
+      console.log('[getAdsForDomain] 🚀 FINAL PAYLOAD BEING SENT TO API:');
+      console.log(JSON.stringify(cleanRequestBody, null, 2));
+      console.log('[getAdsForDomain] 🚀 Payload contains location_name?', JSON.stringify(cleanRequestBody).includes('location_name'));
+      
+      // Use live/advanced endpoint for synchronous results - USE CLEAN BODY
+      const response = await this.getAxiosInstance().post('/serp/google/ads_search/live/advanced', cleanRequestBody);
+      console.log('[getAdsForDomain] 📥 RESPONSE STATUS:', response.status);
+      console.log('[getAdsForDomain] 📥 RESPONSE DATA SUMMARY:', {
+        status_code: response.data?.status_code,
+        status_message: response.data?.status_message,
+        tasks_count: response.data?.tasks_count,
+        tasks_error: response.data?.tasks_error,
+        has_tasks: !!response.data?.tasks,
+        first_task_status: response.data?.tasks?.[0]?.status_code,
+        first_task_result_count: response.data?.tasks?.[0]?.result_count,
+        first_task_has_result: !!response.data?.tasks?.[0]?.result,
+        first_result_items_count: response.data?.tasks?.[0]?.result?.[0]?.items?.length || 0
+      });
       return response.data;
     } catch (error: any) {
       console.error('Ads Search for Domain API error:', error.response?.data || error.message);
@@ -1158,18 +1294,57 @@ class DataForSEOService {
       device: params.device || 'desktop'
     };
 
-    // Add location (prefer location_code, then location_name, then location_coordinate)
+    // CRITICAL: Ads Advertisers API ONLY accepts location_code, NEVER location_name
+    // This API will reject requests with location_name (error 40501)
     if (params.locationCode) {
       requestBody.location_code = params.locationCode;
-    } else if (params.locationName) {
-      requestBody.location_name = params.locationName;
     } else if (params.locationCoordinate) {
       requestBody.location_coordinate = params.locationCoordinate;
     }
+    // NEVER set location_name for Ads APIs - it causes error 40501
+    // Explicitly ensure location_name is NOT in the request - DELETE IT MULTIPLE TIMES TO BE SURE
+    delete requestBody.location_name;
+    delete requestBody.locationName;
+    delete requestBody['location_name'];
+    delete requestBody['locationName'];
+
+    // VERIFY location_name is NOT in request before sending
+    const hasLocationName = 'location_name' in requestBody || 'locationName' in requestBody;
+    if (hasLocationName) {
+      console.error('[getAdsAdvertisers] ❌❌❌ ERROR: location_name STILL IN REQUEST BODY!');
+      console.error('[getAdsAdvertisers] Request body keys:', Object.keys(requestBody));
+      // Force remove again
+      delete requestBody.location_name;
+      delete requestBody.locationName;
+    }
+
+    // FINAL CHECK - Create a CLEAN request body with ONLY allowed fields
+    const cleanRequestBody: any = {
+      keyword: requestBody.keyword,
+      language_code: requestBody.language_code,
+      device: requestBody.device
+    };
+    
+    // ONLY add location_code if provided - NEVER location_name
+    if (params.locationCode) {
+      cleanRequestBody.location_code = params.locationCode;
+    } else if (params.locationCoordinate) {
+      cleanRequestBody.location_coordinate = params.locationCoordinate;
+    }
+
+    console.log('[getAdsAdvertisers] 📤 CLEAN REQUEST BODY (location_name GUARANTEED REMOVED):', JSON.stringify(cleanRequestBody, null, 2));
+    console.log('[getAdsAdvertisers] 📤 Clean body keys:', Object.keys(cleanRequestBody));
+    console.log('[getAdsAdvertisers] 📤 Has location_name?', 'location_name' in cleanRequestBody);
+    console.log('[getAdsAdvertisers] 📤 Has location_code?', 'location_code' in cleanRequestBody);
 
     try {
-      // Use live/advanced endpoint for synchronous results instead of task_post (async)
-      const response = await this.getAxiosInstance().post('/serp/google/ads_advertisers/live/advanced', [requestBody]);
+      // FINAL VERIFICATION - Log exact payload being sent
+      console.log('[getAdsAdvertisers] 🚀 FINAL PAYLOAD BEING SENT TO API:');
+      console.log(JSON.stringify([cleanRequestBody], null, 2));
+      console.log('[getAdsAdvertisers] 🚀 Payload contains location_name?', JSON.stringify([cleanRequestBody]).includes('location_name'));
+      
+      // Use live/advanced endpoint for synchronous results - USE CLEAN BODY
+      const response = await this.getAxiosInstance().post('/serp/google/ads_advertisers/live/advanced', [cleanRequestBody]);
       console.log('Ads Advertisers API response:', response.data);
       return response.data;
     } catch (error: any) {
@@ -1229,10 +1404,12 @@ class DataForSEOService {
   }) {
     await this.checkRateLimit();
     
-    const requestBody = [{
+    // On-Page API: Does NOT require location - it analyzes the website globally
+    // Location is only relevant for SERP searches, not for technical SEO analysis
+    const requestBody: any = [{
       url: params.domain.startsWith('http') ? params.domain : `https://${params.domain}`,
-      location_name: params.location || 'United States',
       language_name: 'English'
+      // Note: location_code/location_name NOT included - On-Page API doesn't need location
     }];
 
     try {
@@ -3388,6 +3565,16 @@ export const databaseService = {
   },
 
   async trackKeywordRankings(params: any) {
+    return await dataForSEOService.trackKeywordRankings(params);
+  }
+};
+
+export const dataForSEOService = new DataForSEOService();
+    return await dataForSEOService.trackKeywordRankings(params);
+  }
+};
+
+export const dataForSEOService = new DataForSEOService();
     return await dataForSEOService.trackKeywordRankings(params);
   }
 };
