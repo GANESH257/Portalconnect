@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import MapComponent from '@/components/MapComponent';
 import { 
   Search, 
@@ -113,6 +115,7 @@ export default function ProspectFinderAgent() {
     zip: 'all' // ZIP code filter
   });
   const [viewMode, setViewMode] = useState<'list' | 'table' | 'grid'>('list');
+  const [searchMode, setSearchMode] = useState<'db' | 'live'>('db');
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -156,6 +159,7 @@ export default function ProspectFinderAgent() {
         setRadius(searchData.radius || null);
         setSelectedZipCodes(searchData.selectedZipCodes || []);
         setSelectedCounties(searchData.selectedCounties || []);
+        setSearchMode(searchData.searchMode || 'db');
       }
     } catch (error) {
       console.error('Error loading stored search data:', error);
@@ -199,7 +203,8 @@ export default function ProspectFinderAgent() {
           radius: radius,
           mapView: 'standard',
           selectedZipCodes: [],
-          selectedCounties: []
+          selectedCounties: [],
+          mode: searchMode
         })
       });
       
@@ -320,7 +325,10 @@ export default function ProspectFinderAgent() {
             selectedZipCodes: selectedZipCodes,
             selectedCounties: selectedCounties
           };
-          sessionStorage.setItem('pf_search_data', JSON.stringify(searchData));
+          sessionStorage.setItem('pf_search_data', JSON.stringify({
+            ...searchData,
+            searchMode: searchMode
+          }));
           console.log('Stored search form data:', searchData);
           
           // Store all results - filtering and pagination will handle display
@@ -965,6 +973,42 @@ export default function ProspectFinderAgent() {
               </div>
             </div>
 
+            {/* Search Mode Toggle */}
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex items-center gap-3 bg-white/50 rounded-lg px-4 py-2">
+                <Label htmlFor="search-mode" className="text-sm font-medium text-theme-dark-blue">
+                  Database
+                </Label>
+                <Switch
+                  id="search-mode"
+                  checked={searchMode === 'live'}
+                  onCheckedChange={(checked) => {
+                    const newMode = checked ? 'live' : 'db';
+                    setSearchMode(newMode);
+                    // Update sessionStorage
+                    try {
+                      const stored = sessionStorage.getItem('pf_search_data');
+                      if (stored) {
+                        const data = JSON.parse(stored);
+                        data.searchMode = newMode;
+                        sessionStorage.setItem('pf_search_data', JSON.stringify(data));
+                      }
+                    } catch (e) {
+                      console.error('Error updating search mode:', e);
+                    }
+                  }}
+                />
+                <Label htmlFor="search-mode" className="text-sm font-medium text-theme-dark-blue">
+                  Live API
+                </Label>
+              </div>
+              <div className="text-xs text-theme-light-blue">
+                {searchMode === 'db' 
+                  ? '⚡ Fast - Loads from database' 
+                  : '🔄 Fresh - Fetches live results'}
+              </div>
+            </div>
+
             {/* Search Button */}
             <div className="flex justify-center">
               <Button 
@@ -973,7 +1017,9 @@ export default function ProspectFinderAgent() {
                 className="bg-theme-blue-primary hover:bg-theme-dark-blue text-white px-12 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
               >
                 <Search className="w-5 h-5 mr-2" />
-                {isSearching ? 'Searching Missouri...' : 'Search Missouri Prospects'}
+                {isSearching 
+                  ? (searchMode === 'db' ? 'Loading from database...' : 'Fetching live results from APIs...')
+                  : 'Search Missouri Prospects'}
               </Button>
             </div>
             

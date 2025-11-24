@@ -100,7 +100,8 @@ Current system documentation, active guides, and up-to-date references.
 ### Finding Documentation
 
 **Need to understand the current system?**
-→ Start with `current/SYSTEM_OVERVIEW_AND_ARCHITECTURE.md`
+→ **Start with `current/COMPLETE_SYSTEM_DOCUMENTATION_MASTER.md`** (Complete guide)
+→ Or `current/SYSTEM_OVERVIEW_AND_ARCHITECTURE.md` (Architecture focus)
 
 **Need to understand the database schema?**
 → Check `database-era/DATABASE_COMPLETE_DOCUMENTATION.md`

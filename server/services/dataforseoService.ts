@@ -215,7 +215,7 @@ class DataForSEOService {
    */
   private isLocationInMissouriCSV(location: string): boolean {
     try {
-      const csvPath = path.join(process.cwd(), 'missouri_locations_transformed.csv');
+      const csvPath = path.join(process.cwd(), 'data', 'missouri_locations_transformed.csv');
       const csvContent = fs.readFileSync(csvPath, 'utf8');
       const lines = csvContent.split('\n').filter(line => line.trim());
       
@@ -258,7 +258,7 @@ class DataForSEOService {
    */
   private getLocationCodeForMissouriLocation(location: string): number | null {
     try {
-      const csvPath = path.join(process.cwd(), 'missouri_locations_transformed.csv');
+      const csvPath = path.join(process.cwd(), 'data', 'missouri_locations_transformed.csv');
       const csvContent = fs.readFileSync(csvPath, 'utf8');
       const lines = csvContent.split('\n').filter(line => line.trim());
       
@@ -324,8 +324,8 @@ class DataForSEOService {
   private getLocationCodeForZip(zipCode: string): number | null {
     try {
       const candidates = [
-        path.resolve(process.cwd(), 'missouri_locations_transformed.csv'),
-        path.resolve(process.cwd(), 'csv_backup/missouri_locations_transformed.csv'),
+        path.resolve(process.cwd(), 'data', 'missouri_locations_transformed.csv'),
+        path.resolve(process.cwd(), 'csv_backup', 'missouri_locations_transformed.csv'),
       ];
       const csvPath = candidates.find(p => fs.existsSync(p));
       if (!csvPath) {
@@ -379,8 +379,8 @@ class DataForSEOService {
       const isMissouriLocation = this.isLocationInMissouriCSV(location);
       
       const csvPath = isMissouriLocation 
-        ? path.join(process.cwd(), 'missouri_locations_transformed.csv')
-        : path.join(process.cwd(), 'locations_serp_google_2025_08_05.csv');
+        ? path.join(process.cwd(), 'data', 'missouri_locations_transformed.csv')
+        : path.join(process.cwd(), 'csv_backup', 'locations_serp_google_2025_08_05.csv');
       
       const csvContent = fs.readFileSync(csvPath, 'utf8');
       const lines = csvContent.split('\n');
@@ -468,8 +468,8 @@ class DataForSEOService {
                                  location.toLowerCase().includes('kansas city') ||
                                  location.toLowerCase().includes('springfield');
       const csvPath = isMissouriLocation 
-        ? path.join(process.cwd(), 'missouri_locations_transformed.csv')
-        : path.join(process.cwd(), 'locations_serp_google_2025_08_05.csv');
+        ? path.join(process.cwd(), 'data', 'missouri_locations_transformed.csv')
+        : path.join(process.cwd(), 'csv_backup', 'locations_serp_google_2025_08_05.csv');
       const csvContent = fs.readFileSync(csvPath, 'utf8');
       const lines = csvContent.split('\n');
       const normalizedInput = location.toLowerCase().trim();
@@ -3565,16 +3565,6 @@ export const databaseService = {
   },
 
   async trackKeywordRankings(params: any) {
-    return await dataForSEOService.trackKeywordRankings(params);
-  }
-};
-
-export const dataForSEOService = new DataForSEOService();
-    return await dataForSEOService.trackKeywordRankings(params);
-  }
-};
-
-export const dataForSEOService = new DataForSEOService();
     return await dataForSEOService.trackKeywordRankings(params);
   }
 };

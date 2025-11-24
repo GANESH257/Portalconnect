@@ -1,3 +1,23 @@
+# Documentation Index
+
+## 🎯 **Start Here**
+
+**New to the project?** → Read **[COMPLETE_SYSTEM_DOCUMENTATION_MASTER.md](./COMPLETE_SYSTEM_DOCUMENTATION_MASTER.md)** first!
+
+This master guide covers:
+- Complete system overview
+- Hybrid model architecture
+- Competitor data system
+- All API endpoints
+- Database schema
+- Services & components
+- Data flow
+- Deployment guides
+- Development setup
+- Troubleshooting
+
+---
+
 # Documentation Index - Data Collection System
 
 ## 📚 Complete Documentation Suite

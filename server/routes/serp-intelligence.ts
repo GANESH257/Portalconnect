@@ -125,7 +125,8 @@ export const searchProspects = async (req: Request, res: Response) => {
       radius = 10,
       mapView = 'standard',
       selectedZipCodes = [],
-      selectedCounties = []
+      selectedCounties = [],
+      mode = 'db' // 'db' or 'live'
     } = req.body;
 
     if (!keyword) {
@@ -135,8 +136,27 @@ export const searchProspects = async (req: Request, res: Response) => {
       });
     }
 
-    // DATABASE-ONLY MODE: Query existing data from database
-    console.log('🔍 Database-Only Mode: Querying database for cached data...');
+    // Check mode and route to appropriate handler
+    if (mode === 'live') {
+      // LIVE API MODE: Fetch fresh data from APIs
+      console.log('🔄 Live API Mode: Fetching fresh data from DataForSEO APIs...');
+      console.log(`   Searching for: keyword="${keyword}", location="${location}"`);
+      
+      return await handleLiveModeSearch(req, res, {
+        userId,
+        keyword,
+        location,
+        locationType,
+        locationValue,
+        device,
+        radius,
+        mapView,
+        selectedZipCodes,
+        selectedCounties
+      });
+    } else {
+      // DATABASE MODE: Query existing data from database
+      console.log('🔍 Database Mode: Querying database for cached data...');
     console.log(`   Searching for: keyword="${keyword}", location="${location}"`);
     
     // Normalize location for flexible matching
@@ -389,11 +409,44 @@ export const searchProspects = async (req: Request, res: Response) => {
               serpResults: serpResults.length
             },
             isFromDatabase: true,
+            mode: 'db',
             message: `Returned ${businesses.length} businesses from database (no API calls)`
           }
         });
+    }
+  } catch (error: any) {
+    console.error('Search prospects error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to search prospects',
+      error: error.message
+    });
+  }
+};
 
-    /* OLD API-BASED CODE - DISABLED FOR DATABASE-ONLY MODE
+/**
+ * Handle Live API Mode Search
+ * Fetches fresh data from DataForSEO APIs
+ */
+async function handleLiveModeSearch(
+  req: Request,
+  res: Response,
+  params: {
+    userId: string;
+    keyword: string;
+    location: string;
+    locationType?: string;
+    locationValue?: string;
+    device?: string;
+    radius?: number;
+    mapView?: string;
+    selectedZipCodes?: string[];
+    selectedCounties?: string[];
+  }
+) {
+  try {
+    const { userId, keyword, location, locationType, locationValue, device, radius, mapView, selectedZipCodes, selectedCounties } = params;
+
     // Create SERP job with Missouri-specific parameters
     const job = await databaseService.createSerpJob(userId, {
       keyword,
@@ -421,14 +474,14 @@ export const searchProspects = async (req: Request, res: Response) => {
       const mapsData = await dataForSEOService.searchMaps({
         keyword,
         location,
-        device
+        device: device || 'desktop'
       });
       console.log('Maps API response status:', mapsData.status_code);
 
       const localPackData = await dataForSEOService.searchLocalPack({
         keyword,
         location,
-        device
+        device: device || 'desktop'
       });
       console.log('Local Pack API response status:', localPackData.status_code);
 
@@ -480,7 +533,7 @@ export const searchProspects = async (req: Request, res: Response) => {
       // Use Missouri-filtered results
       const finalResults = missouriResults;
 
-      // Store results in database
+      // Store results in database (async, don't wait)
       console.log('Storing SERP results...');
       console.log('Sample result structure:', JSON.stringify(finalResults[0], null, 2));
       const serpResultIds = await databaseService.storeSerpResults(jobId, finalResults);
@@ -494,16 +547,16 @@ export const searchProspects = async (req: Request, res: Response) => {
       for (let i = 0; i < finalResults.length; i++) {
         const result = finalResults[i];
           
-          console.log(`Processing result ${i}:`, {
-            type: result.type,
-            title: result.title,
+        console.log(`Processing result ${i}:`, {
+          type: result.type,
+          title: result.title,
           id: result.id
-          });
+        });
           
         // Use the actual database record ID as the business profile ID
         const businessProfileId = serpResultIds[i];
         result.businessProfileId = businessProfileId;
-              businessProfileIds[i] = businessProfileId;
+        businessProfileIds[i] = businessProfileId;
         
         console.log(`Set businessProfileId for result ${i}:`, businessProfileId);
       }
@@ -552,7 +605,7 @@ export const searchProspects = async (req: Request, res: Response) => {
       // Add business profile IDs and enrich with ad data
       const resultsWithProfileIds = finalResults.map((result, index) => {
         const enrichedResult: any = {
-        ...result,
+          ...result,
           businessProfileId: businessProfileIds[index] || null,
           // Ensure the businessProfileId is the database ID, not the Google Place ID
           id: result.id, // Keep the original Google Place ID as 'id'
@@ -629,30 +682,38 @@ export const searchProspects = async (req: Request, res: Response) => {
         data: {
           jobId,
           businesses: resultsWithProfileIds,
-          jobDetails: jobWithResults
+          jobDetails: jobWithResults,
+          isFromDatabase: false,
+          mode: 'live',
+          message: `Fetched ${resultsWithProfileIds.length} businesses from live APIs`
         }
       });
 
-    } catch (apiError) {
+    } catch (apiError: any) {
       // Update job status to failed
       await databaseService.updateSerpJobStatus(jobId, 'failed', {
         errorMessage: apiError.message
       });
 
-      throw apiError;
+      console.error('Live API search error:', apiError);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch live results from APIs',
+        error: apiError.message,
+        mode: 'live'
+      });
     }
-    */
-
-  } catch (error) {
-    console.error('Search prospects error:', error);
-    console.error('Error stack:', error.stack);
+  } catch (error: any) {
+    console.error('Live mode handler error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to search prospects',
-      error: error.message
+      message: 'Failed to process live search',
+      error: error.message,
+      mode: 'live'
     });
   }
-};
+}
+
 
 /**
  * Analyze website for intelligence
@@ -2289,7 +2350,12 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
           select: {
             id: true,
             rawData: true,
-            rankAbsolute: true
+            rankAbsolute: true,
+            serpJob: {
+              select: {
+                keyword: true
+              }
+            }
           }
         }
       }
@@ -2337,7 +2403,12 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
               select: {
                 id: true,
                 rawData: true,
-                rankAbsolute: true
+                rankAbsolute: true,
+                serpJob: {
+                  select: {
+                    keyword: true
+                  }
+                }
               }
             }
           }
@@ -2395,7 +2466,12 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
                 select: {
                   id: true,
                   rawData: true,
-                  rankAbsolute: true
+                  rankAbsolute: true,
+                  serpJob: {
+                    select: {
+                      keyword: true
+                    }
+                  }
                 }
               }
             }
@@ -2557,8 +2633,80 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
         errors.adsSearch = adsSearchError.message;
       }
       
-      // Extract keyword rankings from database (still needed)
+      // Extract keyword rankings from database (needed for competitor keyword selection)
       const keywordRankings = businessProfile.keywordRankings || [];
+      
+      // 7. Fetch Local Competitors (for competitor analysis)
+      let localCompetitorsData: any = null;
+      try {
+        console.log('[getBusinessSEOAndPPC] Fetching Local Competitors...');
+        
+        // Determine the best competitor keyword dynamically (priority order):
+        // 1. Original search keyword from serpJob (most relevant - what was searched to find this business)
+        // 2. Top-ranking keyword from keywordRankings (what they rank for)
+        // 3. Extract category from business name (remove business-specific words)
+        // 4. Use business name as fallback
+        let competitorKeyword = businessName;
+        
+        // Priority 1: Original search keyword from serpJob
+        const originalSearchKeyword = businessProfile.serpResult?.serpJob?.keyword;
+        if (originalSearchKeyword && originalSearchKeyword.toLowerCase() !== businessName.toLowerCase()) {
+          competitorKeyword = originalSearchKeyword;
+          console.log(`[getBusinessSEOAndPPC] Using original search keyword for competitors: "${competitorKeyword}"`);
+        } else if (keywordRankings && keywordRankings.length > 0) {
+          // Priority 2: Use the keyword they rank highest for (lowest rank number = best position)
+          const topKeyword = keywordRankings[0].keyword;
+          if (topKeyword && topKeyword !== 'null' && topKeyword.toLowerCase() !== businessName.toLowerCase()) {
+            competitorKeyword = topKeyword;
+            console.log(`[getBusinessSEOAndPPC] Using top-ranking keyword for competitors: "${competitorKeyword}"`);
+          } else {
+            // Priority 3: Try to extract category from business name
+            const nameWords = businessName.toLowerCase().split(/\s+/);
+            // Remove common business words
+            const businessWords = ['center', 'clinic', 'medical', 'health', 'care', 'group', 'associates', 'llc', 'inc', 'corp', 'the', 'of', 'and'];
+            const categoryWords = nameWords.filter(word => !businessWords.includes(word));
+            if (categoryWords.length > 0) {
+              competitorKeyword = categoryWords[0];
+              console.log(`[getBusinessSEOAndPPC] Extracted category keyword from business name: "${competitorKeyword}"`);
+            }
+          }
+        } else {
+          // Priority 3: Extract category from business name if no keyword rankings
+          const nameWords = businessName.toLowerCase().split(/\s+/);
+          const businessWords = ['center', 'clinic', 'medical', 'health', 'care', 'group', 'associates', 'llc', 'inc', 'corp', 'the', 'of', 'and'];
+          const categoryWords = nameWords.filter(word => !businessWords.includes(word));
+          if (categoryWords.length > 0) {
+            competitorKeyword = categoryWords[0];
+            console.log(`[getBusinessSEOAndPPC] Extracted category keyword from business name: "${competitorKeyword}"`);
+          }
+        }
+        
+        console.log(`[getBusinessSEOAndPPC] Using competitor keyword: "${competitorKeyword}" for location: "${locationStr}"`);
+        
+        // Ensure location format is correct (City, State) for accurate local search
+        let searchLocation = locationStr;
+        if (businessProfile.city && businessProfile.state && !locationStr.includes(',')) {
+          searchLocation = `${businessProfile.city}, ${businessProfile.state}`;
+          console.log(`[getBusinessSEOAndPPC] Formatted location: "${searchLocation}"`);
+        }
+        
+        localCompetitorsData = await dataForSEOService.searchLocalPack({
+          keyword: competitorKeyword,
+          location: searchLocation, // ✅ Pass formatted location to ensure nearby results
+          device: 'desktop',
+          limit: 20
+        });
+        if (localCompetitorsData) {
+          const taskData = localCompetitorsData.tasks?.[0];
+          const items = taskData?.result?.[0]?.items || taskData?.result?.items || [];
+          console.log(`[getBusinessSEOAndPPC] ✅ Local Competitors fetched: ${items.length} results for "${competitorKeyword}" in "${searchLocation}"`);
+        }
+      } catch (competitorError: any) {
+        console.error('[getBusinessSEOAndPPC] Local Competitors failed:', competitorError.message);
+        errors.competitors = competitorError.message;
+      }
+      
+      // Build serpResults from keyword rankings
       const serpResults = keywordRankings.length > 0 ? keywordRankings.map((kr: any) => ({
         keyword: kr.keyword || 'null',
         rank: kr.rankAbsolute,
@@ -2576,6 +2724,69 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
       const adsCreatives = adsSearchData?.tasks?.[0]?.result?.[0]?.items || [];
       const advertiserInfo = adsAdvertisersData?.tasks?.[0]?.result?.[0]?.items?.[0] || null;
       const isRunningAds = adsCreatives.length > 0 || advertiserInfo !== null || businessProfile.isPaid || false;
+      
+      // Process competitors data
+      let filteredCompetitors: any[] = [];
+      const currentDomainNormalized = domain.toLowerCase().replace(/^www\./, '').split('/')[0];
+      const currentBusinessNameNormalized = businessName.toLowerCase().trim();
+      
+      if (localCompetitorsData) {
+        let allCompetitors: any[] = [];
+        const taskData = localCompetitorsData.tasks?.[0];
+        if (taskData) {
+          // Handle different response structures
+          if (taskData.result && Array.isArray(taskData.result) && taskData.result[0]?.items) {
+            allCompetitors = taskData.result[0].items;
+          } else if (taskData.result && taskData.result.items && Array.isArray(taskData.result.items)) {
+            allCompetitors = taskData.result.items;
+          }
+        }
+        
+        console.log(`[getBusinessSEOAndPPC] Found ${allCompetitors.length} local competitors before filtering`);
+        
+        filteredCompetitors = allCompetitors
+          .filter((item: any) => {
+            const competitorDomain = (item.domain || '').toLowerCase().replace(/^www\./, '').split('/')[0];
+            const competitorName = (item.title || item.name || '').toLowerCase().trim();
+            
+            // Exclude if domain matches or name is very similar
+            const domainMatch = competitorDomain && (
+              competitorDomain === currentDomainNormalized ||
+              competitorDomain.includes(currentDomainNormalized) ||
+              currentDomainNormalized.includes(competitorDomain)
+            );
+            
+            const nameMatch = competitorName && (
+              competitorName === currentBusinessNameNormalized ||
+              competitorName.includes(currentBusinessNameNormalized) ||
+              currentBusinessNameNormalized.includes(competitorName)
+            );
+            
+            if (domainMatch || nameMatch) {
+              console.log(`[getBusinessSEOAndPPC] Excluding competitor: "${competitorName}" (${competitorDomain}) - matches current business`);
+              return false;
+            }
+            
+            return true;
+          })
+          .slice(0, 5)
+          .map((item: any) => {
+            let competitorDomain = (item.domain || '').replace(/^https?:\/\//, '').replace(/^www\./, '');
+            if (!competitorDomain && item.url) {
+              try { competitorDomain = new URL(item.url).hostname.replace(/^www\./, ''); } catch {}
+            }
+            const address = item.address || item.address_info?.address || '';
+            return {
+              name: item.title || item.name || 'Unknown',
+              domain: competitorDomain,
+              address,
+              rating: item.rating?.value || null,
+              reviewsCount: item.rating?.votes_count || 0
+            };
+          });
+        
+        console.log(`[getBusinessSEOAndPPC] Filtered to ${filteredCompetitors.length} competitors (excluded current business)`);
+      }
       
       const analysis = {
         serpPosition: serpResult?.rankAbsolute || null,
@@ -2600,7 +2811,10 @@ export const getBusinessSEOAndPPC = async (req: Request, res: Response) => {
           paidETV: null // Would need Traffic Estimation API
         },
         speedScores: speedScores,
-        localCompetitors: null,
+        localCompetitors: filteredCompetitors.length > 0 ? {
+          count: filteredCompetitors.length,
+          items: filteredCompetitors
+        } : null,
         domainAuthority: businessProfile.domainAuthority || null,
         backlinks: businessProfile.backlinks || null,
         monthlyTraffic: businessProfile.monthlyTraffic || null,
