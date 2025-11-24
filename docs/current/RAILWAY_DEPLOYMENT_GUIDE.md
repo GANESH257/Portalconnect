@@ -23,7 +23,7 @@ This guide covers deploying the complete hybrid model project to Railway.
 2. Click "New Project"
 3. Select "Deploy from GitHub repo"
 4. Choose your repository: `GANESH257/Portalconnect`
-5. **IMPORTANT**: Select branch: `hybrid-model-implementation`
+5. **IMPORTANT**: Select branch: `Hybrid-with-switch` (or `hybrid-model-implementation` for previous version)
 
 ### Step 2: Configure Build Settings
 
@@ -260,6 +260,7 @@ Deployment is successful when:
 ---
 
 **Last Updated**: January 2025  
-**Branch**: `hybrid-model-implementation`  
+**Branch**: `Hybrid-with-switch` (latest with DB/Live toggle)  
+**Previous Branch**: `hybrid-model-implementation` (original hybrid model)  
 **Status**: Ready for Railway Deployment
 
